@@ -1,11 +1,11 @@
 #' Unpack operator
 #'
-#' See \code{zeallot::\link[zeallot:unpack]{\%->\%}} for details.
+#' See \code{zeallot::\link[zeallot:unpack]{\%<-\%}} for details.
 #'
-#' @name %->%
+#' @name %<-%
 #' @rdname unpack
 #' @keywords internal
 #' @export
-#' @importFrom zeallot %->%
-#' @usage lhs \%->\% rhs
+#' @importFrom zeallot %<-%
+#' @usage lhs \%<-\% rhs
 NULL

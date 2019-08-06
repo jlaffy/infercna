@@ -1,19 +1,5 @@
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param cna PARAM_DESCRIPTION
-#' @param ... PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname diprange
-#' @export 
-diprange = function(cna, ...) {
+.diprange = function(cna, ...) {
     dots = list(...)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
     list(min = do.call(pmin, v), max = do.call(pmax, v))
@@ -49,7 +35,7 @@ dipcenter = function(v, Min, Max) {
 #' @param cna PARAM_DESCRIPTION
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
+#' @details Correction with diploid cells' <dipcells> CNAs: the boundaries of dipcells CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4 and a cell with CNA value of 1 will be corrected to 0.9.
 #' @examples 
 #' \dontrun{
 #' if(interactive()){
@@ -62,25 +48,27 @@ dipcorrect = function(cna, ...) {
     dots = list(...)
     genes = rownames(cna)
     Args = c(list(cna = cna), dots)
-    c(Min, Max) %<-% do.call(diprange, Args)
+    c(Min, Max) %<-% do.call(.diprange, Args)
     n = nrow(cna)
     cna = t(sapply(1:n, function(i) dipcenter(cna[i, ], Min = Min[i], Max = Max[i])))
     rownames(cna) = genes
     cna
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param m PARAM_DESCRIPTION
-#' @param dipcells PARAM_DESCRIPTION, Default: NULL
-#' @param window PARAM_DESCRIPTION, Default: 100
-#' @param range PARAM_DESCRIPTION, Default: c(-3, 3)
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
+#' @title Infer Copy-Number Alterations From Single-Cell RNA-Seq Data
+#' @description Infer Copy-Number Alterations From Single-Cell RNA-Seq Data
+#' @param m a matrix of genes X cells RNA-seq expression data. The matrix should be row-centered.
+#' @param dipcells a list of two or more character vectors, each containg cell IDs of normal cell types (one cell type per list element). Since these cell types are presumed diploid cells, their CNA values can be used to correct the remaining CNA values. Note that all cell IDs should correspond to column names in <m>. See infercna::dipcells (diploid cells) for an example. Default: NULL
+#' @param window the size of the window to use for the rolling mean. Units are in number of genes. Default: 100
+#' @param range values in <m> above and below this range will be set to values in range. Default: c(-3, 3)
+#' @return a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 genes will be lost from either extremity of the genome (ie. n genes lost at the start of chromosome 1 and at the end of chromosome Y, if the genome in question is H.sapiens.)
+#' @details Correction with diploid cells' <dipcells> CNAs: the boundaries of dipcells CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4 and a cell with CNA value of 1 will be corrected to 0.9.
 #' @examples 
 #' \dontrun{
 #' if(interactive()){
-#'  #EXAMPLE1
+#'  dipcells = infercna::dipcells
+#'  m = infercna::useData()
+#'  cna = infercna::infercna(m = m, dipcells = dipcells)
 #'  }
 #' }
 #' @rdname infercna

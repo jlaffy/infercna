@@ -1,38 +1,12 @@
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param genes PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname envmatch
-#' @export 
-envmatch = function(genes) {
+.envmatch = function(genes) {
     match(genes, g.env$gene, nomatch = 0)
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param genes PARAM_DESCRIPTION, Default: NULL
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname envglob
-#' @export 
-envglob = function(genes = NULL) {
+.envglob = function(genes = NULL) {
     L = as.list(g.env)
     L = L[sapply(L, function(l) is.atomic(l) && length(l) > 1)]
-    if (!is.null(genes)) L = sapply(L, `[`, envmatch(genes), simplify = F)
+    if (!is.null(genes)) L = sapply(L, `[`, .envmatch(genes), simplify = F)
     L
 }
 
@@ -49,11 +23,11 @@ envglob = function(genes = NULL) {
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @rdname gensplit
+#' @rdname splitGenes
 #' @export 
-gensplit = function(m = NULL, genes = NULL, by = 'arm') {
+splitGenes = function(m = NULL, genes = NULL, by = 'arm') {
     if (!is.null(m)) genes = rownames(m)
-    L = lglob(genes = genes)
+    L = .envglob(genes = genes)
     stopifnot(by %in% names(L))
     splut = split(L$gene, L[[by]])
     if (!is.null(m)) {

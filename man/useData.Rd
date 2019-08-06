@@ -2,31 +2,13 @@
 % Please edit documentation in R/useData.R
 \name{useData}
 \alias{useData}
-\title{FUNCTION_TITLE}
+\title{Load Example Data}
 \usage{
-useData(x = "125", random = FALSE)
-}
-\arguments{
-\item{x}{PARAM_DESCRIPTION, Default: '125'}
-
-\item{random}{PARAM_DESCRIPTION, Default: FALSE}
+useData()
 }
 \value{
-OUTPUT_DESCRIPTION
+centered expression matrix of genes X cells
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
-}
-\seealso{
-\code{\link[scrabble]{rowCenter}}
+Load example dataset of human single-cell RNA seq data. Cells and genes are columns and rows, respectively, and all passed QC. Matrix is row-centered.
 }

@@ -18,5 +18,7 @@ Imports:
     caTools,
     tibble,
     Matrix,
-    testthat
+    testthat,
+    magrittr,
+    zeallot
 RoxygenNote: 6.1.1

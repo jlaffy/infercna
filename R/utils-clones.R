@@ -1,8 +1,34 @@
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param genes PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname envmatch
+#' @export 
 envmatch = function(genes) {
     match(genes, g.env$gene, nomatch = 0)
 }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param genes PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname envglob
+#' @export 
 envglob = function(genes = NULL) {
     L = as.list(g.env)
     L = L[sapply(L, function(l) is.atomic(l) && length(l) > 1)]
@@ -10,6 +36,21 @@ envglob = function(genes = NULL) {
     L
 }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param m PARAM_DESCRIPTION, Default: NULL
+#' @param genes PARAM_DESCRIPTION, Default: NULL
+#' @param by PARAM_DESCRIPTION, Default: 'arm'
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname gensplit
+#' @export 
 gensplit = function(m = NULL, genes = NULL, by = 'arm') {
     if (!is.null(m)) genes = rownames(m)
     L = lglob(genes = genes)
@@ -20,6 +61,31 @@ gensplit = function(m = NULL, genes = NULL, by = 'arm') {
     splut
 }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param m PARAM_DESCRIPTION, Default: NULL
+#' @param X PARAM_DESCRIPTION, Default: NULL
+#' @param prob PARAM_DESCRIPTION, Default: 0.95
+#' @param coverage PARAM_DESCRIPTION, Default: 0.8
+#' @param size PARAM_DESCRIPTION, Default: 10
+#' @param boolean PARAM_DESCRIPTION, Default: FALSE
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{setNames}}
+#'  \code{\link[mixtools]{normalmixEM}}
+#'  \code{\link[dplyr]{mutate}}
+#' @rdname modes
+#' @export 
+#' @importFrom stats setNames
+#' @importFrom mixtools normalmixEM
+#' @importFrom dplyr mutate
 modes = function(m = NULL,
                  X = NULL,
                  prob = 0.95,

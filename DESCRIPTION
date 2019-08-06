@@ -1,13 +1,13 @@
 Package: infercna
-Title: What the Package Does (One Line, Title Case)
+Title: Infer Copy Number Alterations And Clonality In (Single-Cell) RNA-seq Data 
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Julie",
+           family = "Laffy",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "julie.laffy@weizmann.ac.il",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: When gene expression levels are averaged over large enough chromosomal regions they no longer reflect individual genes' activities. Instead, they reflect amplifications or deletions of parts of the genome, i.e. alterations in the chromosomal copy numbers (CNAs). <infercna> infers these alterations from RNA-sequencing expression data. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -16,4 +16,7 @@ Imports:
     dplyr,
     stringr,
     caTools,
-    tibble
+    tibble,
+    Matrix,
+    testthat
+RoxygenNote: 6.1.1

@@ -1,4 +1,23 @@
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param m PARAM_DESCRIPTION, Default: NULL
+#' @param L PARAM_DESCRIPTION, Default: NULL
+#' @param by PARAM_DESCRIPTION, Default: 'arm'
+#' @param prob PARAM_DESCRIPTION, Default: 0.95
+#' @param coverage PARAM_DESCRIPTION, Default: 0.8
+#' @param size PARAM_DESCRIPTION, Default: 10
+#' @param boolean PARAM_DESCRIPTION, Default: FALSE
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname clones
+#' @export 
 clones = function(m = NULL,
                   L = NULL,
                   by = 'arm',

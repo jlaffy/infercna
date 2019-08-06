@@ -19,26 +19,26 @@ dipcorrect = function(cna, ...) {
     dots = list(...)
     genes = rownames(cna)
     Args = c(list(cna = cna), dots)
-    rg = do.call(diprange, Args)
+    c(Min, Max) = do.call(diprange, Args)
     n = nrow(cna)
-    cna = t(sapply(1:n, function(i) dipcenter(cna[i, ], Min = rg$min[i], Max = rg$max[i])))
+    cna = t(sapply(1:n, function(i) dipcenter(cna[i, ], Min = Min[i], Max = Max[i])))
     rownames(cna) = genes
     cna
 }
 
-infercna2 = function(m,
-                     dipcells = NULL,
-                     window = 100,
-                     range = c(-3, 3)) {
+infercna = function(m,
+                    dipcells = NULL,
+                    window = 100,
+                    range = c(-3, 3)) {
 
     # note: m should be row(gene)-centered
-    cna = infercna::geneOrderMatrix(m)
+    cna = infercna::genorder(m)
     cna = infercna::clip(cna, range = range)
     cna = infercna::runMean(cna, k = window)
     cna = infercna::colCenter(cna)
     if (!is.null(dipcells)) {
         Args = c(list(cna = cna), dipcells)
         cna = do.call(infercna::dipcorrect, Args)}
-    infercna::geneOrderMatrix(cna)
+    cna
 }
 

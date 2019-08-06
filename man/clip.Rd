@@ -2,28 +2,15 @@
 % Please edit documentation in R/utils-infercna.R
 \name{clip}
 \alias{clip}
-\title{FUNCTION_TITLE}
+\title{Squish matrix values into range}
 \usage{
-clip(mat, range = c(-3, 3))
+clip(m, range = c(-3, 3))
 }
 \arguments{
-\item{mat}{PARAM_DESCRIPTION}
+\item{m}{matrix to manipulate}
 
-\item{range}{PARAM_DESCRIPTION, Default: c(-3, 3)}
-}
-\value{
-OUTPUT_DESCRIPTION
+\item{range}{numeric vector of length two giving desired output range. Default: c(-3, 3)}
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Squish matrix values into range
 }

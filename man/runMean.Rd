@@ -4,10 +4,10 @@
 \alias{runMean}
 \title{FUNCTION_TITLE}
 \usage{
-runMean(mat, k = 100, endrule = "mean", align = "center")
+runMean(m, k = 100, endrule = "mean", align = "center")
 }
 \arguments{
-\item{mat}{PARAM_DESCRIPTION}
+\item{m}{PARAM_DESCRIPTION}
 
 \item{k}{PARAM_DESCRIPTION, Default: 100}
 

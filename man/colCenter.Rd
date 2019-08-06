@@ -2,26 +2,16 @@
 % Please edit documentation in R/utils-infercna.R
 \name{colCenter}
 \alias{colCenter}
-\title{FUNCTION_TITLE}
+\title{Center a matrix column-wise}
 \usage{
 colCenter(m)
 }
 \arguments{
-\item{m}{PARAM_DESCRIPTION}
+\item{m}{a matrix}
 }
 \value{
-OUTPUT_DESCRIPTION
+a matrix with colMeans == 0
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Center a matrix column-wise
 }

@@ -4,18 +4,24 @@
 \alias{splitGenes}
 \title{Split Genes By Chromosome (Arm)}
 \usage{
-splitGenes(m = NULL, genes = NULL, by = "chr")
+splitGenes(x, by = "chr")
 }
 \arguments{
-\item{m}{a matrix to be row-split by chromosome (arm). The matrix must have gene names as row names. Default: NULL}
-
-\item{genes}{a character vector of gene names. Default: NULL}
+\item{x}{a matrix with gene names as rows or a character vector of gene names.}
 
 \item{by}{a string; one of 'chr' or 'arm', determining how the matrix or character vector should be split. Default: 'chr'}
 }
 \value{
-if a matrix <m> was provided, a list of matrices. If a character vector <genes> was provided, a list of character vectors. Both lists will be of length # of chromosome (arms) in the genome in question. Ie. length 24 for H.sapiens.
+if a matrix was provided, a list of matrices. If a character vector was provided, a list of character vectors. Both lists will be of length # of chromosome (arms) in the genome in question. Ie. length 24 for H.sapiens.
 }
 \description{
 Split Genes By Chromosome (Arm). Input can be one of a matrix to be split into several matrices or a character vector of gene names to be split into several character vectors.
+}
+\examples{
+m = infercna::useData()
+a = splitGenes(x = m)
+b = splitGenes(x = rownames(m))
+all(sapply(a, nrow) == lengths(b))
+names(a)
+names(splitGenes(x = m, by = 'arm'))
 }

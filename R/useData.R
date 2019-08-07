@@ -5,6 +5,6 @@
 #' @rdname useData
 #' @export 
 useData = function() {
-    m = as.matrix(m)
+    m = as.matrix(mgh125)
     rowCenter(m)
 }

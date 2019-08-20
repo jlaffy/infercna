@@ -1,7 +1,6 @@
 
 #' @title List of available genomes
 #' @description See which genomes are available for use
-
 #' @return character vector
 #' @details more genomes will be added in future dev patches.
 #' @rdname availableGenomes
@@ -13,7 +12,6 @@ availableGenomes = function() {
 
 #' @title List the current genome name
 #' @description E.g. "hg19" if the genome being used is hg19
-
 #' @return string
 #' @details Default genome is "hg19"
 #' @rdname currentGenome
@@ -37,7 +35,6 @@ retrieveGenome = function(x = NULL) {
     message('Retrieving: ', x)
     tibble::as_tibble(g.env$data)
 }
-
 
 #' @title Add your own Genome
 #' @description Add your own Genome for infercna to use. The

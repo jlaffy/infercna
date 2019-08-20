@@ -1,4 +1,21 @@
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param m PARAM_DESCRIPTION
+#' @param prob PARAM_DESCRIPTION, Default: 0.95
+#' @param coverage PARAM_DESCRIPTION, Default: 0.8
+#' @param size PARAM_DESCRIPTION, Default: 10
+#' @param by PARAM_DESCRIPTION, Default: 'chr'
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname fetchModes
+#' @export 
 fetchModes = function(m,
                       prob = 0.95,
                       coverage = 0.8,
@@ -11,6 +28,23 @@ fetchModes = function(m,
 }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param modes PARAM_DESCRIPTION
+#' @param greaterThan PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{setNames}}
+#' @rdname expandToClones
+#' @export 
+#' @importFrom stats setNames
 expandToClones = function(modes,
                           greaterThan = NULL) {
 
@@ -26,6 +60,24 @@ expandToClones = function(modes,
 }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param m PARAM_DESCRIPTION
+#' @param prob PARAM_DESCRIPTION, Default: 0.95
+#' @param coverage PARAM_DESCRIPTION, Default: 0.8
+#' @param mode.size PARAM_DESCRIPTION, Default: 10
+#' @param clone.size PARAM_DESCRIPTION, Default: NULL
+#' @param by PARAM_DESCRIPTION, Default: 'chr'
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname findClones
+#' @export 
 findClones = function(m,
                       prob = 0.95,
                       coverage = 0.8,

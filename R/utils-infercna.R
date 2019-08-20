@@ -32,20 +32,13 @@ clip <- function(m, range = c(-3, 3)) {
     m
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param m PARAM_DESCRIPTION
-#' @param k PARAM_DESCRIPTION, Default: 100
-#' @param endrule PARAM_DESCRIPTION, Default: 'mean'
-#' @param align PARAM_DESCRIPTION, Default: 'center'
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @title Rolling Means
+#' @description Apply a rolling window mean to a matrix or vector.
+#' @param m a numeric vector or matrix. If the latter, each column will be processed separately.
+#' @param k width of rolling window. Default: 100
+#' @param endrule character string indicating how the values at the beginning and the end of the data should be treated. One of "mean", "trim", "keep", "constant". See caTools::runmean for more details. Default: 'mean'
+#' @param align specifies whether result should be centered (default), left-aligned or right-aligned. See caTools::runmean for more details. Default: 'center'
+#' @return a numeric vector or matrix of the same size as <m>. Only in case of endrule=trim, the output vectors will be shorter and output matrices will have fewer rows. 
 #' @seealso 
 #'  \code{\link[caTools]{runmean}}
 #' @rdname runMean
@@ -56,13 +49,21 @@ runMean <- function(m,
                     endrule = 'mean',
                     align = 'center') {
 
-    m = as.matrix(m)
+    if (!is.null(dim(m))) {
+        m = as.matrix(m)
+    }
     mout = caTools::runmean(m,
                             k = k,
                             endrule = endrule,
                             align = align)
-    colnames(mout) = colnames(m)
-    rownames(mout) = rownames(m)
-    as.data.frame(mout)
+    if (!is.null(dim(m))) {
+        colnames(mout) = colnames(m)
+        rownames(mout) = rownames(m)
+        mout = as.data.frame(mout)
+    } else {
+        names(mout) = names(m)
+    }
+
+    mout
 }
 

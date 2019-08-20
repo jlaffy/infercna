@@ -1,33 +1,33 @@
 
-cnasignal = function(cnamat) {
-    cnamat = as.matrix(cnamat)
-    sqmat = 2^(cnamat)
+cnasignal = function(cna) {
+    cna = as.matrix(cna)
+    sqmat = 2^(cna)
     msq = rowMeans(sqmat)
     msq
 }
 
-.cnacor = function(cnamat, cor.method = 'pearson') {
-    cnamat = as.matrix(cnamat)
-    genemeans = rowMeans(cnamat)
-    cellcors = cor(genemeans, cnamat, method = cor.method)
+.cnacor = function(cna, cor.method = 'pearson') {
+    cna = as.matrix(cna)
+    genemeans = rowMeans(cna)
+    cellcors = cor(genemeans, cna, method = cor.method)
     unlist(as.data.frame(cellcors))
 }
 
 
-cnacor = function(cnamat, cor.method, groups = FALSE) {
+cnacor = function(cna, cor.method, groups = FALSE) {
     if (isFALSE(groups)) {
-        return(.cnacor(cnamat, cor.method = cor.method))
+        return(.cnacor(cna, cor.method = cor.method))
     }
     
-    infercna::group_apply(mat = cnamat,
+    infercna::group_apply(mat = cna,
                           groups = groups,
                           ungroup = TRUE,
-                          FUN = infercna::.cnacor,
+                          FUN = .cnacor,
                           cor.method = cor.method)
 }
 
 
-cnastats = function(cnamat) {
-    infercna::cnasignal(cnamat)
-    infercna::cnacor(cnamat)
+cnastats = function(cna) {
+    infercna::cnasignal(cna)
+    infercna::cnacor(cna)
 }

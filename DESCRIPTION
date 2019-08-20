@@ -20,5 +20,6 @@ Imports:
     Matrix,
     testthat,
     magrittr,
-    zeallot
+    zeallot,
+    mixtools
 RoxygenNote: 6.1.1

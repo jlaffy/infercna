@@ -6,7 +6,7 @@
 #' @rdname availableGenomes
 #' @export 
 availableGenomes = function() {
-    avai = paste(names(g.env$datasets), collapse = '\n')
+    avai = paste(c('hg19', 'hg38', 'mm10'), collapse = '\n')
     message('Available genomes:\n', avai)
 }
 
@@ -17,7 +17,7 @@ availableGenomes = function() {
 #' @rdname currentGenome
 #' @export 
 currentGenome = function() {
-    message('Genome: ', g.env$name)
+    message('Genome: ', Genv$name)
 }
 
 #' @title Retrieve genome data
@@ -29,32 +29,39 @@ currentGenome = function() {
 #' @rdname retrieveGenome
 #' @export 
 #' @importFrom tibble as_tibble
-retrieveGenome = function(x = NULL) {
-    if (is.null(x)) x = g.env$name
-    else stopifnot(x %in% names(g.env$datasets))
-    message('Retrieving: ', x)
-    tibble::as_tibble(g.env$data)
+retrieveGenome = function(name = NULL) {
+    if (is.null(name)) name = Genv$name
+    data = .fetchGenome(name)
+    message('Retrieving: ', name)
+    tibble::as_tibble(Genv$data)
 }
 
 #' @title Add your own Genome
 #' @description Add your own Genome for infercna to use. The
-#' @param genome PARAM_DESCRIPTION
-#' @param name PARAM_DESCRIPTION, Default: 'userDefined'
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
+#' @param genome genome data provided as a dataframe. The dataframe should contain columns 'symbol', 'start_position', 'end_position', 'chromosome_name', 'arm'. The columns 'chromosome_name' and 'arm' should be factors, with the chromosome/chromosome arms ordered correctly. 
+#' @param name a character string; the name of your genome. Default: 'userDefined'
+#' @return no return value. The genome variables will be updated internally.
 #' @rdname addGenome
 #' @export 
 #' @importFrom dplyr arrange
 #' @importFrom stats setNames
 addGenome = function(genome, name = 'userDefined') {
-    stopifnot(all(c('symbol', 'start_position', 'chromosome_name', 'arm') %in% colnames(genome)))
+    columns = c('symbol', 'start_position', 'chromosome_name', 'arm')
+
+    if (!all(columns %in% colnames(genome))) {
+        stop('Columns must include: ', columns)
+    }
+
+    if (!is.null(levels(genome$chromosome_name))) {
+        stop('Please add levels to the chromosome_name column')
+    }
+
+    if (!is.null(levels(genome$arm))) {
+        stop('Please add levels to the arm column')
+    }
+
     genome = dplyr::arrange(genome, chromosome_name, start_position)
-    g.env$data = genome
-    g.env$name = name
-    g.env$gene = g.env$data$symbol
-    g.env$order = stats::setNames(g.env$data$symbol, g.env$data$start_position)
-    g.env$chr = stats::setNames(g.env$data$symbol, g.env$data$chromosome_name)
-    g.env$arm = stats::setNames(g.env$data$symbol, g.env$data$arm)
+    .setGenome(data = genome, name = name)
     message('Genome has been set to ', name)
 }
 
@@ -64,16 +71,7 @@ addGenome = function(genome, name = 'userDefined') {
 #' @return genome variables are set internally. No return.
 #' @rdname useGenome
 #' @export 
-#' @importFrom stats setNames
-useGenome = function(x) {
-    if (!is.character(x) || length(x) != 1 || !x %in% names(g.env$datasets)) {
-        stop("Nope sorry, couldn't find genome <", x, ">.")
-    }
-    g.env$data = g.env$datasets[[x]]
-    g.env$name = x
-    g.env$gene = g.env$data$symbol
-    g.env$order = stats::setNames(g.env$data$symbol, g.env$data$start_position)
-    g.env$chr = stats::setNames(g.env$data$symbol, g.env$data$chromosome_name)
-    g.env$arm = stats::setNames(g.env$data$symbol, g.env$data$arm)
-    message('Genome has been set to ', x)
+useGenome = function(name) {
+    .setGenome(name = name)
+    message('Genome has been set to ', name)
 }

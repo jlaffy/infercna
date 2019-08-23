@@ -1,10 +1,10 @@
 
 .envmatch = function(genes) {
-    match(genes, g.env$gene, nomatch = 0)
+    match(genes, Genv$gene, nomatch = 0)
 }
 
 .envglob = function(genes = NULL) {
-    L = as.list(g.env)
+    L = as.list(Genv)
     L = L[sapply(L, function(l) is.atomic(l) && length(l) > 1)]
     if (!is.null(genes)) L = sapply(L, `[`, .envmatch(genes), simplify = F)
     L

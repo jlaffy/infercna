@@ -1,5 +1,5 @@
 .geneMatch = function(genes) {
-    match(g.env$gene, genes, nomatch = 0)
+    match(Genv$gene, genes, nomatch = 0)
 }
 
 #' @title Order Genes by their Genomic Positions

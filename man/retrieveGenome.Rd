@@ -4,7 +4,7 @@
 \alias{retrieveGenome}
 \title{Retrieve genome data}
 \usage{
-retrieveGenome(x = NULL)
+retrieveGenome(name = NULL)
 }
 \arguments{
 \item{x}{a genome name. Currently one of 'hg19' (human), 'hg38' (latest human), 'mm10' (mouse). Default: NULL}

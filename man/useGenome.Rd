@@ -4,7 +4,7 @@
 \alias{useGenome}
 \title{Select a Genome for infercna to use}
 \usage{
-useGenome(x)
+useGenome(name)
 }
 \arguments{
 \item{x}{character string of genome name. One of 'hg19', 'hg38', 'mm10'.}

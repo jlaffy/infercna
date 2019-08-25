@@ -7,16 +7,13 @@
 addGenome(genome, name = "userDefined")
 }
 \arguments{
-\item{genome}{PARAM_DESCRIPTION}
+\item{genome}{genome data provided as a dataframe. The dataframe should contain columns 'symbol', 'start_position', 'end_position', 'chromosome_name', 'arm'. The columns 'chromosome_name' and 'arm' should be factors, with the chromosome/chromosome arms ordered correctly.}
 
-\item{name}{PARAM_DESCRIPTION, Default: 'userDefined'}
+\item{name}{a character string; the name of your genome. Default: 'userDefined'}
 }
 \value{
-OUTPUT_DESCRIPTION
+no return value. The genome variables will be updated internally.
 }
 \description{
 Add your own Genome for infercna to use. The
-}
-\details{
-DETAILS
 }

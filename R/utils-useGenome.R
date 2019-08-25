@@ -42,8 +42,6 @@ Genv = new.env(parent = emptyenv())
     silent = Map(assign, value = vars, x = names(vars), MoreArgs = list(envir = Genv))
 }
 
-genome = 'hg19'
-assign(x = 'data', value = get(genome), envir = Genv)
-vars = .prepGenv(name = genome)
+assign(x = 'data', value = infercna:::hg19, envir = Genv)
+vars = .prepGenv(name = 'hg19')
 Map(assign, value = vars, x = names(vars), MoreArgs = list(envir = Genv))
-rm(genome)

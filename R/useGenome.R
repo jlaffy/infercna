@@ -61,7 +61,7 @@ addGenome = function(genome, name = 'userDefined') {
     }
 
     genome = dplyr::arrange(genome, chromosome_name, start_position)
-    .setGenome(data = genome, name = name)
+    .configureGenome(data = genome, name = name)
     message('Genome has been set to ', name)
 }
 
@@ -72,6 +72,6 @@ addGenome = function(genome, name = 'userDefined') {
 #' @rdname useGenome
 #' @export 
 useGenome = function(name) {
-    .setGenome(name = name)
+    .configureGenome(name = name)
     message('Genome has been set to ', name)
 }

@@ -5,7 +5,8 @@
 \title{Fit a Bimodal Gaussian Distribution}
 \usage{
 fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
-  assign = FALSE, boolean = FALSE, verbose = TRUE)
+  assign = FALSE, boolean = FALSE, verbose = TRUE,
+  maxrestarts = 200, maxit = 10000)
 }
 \arguments{
 \item{x}{a named numeric vector of cells/observations or a matrix of genes X cells (variables X observations). If the latter, the column means are first computed.}
@@ -20,10 +21,14 @@ fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
 
 \item{boolean}{if set to TRUE, returns a boolean value indicating whether the distribution is bimodal. Default: FALSE}
 
-\item{verbose}{boolean value indicating whether to print progress messages. Default: FALSE}
+\item{verbose}{print progress messages. Default: TRUE}
+
+\item{maxrestarts}{the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 200}
+
+\item{maxit}{the maximum number of iterations. Default: 10000}
 }
 \value{
-OUTPUT_DESCRIPTION
+The result of fitting a gaussian bimodal distribution. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
 }
 \description{
 Fit a bimodal gaussian distribution to a set of observations.
@@ -33,9 +38,9 @@ Fit a bimodal gaussian distribution to a set of observations.
  # Malignant cells only (remove columns corresponding to dipcells)
  cna = cna[, !colnames(cna) \%in\% unlist(dipcells)] 
  cnaByChr = splitGenes(cna, by = 'chr')
+ sapply(cnaByChr, fitBimodal, assign = TRUE)
  sapply(cnaByChr, fitBimodal, boolean = TRUE)
  sapply(cnaByChr, fitBimodal, boolean = TRUE, coverage = 0.5)
- sapply(cnaByChr, fitBimodal, assign = TRUE, coverage = 0.5)
 }
 \seealso{
 \code{\link[mixtools]{normalmixEM}}

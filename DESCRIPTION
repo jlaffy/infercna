@@ -20,7 +20,6 @@ Imports:
     Matrix,
     testthat,
     magrittr,
-    zeallot,
     mixtools,
     utils
 RoxygenNote: 6.1.1

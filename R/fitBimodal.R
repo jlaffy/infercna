@@ -9,6 +9,7 @@
 #' @param verbose print progress messages. Default: TRUE 
 #' @param maxrestarts the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 200
 #' @param maxit the maximum number of iterations. Default: 10000
+#' @param k number of components. Default: 2
 #' @return The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
 #' @examples 
 #'  cna = infercna(m = useData(), dipcells = dipcells)
@@ -33,7 +34,8 @@ fitBimodal = function(x,
                       boolean = FALSE,
                       verbose = TRUE,
                       maxrestarts = 200,
-                      maxit = 10000) {
+                      maxit = 10000,
+                      k = 2) {
 
     if (!is.null(dim(x))) x = colMeans(x)
 
@@ -72,4 +74,8 @@ fitBimodal = function(x,
     if (boolean) return(TRUE)
 
     result
+}
+
+fitMultiModal = function() {
+
 }

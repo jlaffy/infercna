@@ -2,7 +2,7 @@
 .cnaCor = function(cna, cor.method = 'pearson') {
     cna = as.matrix(cna)
     genemeans = rowMeans(cna)
-    cellcors = cor(genemeans, cna, method = cor.method)
+    cellcors = stats::cor(genemeans, cna, method = cor.method)
     unlist(as.data.frame(cellcors))
 }
 

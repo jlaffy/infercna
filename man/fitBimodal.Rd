@@ -6,7 +6,7 @@
 \usage{
 fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
   assign = FALSE, boolean = FALSE, verbose = TRUE,
-  maxrestarts = 200, maxit = 10000)
+  maxrestarts = 200, maxit = 10000, k = 2)
 }
 \arguments{
 \item{x}{a named numeric vector of cells/observations or a matrix of genes X cells (variables X observations). If the latter, the column means are first computed.}
@@ -26,9 +26,11 @@ fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
 \item{maxrestarts}{the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 200}
 
 \item{maxit}{the maximum number of iterations. Default: 10000}
+
+\item{k}{number of components. Default: 2}
 }
 \value{
-The result of fitting a gaussian bimodal distribution. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
+The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
 }
 \description{
 Fit a bimodal gaussian distribution to a set of observations.

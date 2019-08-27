@@ -2,7 +2,7 @@
 .fetchGenome = function(name) {
     stopifnot(is.character(name))
     stopifnot(length(name) == 1)
-    result = try(getFromNamespace(x = name, ns = 'infercna'))
+    result = try(utils::getFromNamespace(x = name, ns = 'infercna'))
     if (class(result) == 'try-error') {
         stop("Genome name '", name, "' does not exist in package data.")
     }

@@ -4,15 +4,18 @@
 #' @param prob a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.95
 #' @param coverage the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8
 #' @param size the minimum number of observations that must be assigned to a mode in order for the distribution to qualify as bimodal. Default: 10
+#' @param assign if set to TRUE, returns a list of length two containing the vector names that were assigned to each mode. Default: FALSE
 #' @param boolean if set to TRUE, returns a boolean value indicating whether the distribution is bimodal. Default: FALSE
+#' @param verbose boolean value indicating whether to print progress messages. Default: FALSE
 #' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
 #' @examples 
-#'  m = useData()
-#'  cnamat = infercna(m = m, dipcells = dipcells)
-#'  cnamats = splitGenes(cnamat, by = 'chr')
-#'  result = sapply(cnamats, modes, simplify = F)
-#'  result.bool = sapply(cnamats, modes, boolean = T, simplify = F)
+#'  cna = infercna(m = useData(), dipcells = dipcells)
+#'  # Malignant cells only (remove columns corresponding to dipcells)
+#'  cna = cna[, !colnames(cna) %in% unlist(dipcells)] 
+#'  cnaByChr = splitGenes(cna, by = 'chr')
+#'  sapply(cnaByChr, fitBimodal, boolean = TRUE)
+#'  sapply(cnaByChr, fitBimodal, boolean = TRUE, coverage = 0.5)
+#'  sapply(cnaByChr, fitBimodal, assign = TRUE, coverage = 0.5)
 #' @seealso 
 #'  \code{\link[mixtools]{normalmixEM}}
 #' @rdname modes
@@ -34,7 +37,7 @@ fitBimodal = function(x,
         stop('Number of observations is too small for 2 modes >= ' , size)
     }
 
-    result = try(mixtools::normalmixEM(x)$posterior)
+    result = try(mixtools::normalmixEM(x, maxrestarts = 100, maxit = 2000)$posterior)
     passed = result >= prob
     failed = is.null(dim(passed)) || ncol(passed) != 2 || nrow(passed) != length(x)
     

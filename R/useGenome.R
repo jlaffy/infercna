@@ -22,7 +22,7 @@ currentGenome = function() {
 
 #' @title Retrieve genome data
 #' @description Returns a tibble dataframe of the current genome in use. If on function call a character string is supplied that corresponds to a genome in the package, that genome will instead be returned. 
-#' @param x a genome name. Currently one of 'hg19' (human), 'hg38' (latest human), 'mm10' (mouse). Default: NULL
+#' @param name a genome name. Currently one of 'hg19' (human), 'hg38' (latest human), 'mm10' (mouse). Default: NULL
 #' @return a tibble 
 #' @seealso 
 #'  \code{\link[tibble]{as_tibble}}
@@ -67,7 +67,7 @@ addGenome = function(genome, name = 'userDefined') {
 
 #' @title Select a Genome for infercna to use
 #' @description Select your genome of choice at the start of an analysis. The available genomes in the current implementation are, for H.sapiens, hg38 (latest) and hg19 (preceding) and for mouse, mm10. You can see which genomes are available via availableGenomes(). 
-#' @param x character string of genome name. One of 'hg19', 'hg38', 'mm10'.
+#' @param name a character string of genome name. One of 'hg19', 'hg38', 'mm10'.
 #' @return genome variables are set internally. No return.
 #' @rdname useGenome
 #' @export 

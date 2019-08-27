@@ -2,37 +2,31 @@
 % Please edit documentation in R/findClones.R
 \name{findClones}
 \alias{findClones}
-\title{FUNCTION_TITLE}
+\title{Find Clones}
 \usage{
 findClones(m, prob = 0.95, coverage = 0.8, mode.size = 10,
   clone.size = NULL, by = "chr")
 }
 \arguments{
-\item{m}{PARAM_DESCRIPTION}
+\item{m}{a matrix of genes X cells (variables X observations) containing CNA values.}
 
-\item{prob}{PARAM_DESCRIPTION, Default: 0.95}
+\item{prob}{a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.95}
 
-\item{coverage}{PARAM_DESCRIPTION, Default: 0.8}
+\item{coverage}{the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8}
 
-\item{mode.size}{PARAM_DESCRIPTION, Default: 10}
+\item{mode.size}{the minimum number of observations that must be assigned to a mode in order for the distribution to qualify as bimodal. Default: 10}
 
 \item{clone.size}{PARAM_DESCRIPTION, Default: NULL}
 
 \item{by}{PARAM_DESCRIPTION, Default: 'chr'}
 }
-\value{
-OUTPUT_DESCRIPTION
-}
 \description{
 FUNCTION_DESCRIPTION
 }
-\details{
-DETAILS
-}
 \examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+cna = infercna(useData(), dipcells = dipcells)
+# malignant cells only
+cna = cna[, !colnames(cna) \%in\% unlist(dipcells)]
+findClones(cna, by = 'chr')
+findClones(cna, by = 'arm')
 }

@@ -60,22 +60,21 @@ expandToClones = function(modes,
 }
 
 
-#' @title FUNCTION_TITLE
+#' @title Find Clones 
 #' @description FUNCTION_DESCRIPTION
-#' @param m PARAM_DESCRIPTION
-#' @param prob PARAM_DESCRIPTION, Default: 0.95
-#' @param coverage PARAM_DESCRIPTION, Default: 0.8
-#' @param mode.size PARAM_DESCRIPTION, Default: 10
+#' @param m a matrix of genes X cells (variables X observations) containing CNA values.
+#' @param prob a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.95
+#' @param coverage the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8
+#' @param mode.size the minimum number of observations that must be assigned to a mode in order for the distribution to qualify as bimodal. Default: 10
 #' @param clone.size PARAM_DESCRIPTION, Default: NULL
 #' @param by PARAM_DESCRIPTION, Default: 'chr'
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
+#' @return 
 #' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' cna = infercna(useData(), dipcells = dipcells)
+#' # malignant cells only
+#' cna = cna[, !colnames(cna) %in% unlist(dipcells)]
+#' findClones(cna, by = 'chr')
+#' findClones(cna, by = 'arm')
 #' @rdname findClones
 #' @export 
 findClones = function(m,

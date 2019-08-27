@@ -21,5 +21,6 @@ Imports:
     testthat,
     magrittr,
     zeallot,
-    mixtools
+    mixtools,
+    utils
 RoxygenNote: 6.1.1

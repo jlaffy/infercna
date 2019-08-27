@@ -19,9 +19,9 @@
     dots = list(...)
     genes = rownames(cna)
     Args = c(list(cna = cna), dots)
-    c(Min, Max) %<-% do.call(.diprange, Args)
+    rg = do.call(.diprange, Args)
     n = nrow(cna)
-    cna = t(sapply(1:n, function(i) .dipcenter(cna[i, ], Min = Min[i], Max = Max[i])))
+    cna = t(sapply(1:n, function(i) .dipcenter(cna[i, ], Min = rg$Min[i], Max = rg$Max[i])))
     rownames(cna) = genes
     cna
 }
@@ -35,9 +35,8 @@
 #' @return a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 genes will be lost from either extremity of the genome (ie. n genes lost at the start of chromosome 1 and at the end of chromosome Y, if the genome in question is H.sapiens.)
 #' @details Correction with diploid cells' <dipcells> CNAs: the boundaries of dipcells CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.
 #' @examples 
-#'  dipcells = infercna::dipcells
 #'  m = infercna::useData()
-#'  cna = infercna::infercna(m = m, dipcells = dipcells)
+#'  cna = infercna::infercna(m = m, dipcells = infercna::dipcells)
 #' @rdname infercna
 #' @export 
 infercna = function(m,

@@ -7,7 +7,7 @@
 retrieveGenome(name = NULL)
 }
 \arguments{
-\item{x}{a genome name. Currently one of 'hg19' (human), 'hg38' (latest human), 'mm10' (mouse). Default: NULL}
+\item{name}{a genome name. Currently one of 'hg19' (human), 'hg38' (latest human), 'mm10' (mouse). Default: NULL}
 }
 \value{
 a tibble

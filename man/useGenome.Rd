@@ -7,7 +7,7 @@
 useGenome(name)
 }
 \arguments{
-\item{x}{character string of genome name. One of 'hg19', 'hg38', 'mm10'.}
+\item{name}{a character string of genome name. One of 'hg19', 'hg38', 'mm10'.}
 }
 \value{
 genome variables are set internally. No return.

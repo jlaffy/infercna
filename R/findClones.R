@@ -23,7 +23,7 @@ fetchModes = function(m,
                       by = 'chr') {
 
     mats = splitGenes(m, by = by)
-    modes = sapply(mats, fitBimodal2, prob = prob, coverage = coverage, size = size, assign = T)
+    modes = sapply(mats, fitBimodal, prob = prob, coverage = coverage, size = size, assign = T)
     modes[!sapply(modes, isFALSE)]
 }
 

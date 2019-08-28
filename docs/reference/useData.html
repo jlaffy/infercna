@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List of available genomes — availableGenomes • infercna</title>
+<title>Load Example Data — useData • infercna</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="List of available genomes — availableGenomes" />
+<meta property="og:title" content="Load Example Data — useData" />
 
-<meta property="og:description" content="See which genomes are available for use" />
+<meta property="og:description" content="Load example dataset of human single-cell RNA seq data. Cells and genes are columns and rows, respectively, and all passed QC. Matrix is row-centered." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,26 +118,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List of available genomes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jlaffy/infercna/blob/master/R/useGenome.R'><code>R/useGenome.R</code></a></small>
-    <div class="hidden name"><code>availableGenomes.Rd</code></div>
+    <h1>Load Example Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jlaffy/infercna/blob/master/R/useData.R'><code>R/useData.R</code></a></small>
+    <div class="hidden name"><code>useData.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>See which genomes are available for use</p>
+    <p>Load example dataset of human single-cell RNA seq data. Cells and genes are columns and rows, respectively, and all passed QC. Matrix is row-centered.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>availableGenomes</span>()</pre>
+    <pre class="usage"><span class='fu'>useData</span>()</pre>
         
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>character vector</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>more genomes will be added in future dev patches.</p>
+    <p>centered expression matrix of genes X cells</p>
     
 
   </div>
@@ -146,8 +142,6 @@
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

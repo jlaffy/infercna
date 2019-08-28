@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List of available genomes — availableGenomes • infercna</title>
+<title>Rolling Means — runMean • infercna</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="List of available genomes — availableGenomes" />
+<meta property="og:title" content="Rolling Means — runMean" />
 
-<meta property="og:description" content="See which genomes are available for use" />
+<meta property="og:description" content="Apply a rolling window mean to a matrix or vector." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,36 +118,58 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List of available genomes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jlaffy/infercna/blob/master/R/useGenome.R'><code>R/useGenome.R</code></a></small>
-    <div class="hidden name"><code>availableGenomes.Rd</code></div>
+    <h1>Rolling Means</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jlaffy/infercna/blob/master/R/utils-infercna.R'><code>R/utils-infercna.R</code></a></small>
+    <div class="hidden name"><code>runMean.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>See which genomes are available for use</p>
+    <p>Apply a rolling window mean to a matrix or vector.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>availableGenomes</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>runMean</span>(<span class='no'>m</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>endrule</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>align</span> <span class='kw'>=</span> <span class='st'>"center"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>m</th>
+      <td><p>a numeric vector or matrix. If the latter, each column will be processed separately.</p></td>
+    </tr>
+    <tr>
+      <th>k</th>
+      <td><p>width of rolling window. Default: 100</p></td>
+    </tr>
+    <tr>
+      <th>endrule</th>
+      <td><p>character string indicating how the values at the beginning and the end of the data should be treated. One of "mean", "trim", "keep", "constant". See caTools::runmean for more details. Default: 'mean'</p></td>
+    </tr>
+    <tr>
+      <th>align</th>
+      <td><p>specifies whether result should be centered (default), left-aligned or right-aligned. See caTools::runmean for more details. Default: 'center'</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>character vector</p>
+    <p>a numeric vector or matrix of the same size as &lt;m&gt;. Only in case of endrule=trim, the output vectors will be shorter and output matrices will have fewer rows.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>more genomes will be added in future dev patches.</p>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/caTools/man/runmean.html'>runmean</a></code></p></div>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

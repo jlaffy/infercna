@@ -1,4 +1,4 @@
-e_news_md()use_vignette("test")  #substitute with the name of your  package--
+---
 output: github_document
 ---
 

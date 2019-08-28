@@ -1,11 +1,23 @@
 
+.HQgenes = function(m, n = 5000) {
+    if (nrow(m) < n) n = nrow(m)
+    rom = rowMeans(m)
+    hq = names(sort(rom, decreasing = T)[1:n])
+    m[rownames(m) %in% hq, ]
+}
+
+
 .diprange = function(cna, ...) {
     dots = list(...)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
-    list(min = do.call(pmin, v), max = do.call(pmax, v))
+    list(Min = do.call(pmin, v), Max = do.call(pmax, v))
 }
 
-.dipcenter = function(v, Min, Max) {
+.dipcenter = function(v, Min, Max, dipFactor = NULL) {
+    if (!is.null(dipFactor)) {
+        Min = Min - dipFactor
+        Max = Max + dipFactor
+    }
     above = v > Min & v > Max
     below = v < Min & v < Max
     normal = !above & !below
@@ -15,13 +27,13 @@
     v
 }
 
-.dipcorrect = function(cna, ...) {
+.dipcorrect = function(cna, dipFactor = NULL, ...) {
     dots = list(...)
     genes = rownames(cna)
     Args = c(list(cna = cna), dots)
     rg = do.call(.diprange, Args)
     n = nrow(cna)
-    cna = t(sapply(1:n, function(i) .dipcenter(cna[i, ], Min = rg$Min[i], Max = rg$Max[i])))
+    cna = t(sapply(1:n, function(i) .dipcenter(cna[i, ], Min = rg$Min[i], Max = rg$Max[i], dipFactor = dipFactor)))
     rownames(cna) = genes
     cna
 }
@@ -42,15 +54,20 @@
 infercna = function(m,
                     dipcells = NULL,
                     window = 100,
-                    range = c(-3, 3)) {
+                    range = c(-3, 3),
+                    nGenes = 5000,
+                    dipFactor = 0.1) {
 
     # note: m should be row(gene)-centered
+    if (!is.null(nGenes)) {
+        m = .HQgenes(m, n = nGenes)
+    }
     cna = orderGenes(m)
     cna = clip(cna, range = range)
     cna = runMean(cna, k = window)
     cna = colCenter(cna)
     if (!is.null(dipcells)) {
-        Args = c(list(cna = cna), dipcells)
+        Args = c(list(cna = cna, dipFactor = dipFactor), dipcells)
         cna = do.call(.dipcorrect, Args)}
     cna
 }

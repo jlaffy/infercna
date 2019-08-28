@@ -4,22 +4,26 @@
 \alias{filterGenes}
 \title{Filter Genes by their Genome Features}
 \usage{
-filterGenes(x, value, attribute, throw = F, strict = F)
+filterGenes(x, value, attribute, out = F)
 }
 \arguments{
 \item{x}{a character vector of gene names or a matrix with gene row names.}
 
 \item{value}{a value or a list of values that are the genome features to filter}
 
-\item{attribute}{the name(s) of the genome feature(s) in question. One or more of of 'chr', 'arm', 'start', 'end'.}
+\item{attribute}{the name(s) of the genome feature(s) in question. One of 'chr', 'arm'.}
 
-\item{throw}{boolean value indicating whether the filtered genes should be thrown away rather than kept. Default: F}
-
-\item{strict}{boolean value indicating whether the filtered genes should match all criteria instead of the default to match any criteria. Default: F}
+\item{out}{boolean value indicating whether the filtered genes should be thrown rather than kept. Default: F}
 }
 \value{
 filtered vector or a matrix with filtered rows, depending on class of <x>.
 }
 \description{
-Filter genes to keep (the default) or to throw according to genomic features. For example, filter genes that are either on chromosome 7 or chromosome arm 2p.
+Filter genes to keep (the default) or to out according to genomic features. For example, filter genes that are either on chromosome 7 or chromosome arm 2p.
+}
+\examples{
+ m = useData()
+ filterGenes(m, 7, 'chr')
+ filterGenes(rownames(m), 7, 'chr')
+ filterGenes(m, list(7, c('2p', '3q')), c('chr', 'arm'))
 }

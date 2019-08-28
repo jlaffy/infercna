@@ -23,3 +23,9 @@ Imports:
     mixtools,
     utils
 RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: https://github.com/jlaffy/infercna
+BugReports: https://github.com/jlaffy/infercna/issues

@@ -4,7 +4,7 @@
     if (isLog) cna = TPM(cna)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
     res = list(Min = do.call(pmin, v), Max = do.call(pmax, v))
-    sapply(res, logTPM, dividebyten = F, simplify = F)
+    sapply(res, logTPM, dividebyten = T, simplify = F)
 }
 
 .refcenter = function(v, Min, Max, noise = NULL) {

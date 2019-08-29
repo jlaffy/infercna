@@ -44,10 +44,9 @@ infercna = function(m,
     m = clip(m, range = range)
     m = TPM(m) 
     cna = runMean(m, k = window)
-    cna = logTPM(cna)
+    cna = logTPM(cna, dividebyten = T)
     # MEDIAN Option in colCenter (set as default here)
     cna = colCenter(cna)
-
     if (!is.null(reference)) {
         Args = c(list(cna = cna, noise = noise, isLog = TRUE), reference)
         cna = do.call(refCorrect, Args)}

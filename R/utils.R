@@ -1,18 +1,18 @@
-TPM <- function(logtpm, dividebyten=TRUE) {
+TPM <- function(m, dividebyten=TRUE) {
   if(dividebyten) {
-    tpm <- 10*(2^(logtpm)-1)}
+    m <- 10*(2^(m)-1)}
   else if(!dividebyten) {
-    tpm <- 2^(logtpm)-1}
-  return(tpm)
+    m <- 2^(m)-1}
+  m
 }
 
-logTPM <- function(tpm, dividebyten=TRUE) {
+logTPM <- function(m, dividebyten=TRUE) {
   # same as TPM() applies.
   # logTPM(tpm) == TPM(logtpm)
 
   if(dividebyten) {
-    logtpm <- log2(tpm / 10 + 1)}
+    m <- log2(m / 10 + 1)}
   else if(!dividebyten) {
-    logtpm <- log(tpm+1, 2)}
-  return(logtpm)
+    m <- log(m + 1, 2)}
+  m
 }

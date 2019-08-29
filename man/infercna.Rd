@@ -5,7 +5,7 @@
 \title{Infer Copy-Number Alterations From Single-Cell RNA-Seq Data}
 \usage{
 infercna(m, reference = NULL, window = 100, range = c(-3, 3),
-  n = NULL, noise = 0.1)
+  n = 5000, noise = 0.2)
 }
 \arguments{
 \item{m}{a matrix of genes X cells RNA-seq expression data. The matrix should be row-centered.}
@@ -15,6 +15,10 @@ infercna(m, reference = NULL, window = 100, range = c(-3, 3),
 \item{window}{the size of the window to use for the rolling mean. Units are in number of genes. Default: 100}
 
 \item{range}{values in <m> above and below this range will be set to values in range. See infercna::clip() for more details. Default: c(-3, 3)}
+
+\item{n}{a numeric value indicating if only top genes should be used in the CNA calculation and how many. if n is a fraction between 0 and 1, the number of genes included will n * nrow(m). Else the number of genes included will be n. Default: 5000}
+
+\item{noise}{a numeric value, which if given, increases the boundaries within which CNA values are considered 0. Increases by <noise> i.e. the bounds become Minimum - noise and Maximum + noise. Default: 0.2}
 }
 \value{
 a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 genes will be lost from either extremity of the genome (ie. n genes lost at the start of chromosome 1 and at the end of chromosome Y, if the genome in question is H.sapiens.)

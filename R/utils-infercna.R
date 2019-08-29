@@ -1,21 +1,39 @@
 #' @title Center a matrix column-wise 
 #' @description Center a matrix column-wise 
 #' @param m a matrix
-#' @return a matrix with colMeans == 0
+#' @param method a character string. one of "mean" or "median" definining how to do the centering. Default: "mean"
+#' @param centerBy a numeric vector of length equal to ncol(m) of values to be subtracted from each row.
+#' @return a matrix centered by columns such that the statistic defined in method is equal to 0 for each column.
 #' @rdname colCenter
 #' @export 
-colCenter = function(m) {
-    scale(m, center = T, scale = F)
+colCenter = function(m, method = 'mean', centerBy = NULL) {
+    if (!is.null(centerBy)) {
+        stopifnot(length(centerBy) == ncol(m))
+        center = centerBy
+    }
+    else if (method == 'median') center = apply(m, 2, median)
+    else if (method == 'mean') center = T
+    else stop('method not recognised')
+    scale(m, center = center, scale = F)
 }
 
 
 #' @title Center a matrix row-wise 
 #' @description Center a matrix row-wise 
 #' @param m a matrix
-#' @return a matrix with rowMeans == 0
+#' @param method a character string. one of "mean" or "median" definining how to do the centering. Default: "mean"
+#' @param centerBy a numeric vector of length equal to nrow(m) of values to be subtracted from each row.
+#' @return a matrix centered by rows such that the statistic defined in method is equal to 0 for each column.
 #' @rdname rowCenter
 #' @export 
-rowCenter = function(m) {
+rowCenter = function(m, method = 'mean', centerBy = NULL) {
+    if (!is.null(centerBy)) {
+        stopifnot(length(centerBy) == nrow(m))
+        center = centerBy
+    }
+    else if (method == 'median') center = apply(m, 1, median)
+    else if (method == 'mean') center = T
+    else stop('method not recognised')
     t(scale(t(m), center = T, scale = F))
 }
 

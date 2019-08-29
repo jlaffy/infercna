@@ -12,9 +12,9 @@
 #' @param k number of components. Default: 2
 #' @return The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
 #' @examples 
-#'  cna = infercna(m = useData(), dipcells = dipcells)
-#'  # Malignant cells only (remove columns corresponding to dipcells)
-#'  cna = cna[, !colnames(cna) %in% unlist(dipcells)] 
+#'  cna = infercna(m = useData(), reference = reference)
+#'  # Malignant cells only (remove columns corresponding to reference)
+#'  cna = cna[, !colnames(cna) %in% unlist(reference)] 
 #'  cnaByChr = splitGenes(cna, by = 'chr')
 #'  sapply(cnaByChr, fitBimodal, assign = TRUE)
 #'  sapply(cnaByChr, fitBimodal, boolean = TRUE)

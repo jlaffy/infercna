@@ -24,9 +24,9 @@ findClones(m, prob = 0.95, coverage = 0.8, mode.size = 10,
 FUNCTION_DESCRIPTION
 }
 \examples{
-cna = infercna(useData(), dipcells = dipcells)
+cna = infercna(useData(), reference = reference)
 # malignant cells only
-cna = cna[, !colnames(cna) \%in\% unlist(dipcells)]
+cna = cna[, !colnames(cna) \%in\% unlist(reference)]
 findClones(cna, by = 'chr')
 findClones(cna, by = 'arm')
 }

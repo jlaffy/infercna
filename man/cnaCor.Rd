@@ -4,14 +4,15 @@
 \alias{cnaCor}
 \title{Cell - Tumour CNA Correlations}
 \usage{
-cnaCor(cna, cor.method = "pearson", groups = FALSE)
+cnaCor(cna, cor.method = "pearson", threshold = NULL,
+  samples = FALSE, sep = "-|_")
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}
 
 \item{cor.method}{character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'}
 
-\item{groups}{a list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple groups of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE}
+\item{samples}{a list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE}
 }
 \value{
 a numeric vector or list of numeric vectors

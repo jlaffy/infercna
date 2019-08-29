@@ -4,13 +4,17 @@
 \alias{rowCenter}
 \title{Center a matrix row-wise}
 \usage{
-rowCenter(m)
+rowCenter(m, method = "mean", centerBy = NULL)
 }
 \arguments{
 \item{m}{a matrix}
+
+\item{method}{a character string. one of "mean" or "median" definining how to do the centering. Default: "mean"}
+
+\item{centerBy}{a numeric vector of length equal to nrow(m) of values to be subtracted from each row.}
 }
 \value{
-a matrix with rowMeans == 0
+a matrix centered by rows such that the statistic defined in method is equal to 0 for each column.
 }
 \description{
 Center a matrix row-wise

@@ -4,7 +4,7 @@
 \alias{refCorrect}
 \title{Convert Relative CNA Values To Absolute}
 \usage{
-refCorrect(cna, noise = NULL, ...)
+refCorrect(cna, noise = NULL, isLog = FALSE, ...)
 }
 \arguments{
 \item{cna}{a matrix of rows (genes) by columns (cells) of CNA values.}

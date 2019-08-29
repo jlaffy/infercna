@@ -5,7 +5,7 @@
 \title{Infer Copy-Number Alterations From Single-Cell RNA-Seq Data}
 \usage{
 infercna(m, reference = NULL, window = 100, range = c(-3, 3),
-  n = 5000, noise = 0.2)
+  n = 5000, noise = 0.2, isLog = FALSE)
 }
 \arguments{
 \item{m}{a matrix of genes X cells RNA-seq expression data. The matrix should be row-centered.}

@@ -4,13 +4,17 @@
 \alias{colCenter}
 \title{Center a matrix column-wise}
 \usage{
-colCenter(m)
+colCenter(m, method = "mean", centerBy = NULL)
 }
 \arguments{
 \item{m}{a matrix}
+
+\item{method}{a character string. one of "mean" or "median" definining how to do the centering. Default: "mean"}
+
+\item{centerBy}{a numeric vector of length equal to ncol(m) of values to be subtracted from each row.}
 }
 \value{
-a matrix with colMeans == 0
+a matrix centered by columns such that the statistic defined in method is equal to 0 for each column.
 }
 \description{
 Center a matrix column-wise

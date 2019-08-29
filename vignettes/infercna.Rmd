@@ -11,6 +11,8 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(infercna)
+library(dplyr)
+library(ggplot2)
 set.seed(1014)
 ```
 
@@ -34,24 +36,25 @@ The infercna package makes these steps fast and easy:
 
 This document introduces you to infercna's basic set of tools, and shows you how to apply them to data frames. infercna also supports databases via the dbplyr package, once you've installed, read `vignette("dbplyr")` to learn more.
 
-## Data: a patient BT771 with Glioblastoma
+## Data: a patient mgh125 with Glioblastoma
 
-To explore the basic functionality of infercna, we'll use `infercna::bt771`. This dataset contains `r ncol(infercna::bt771)` cell columns, each of which is described with RNA-sequencing data of `r nrow(infercna::bt771)` gene variables. The data comes from a large study that we did looking at 28 patients with Glioblastoma (a very aggressive form of brain cancer). You can look at the publication [here](Neftel*, Laffy* et al. 2019, Cell) and the data is easily available via the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/SCP393/single-cell-rna-seq-of-adult-and-pediatric-glioblastoma). `bt771` is one of the 28 patients and this much smaller dataset is documented in `?bt771`.
+To explore the basic functionality of infercna, we'll use `infercna::mgh125`. This dataset contains `r ncol(infercna::mgh125)` cell columns, each of which is described with RNA-sequencing data of `r nrow(infercna::mgh125)` gene variables. The data comes from a large study that we did looking at 28 patients with Glioblastoma (a very aggressive form of brain cancer). You can look at the publication [here](Neftel*, Laffy* et al. 2019, Cell) and the data is easily available via the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/SCP393/single-cell-rna-seq-of-adult-and-pediatric-glioblastoma). `mgh125` is one of the 28 patients and this much smaller dataset is documented in `?mgh125`.
 
 ```{r}
 library(infercna)
-dim(bt771)
-bt771
+dim(mgh125)
+mgh125
+flights = nycflights13::flights
 ```
 
-Note that `infercna::bt771` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
+Note that `infercna::mgh125` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
 
 ## Overview  
 
 infercna aims to provide a function for all of the CNA-related queries one may have when looking at a single-cell RNA-sequencing dataset:
 
 * `infercna()` to select cases based on their values.
-* `toAbsolute()` to select cases based on their values.
+* `refCorrect()` to select cases based on their values.
 * `isMalignant()` and `sample_frac()` to take random samples.
 * `fitBimodal()` to reorder the cases.
 * `findClones()` and `rename()` to select variables based on their names.
@@ -65,7 +68,7 @@ infercna aims to provide a function for all of the CNA-related queries one may h
 For example, we can select all flights on January 1st with:
 
 ```{r}
-dplyr::filter(flights, month == 1, day == 1)
+filter(flights, month == 1, day == 1)
 ```
 
 This is rougly equivalent to this base R code:
@@ -473,13 +476,9 @@ flights %>%
 The methodology behind infercna has been tried and tested in several high-impact publications. It was actually in the earliest of these papers (last listed) that the idea to infer CNAs from single-cell RNA-sequencing data was first formulated. 
 
 * [An Integrative Model of Cellular States, Plasticity, and Genetics for Glioblastoma (Neftel*, Laffy* et al., 2019, *Cell*)](https://doi.org/10.1016/j.cell.2019.06.024) 
-
 * [Developmental and oncogenic programs in H3K27M gliomas dissected by single-cell RNA-seq (Filbin*, Tirosh* et al., 2018, *Science*)](https://doi.org/10.1126/science.aao4750)
-
 * [Decoupling genetics, lineages, and microenvironment in IDH-mutant gliomas by single-cell RNA-seq (Venteicher*, Tirosh* et al., 2017, *Science*)](https://doi.org/10.1126/science.aai8478)
-
 * [Single-cell RNA-seq supports a developmental hierarchy in human oligodendroglioma (Tirosh*, Venteicher* et al., 2016, *Nature*)](https://doi.org/10.1038/nature20123)
-
 * [Single-cell RNA-seq highlights intratumoral heterogeneity in primary glioblastoma (Patel*, Tirosh* et al., 2014, *Science*)](https://doi.org/10.1126/science.1254257)
 
 
@@ -531,6 +530,6 @@ Future implementations will include:
 
 * more default genomes to choose from
 
-* option to calculate absolute CNAs (see `toAbsolute()`) with just *one* reference group. Currently infercna requires at least two, which, while preferable, is not obligatory.
+* option to calculate absolute CNAs (see `refCorrect()`) with just *one* reference group. Currently infercna requires at least two, which, while preferable, is not obligatory.
 
 

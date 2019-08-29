@@ -8,11 +8,13 @@
 
 <title>Infer Copy-Number Alterations From Single-Cell RNA-Seq Data — infercna • infercna</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,10 +34,11 @@
 
 
 
-<meta property="og:title" content="Infer Copy-Number Alterations From Single-Cell RNA-Seq Data — infercna" />
 
+<meta property="og:title" content="Infer Copy-Number Alterations From Single-Cell RNA-Seq Data — infercna" />
 <meta property="og:description" content="Infer Copy-Number Alterations From Single-Cell RNA-Seq Data" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -92,12 +95,11 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/dplyr.html">Introduction to infercna</a>
+      <a href="../articles/default_infercna.html">infercna</a>
     </li>
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jlaffy/infercna">
@@ -124,13 +126,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Infer Copy-Number Alterations From Single-Cell RNA-Seq Data</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>infercna</span>(<span class='no'>m</span>, <span class='kw'>dipcells</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>3</span>, <span class='fl'>3</span>))</pre>
-    
+    <pre class="usage"><span class='fu'>infercna</span>(<span class='no'>m</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>3</span>, <span class='fl'>3</span>),
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>noise</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -139,8 +140,8 @@
       <td><p>a matrix of genes X cells RNA-seq expression data. The matrix should be row-centered.</p></td>
     </tr>
     <tr>
-      <th>dipcells</th>
-      <td><p>a list of two or more character vectors, each containg cell IDs of normal cell types (one cell type per list element). Since these cell types are presumed diploid cells, their CNA values can be used to correct the remaining CNA values. Note that all cell IDs should correspond to column names in &lt;m&gt;. See infercna::dipcells (diploid cells) for an example. Default: NULL</p></td>
+      <th>reference</th>
+      <td><p>a list of two or more character vectors, each containg cell IDs of normal cell types (one cell type per list element). Since these cell types are presumed refloid cells, their CNA values can be used to correct the remaining CNA values. Note that all cell IDs should correspond to column names in &lt;m&gt;. See infercna::reference (refloid cells) for an example. Default: NULL</p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -150,30 +151,33 @@
       <th>range</th>
       <td><p>values in &lt;m&gt; above and below this range will be set to values in range. See infercna::clip() for more details. Default: c(-3, 3)</p></td>
     </tr>
+    <tr>
+      <th>n</th>
+      <td><p>a numeric value indicating if only top genes should be used in the CNA calculation and how many. if n is a fraction between 0 and 1, the number of genes included will n * nrow(m). Else the number of genes included will be n. Default: 5000</p></td>
+    </tr>
+    <tr>
+      <th>noise</th>
+      <td><p>a numeric value, which if given, increases the boundaries within which CNA values are considered 0. Increases by &lt;noise&gt; i.e. the bounds become Minimum - noise and Maximum + noise. Default: 0.2</p></td>
+    </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 genes will be lost from either extremity of the genome (ie. n genes lost at the start of chromosome 1 and at the end of chromosome Y, if the genome in question is H.sapiens.)</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Correction with diploid cells' &lt;dipcells&gt; CNAs: the boundaries of dipcells CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.</p>
-    
+    <p>Correction with reference cells' &lt;reference&gt; CNAs: the boundaries of reference CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='no'>m</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/infercna/man/useData.html'>useData</a></span>()
- <span class='no'>cna</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/infercna/man/infercna.html'>infercna</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='no'>m</span>, <span class='kw'>dipcells</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/infercna/man/dipcells.html'>dipcells</a></span>)</div></pre>
+ <span class='no'>cna</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/infercna/man/infercna.html'>infercna</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='no'>m</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='no'>reference</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'reference' is not an exported object from 'namespace:infercna'</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

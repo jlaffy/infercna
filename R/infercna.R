@@ -45,7 +45,7 @@ infercna = function(m,
     cna = colCenter(cna)
     if (!is.null(reference)) {
         Args = c(list(cna = cna, noise = noise), reference)
-        cna = do.call(toAbsolute, Args)}
+        cna = do.call(refCorrect, Args)}
     cna
 }
 

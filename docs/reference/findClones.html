@@ -8,11 +8,13 @@
 
 <title>Find Clones — findClones • infercna</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,10 +34,11 @@
 
 
 
-<meta property="og:title" content="Find Clones — findClones" />
 
+<meta property="og:title" content="Find Clones — findClones" />
 <meta property="og:description" content="FUNCTION_DESCRIPTION" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -92,12 +95,11 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/dplyr.html">Introduction to infercna</a>
+      <a href="../articles/default_infercna.html">infercna</a>
     </li>
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jlaffy/infercna">
@@ -124,14 +126,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>FUNCTION_DESCRIPTION</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>findClones</span>(<span class='no'>m</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>coverage</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>mode.size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>clone.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"chr"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -160,139 +160,16 @@
       <td><p>PARAM_DESCRIPTION, Default: 'chr'</p></td>
     </tr>
     </table>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>cna</span> <span class='kw'>=</span> <span class='fu'><a href='infercna.html'>infercna</a></span>(<span class='fu'><a href='useData.html'>useData</a></span>(), <span class='kw'>dipcells</span> <span class='kw'>=</span> <span class='no'>dipcells</span>)
-<span class='co'># malignant cells only</span>
-<span class='no'>cna</span> <span class='kw'>=</span> <span class='no'>cna</span>[, !<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>cna</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>dipcells</span>)]
-<span class='fu'>findClones</span>(<span class='no'>cna</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>'chr'</span>)</div><div class='output co'>#&gt; number of iterations= 496 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 46 </div><div class='output co'>#&gt; <span class='message'>Success!</span></div><div class='output co'>#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; number of iterations= 76 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 477 </div><div class='output co'>#&gt; <span class='message'>Less than 80% of obs. could be assigned to a mode.</span></div><div class='output co'>#&gt; number of iterations= 6889 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 6377 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 20 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1036 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 312 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 65 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1522 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 263 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 318 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 454 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 157 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 724 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1095 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1381 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 163 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 493 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1513 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 262 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 679 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 161 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; $`2.a`
-#&gt;  [1] "MGH125-P11-A04" "MGH125-P11-A08" "MGH125-P11-B02" "MGH125-P11-C03"
-#&gt;  [5] "MGH125-P11-C08" "MGH125-P11-C12" "MGH125-P11-E09" "MGH125-P11-G02"
-#&gt;  [9] "MGH125-P11-G07" "MGH125-P2-A01"  "MGH125-P2-A06"  "MGH125-P2-A10" 
-#&gt; [13] "MGH125-P2-A11"  "MGH125-P2-B05"  "MGH125-P2-B07"  "MGH125-P2-B09" 
-#&gt; [17] "MGH125-P2-B10"  "MGH125-P2-B12"  "MGH125-P2-C01"  "MGH125-P2-C03" 
-#&gt; [21] "MGH125-P2-C09"  "MGH125-P2-C12"  "MGH125-P2-D03"  "MGH125-P2-D11" 
-#&gt; [25] "MGH125-P2-E07"  "MGH125-P2-F01"  "MGH125-P2-F05"  "MGH125-P2-F11" 
-#&gt; [29] "MGH125-P2-F12"  "MGH125-P2-G12"  "MGH125-P2-H01"  "MGH125-P3-C06" 
-#&gt; [33] "MGH125-P3-C10"  "MGH125-P3-C12"  "MGH125-P3-D02"  "MGH125-P3-D06" 
-#&gt; [37] "MGH125-P3-D08"  "MGH125-P3-E01"  "MGH125-P3-E09"  "MGH125-P3-F05" 
-#&gt; [41] "MGH125-P3-G02"  "MGH125-P3-G09"  "MGH125-P3-H03"  "MGH125-P3-H04" 
-#&gt; [45] "MGH125-P3-H10"  "MGH125-P3-H11"  "MGH125-P4-A03"  "MGH125-P4-A09" 
-#&gt; [49] "MGH125-P4-B01"  "MGH125-P4-B04"  "MGH125-P4-B06"  "MGH125-P4-B08" 
-#&gt; [53] "MGH125-P4-C01"  "MGH125-P4-C02"  "MGH125-P4-C04"  "MGH125-P4-C11" 
-#&gt; [57] "MGH125-P4-D03"  "MGH125-P4-D12"  "MGH125-P4-E02"  "MGH125-P4-E09" 
-#&gt; [61] "MGH125-P4-F02"  "MGH125-P4-F03"  "MGH125-P4-F10"  "MGH125-P4-G02" 
-#&gt; [65] "MGH125-P4-G07"  "MGH125-P4-G10"  "MGH125-P4-H06"  "MGH125-P7-A04" 
-#&gt; [69] "MGH125-P7-B01"  "MGH125-P7-B02"  "MGH125-P7-B03"  "MGH125-P7-B07" 
-#&gt; [73] "MGH125-P7-B09"  "MGH125-P7-B10"  "MGH125-P7-C02"  "MGH125-P7-C06" 
-#&gt; [77] "MGH125-P7-D06"  "MGH125-P7-D10"  "MGH125-P7-E05"  "MGH125-P7-E12" 
-#&gt; [81] "MGH125-P7-F03"  "MGH125-P7-G05"  "MGH125-P7-G07"  "MGH125-P7-H04" 
-#&gt; [85] "MGH125-P7-H09"  "MGH125-P7-H12" 
-#&gt; 
-#&gt; $`2.b`
-#&gt;   [1] "MGH125-P2-A02" "MGH125-P2-A03" "MGH125-P2-A05" "MGH125-P2-A09"
-#&gt;   [5] "MGH125-P2-B01" "MGH125-P2-B03" "MGH125-P2-B04" "MGH125-P2-B06"
-#&gt;   [9] "MGH125-P2-B08" "MGH125-P2-C02" "MGH125-P2-C05" "MGH125-P2-C06"
-#&gt;  [13] "MGH125-P2-C07" "MGH125-P2-C08" "MGH125-P2-C10" "MGH125-P2-C11"
-#&gt;  [17] "MGH125-P2-D02" "MGH125-P2-D04" "MGH125-P2-D05" "MGH125-P2-D07"
-#&gt;  [21] "MGH125-P2-D08" "MGH125-P2-D09" "MGH125-P2-D10" "MGH125-P2-D12"
-#&gt;  [25] "MGH125-P2-E01" "MGH125-P2-E02" "MGH125-P2-E04" "MGH125-P2-E05"
-#&gt;  [29] "MGH125-P2-E06" "MGH125-P2-E09" "MGH125-P2-E10" "MGH125-P2-E12"
-#&gt;  [33] "MGH125-P2-F02" "MGH125-P2-F03" "MGH125-P2-F04" "MGH125-P2-F06"
-#&gt;  [37] "MGH125-P2-F07" "MGH125-P2-F10" "MGH125-P2-G02" "MGH125-P2-G03"
-#&gt;  [41] "MGH125-P2-G06" "MGH125-P2-G07" "MGH125-P2-G08" "MGH125-P2-G09"
-#&gt;  [45] "MGH125-P2-G10" "MGH125-P2-G11" "MGH125-P2-H02" "MGH125-P2-H03"
-#&gt;  [49] "MGH125-P2-H04" "MGH125-P2-H07" "MGH125-P2-H08" "MGH125-P2-H11"
-#&gt;  [53] "MGH125-P2-H12" "MGH125-P3-A02" "MGH125-P3-A12" "MGH125-P3-B02"
-#&gt;  [57] "MGH125-P3-B04" "MGH125-P3-B05" "MGH125-P3-B06" "MGH125-P3-B07"
-#&gt;  [61] "MGH125-P3-B08" "MGH125-P3-B09" "MGH125-P3-B10" "MGH125-P3-B11"
-#&gt;  [65] "MGH125-P3-B12" "MGH125-P3-C01" "MGH125-P3-C02" "MGH125-P3-C03"
-#&gt;  [69] "MGH125-P3-C05" "MGH125-P3-C07" "MGH125-P3-C08" "MGH125-P3-C09"
-#&gt;  [73] "MGH125-P3-D01" "MGH125-P3-D04" "MGH125-P3-D05" "MGH125-P3-D07"
-#&gt;  [77] "MGH125-P3-D09" "MGH125-P3-D10" "MGH125-P3-D11" "MGH125-P3-D12"
-#&gt;  [81] "MGH125-P3-E02" "MGH125-P3-E03" "MGH125-P3-E04" "MGH125-P3-E05"
-#&gt;  [85] "MGH125-P3-E06" "MGH125-P3-E07" "MGH125-P3-E08" "MGH125-P3-E10"
-#&gt;  [89] "MGH125-P3-E11" "MGH125-P3-E12" "MGH125-P3-F02" "MGH125-P3-F03"
-#&gt;  [93] "MGH125-P3-F04" "MGH125-P3-F06" "MGH125-P3-F08" "MGH125-P3-F10"
-#&gt;  [97] "MGH125-P3-F11" "MGH125-P3-F12" "MGH125-P3-G01" "MGH125-P3-G03"
-#&gt; [101] "MGH125-P3-G04" "MGH125-P3-G05" "MGH125-P3-G06" "MGH125-P3-G07"
-#&gt; [105] "MGH125-P3-G08" "MGH125-P3-G10" "MGH125-P3-G11" "MGH125-P3-G12"
-#&gt; [109] "MGH125-P3-H01" "MGH125-P3-H05" "MGH125-P3-H07" "MGH125-P3-H08"
-#&gt; [113] "MGH125-P3-H09" "MGH125-P3-H12" "MGH125-P4-A01" "MGH125-P4-A02"
-#&gt; [117] "MGH125-P4-A04" "MGH125-P4-A05" "MGH125-P4-A06" "MGH125-P4-A07"
-#&gt; [121] "MGH125-P4-A08" "MGH125-P4-A10" "MGH125-P4-A11" "MGH125-P4-A12"
-#&gt; [125] "MGH125-P4-B02" "MGH125-P4-B03" "MGH125-P4-B05" "MGH125-P4-B07"
-#&gt; [129] "MGH125-P4-B09" "MGH125-P4-B10" "MGH125-P4-B11" "MGH125-P4-B12"
-#&gt; [133] "MGH125-P4-C03" "MGH125-P4-C05" "MGH125-P4-C06" "MGH125-P4-C07"
-#&gt; [137] "MGH125-P4-C08" "MGH125-P4-C09" "MGH125-P4-C10" "MGH125-P4-C12"
-#&gt; [141] "MGH125-P4-D01" "MGH125-P4-D02" "MGH125-P4-D04" "MGH125-P4-D05"
-#&gt; [145] "MGH125-P4-D06" "MGH125-P4-D07" "MGH125-P4-D08" "MGH125-P4-D09"
-#&gt; [149] "MGH125-P4-D10" "MGH125-P4-E01" "MGH125-P4-E03" "MGH125-P4-E04"
-#&gt; [153] "MGH125-P4-E06" "MGH125-P4-E07" "MGH125-P4-E08" "MGH125-P4-E10"
-#&gt; [157] "MGH125-P4-E11" "MGH125-P4-E12" "MGH125-P4-F01" "MGH125-P4-F04"
-#&gt; [161] "MGH125-P4-F05" "MGH125-P4-F06" "MGH125-P4-F07" "MGH125-P4-F08"
-#&gt; [165] "MGH125-P4-F09" "MGH125-P4-F11" "MGH125-P4-F12" "MGH125-P4-G03"
-#&gt; [169] "MGH125-P4-G05" "MGH125-P4-G06" "MGH125-P4-G08" "MGH125-P4-G09"
-#&gt; [173] "MGH125-P4-G11" "MGH125-P4-G12" "MGH125-P4-H01" "MGH125-P4-H02"
-#&gt; [177] "MGH125-P4-H04" "MGH125-P7-A01" "MGH125-P7-A02" "MGH125-P7-A03"
-#&gt; [181] "MGH125-P7-A05" "MGH125-P7-A07" "MGH125-P7-A08" "MGH125-P7-A09"
-#&gt; [185] "MGH125-P7-A10" "MGH125-P7-A11" "MGH125-P7-B05" "MGH125-P7-B08"
-#&gt; [189] "MGH125-P7-C01" "MGH125-P7-C03" "MGH125-P7-C04" "MGH125-P7-C05"
-#&gt; [193] "MGH125-P7-C07" "MGH125-P7-C08" "MGH125-P7-C09" "MGH125-P7-C10"
-#&gt; [197] "MGH125-P7-C11" "MGH125-P7-C12" "MGH125-P7-D01" "MGH125-P7-D02"
-#&gt; [201] "MGH125-P7-D04" "MGH125-P7-D05" "MGH125-P7-D07" "MGH125-P7-D08"
-#&gt; [205] "MGH125-P7-D09" "MGH125-P7-D11" "MGH125-P7-D12" "MGH125-P7-E01"
-#&gt; [209] "MGH125-P7-E02" "MGH125-P7-E03" "MGH125-P7-E04" "MGH125-P7-E06"
-#&gt; [213] "MGH125-P7-E07" "MGH125-P7-E08" "MGH125-P7-E09" "MGH125-P7-E10"
-#&gt; [217] "MGH125-P7-F01" "MGH125-P7-F02" "MGH125-P7-F04" "MGH125-P7-F05"
-#&gt; [221] "MGH125-P7-F06" "MGH125-P7-F07" "MGH125-P7-F08" "MGH125-P7-F09"
-#&gt; [225] "MGH125-P7-F10" "MGH125-P7-F11" "MGH125-P7-G01" "MGH125-P7-G02"
-#&gt; [229] "MGH125-P7-G03" "MGH125-P7-G04" "MGH125-P7-G06" "MGH125-P7-G09"
-#&gt; [233] "MGH125-P7-G10" "MGH125-P7-G11" "MGH125-P7-G12" "MGH125-P7-H02"
-#&gt; [237] "MGH125-P7-H03" "MGH125-P7-H05" "MGH125-P7-H06" "MGH125-P7-H10"
-#&gt; [241] "MGH125-P7-H11"
-#&gt; </div><div class='input'><span class='fu'>findClones</span>(<span class='no'>cna</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>'arm'</span>)</div><div class='output co'>#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; number of iterations= 121 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 343 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 151 </div><div class='output co'>#&gt; <span class='message'>Less than 80% of obs. could be assigned to a mode.</span></div><div class='output co'>#&gt; number of iterations= 3 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 164 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 144 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 31 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 315 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 320 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 413 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 697 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 382 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 18 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 15 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 249 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 6624 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 5698 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 107 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 396 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 146 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 293 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; One of the variances is going to zero;  trying new starting values.
-#&gt; number of iterations= 131 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 2823 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 82 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 264 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 631 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 193 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 437 </div><div class='output co'>#&gt; <span class='message'>Less than 80% of obs. could be assigned to a mode.</span></div><div class='output co'>#&gt; number of iterations= 515 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 2200 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 701 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 53 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; WARNING! NOT CONVERGENT! 
-#&gt; number of iterations= 10000 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 666 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 529 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 693 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; WARNING! NOT CONVERGENT! 
-#&gt; number of iterations= 10000 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 383 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1625 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1186 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 1560 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 180 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 200 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; number of iterations= 472 </div><div class='output co'>#&gt; <span class='message'>At least one mode contains &lt; 10 obs.</span></div><div class='output co'>#&gt; <span class='error'>Error in split.default(names(modes), modes): first argument must be a vector</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>cna</span> <span class='kw'>=</span> <span class='fu'><a href='infercna.html'>infercna</a></span>(<span class='fu'><a href='useData.html'>useData</a></span>(), <span class='kw'>dipcells</span> <span class='kw'>=</span> <span class='no'>dipcells</span>)</div><div class='output co'>#&gt; <span class='error'>Error in infercna(useData(), dipcells = dipcells): unused argument (dipcells = dipcells)</span></div><div class='input'><span class='co'># malignant cells only</span>
+<span class='no'>cna</span> <span class='kw'>=</span> <span class='no'>cna</span>[, !<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>cna</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>dipcells</span>)]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'cna' not found</span></div><div class='input'><span class='fu'>findClones</span>(<span class='no'>cna</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>'chr'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in splitGenes(m, by = by): object 'cna' not found</span></div><div class='input'><span class='fu'>findClones</span>(<span class='no'>cna</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>'arm'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in splitGenes(m, by = by): object 'cna' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
       <li><a href="#examples">Examples</a></li>
     </ul>
 

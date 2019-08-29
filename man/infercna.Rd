@@ -4,12 +4,13 @@
 \alias{infercna}
 \title{Infer Copy-Number Alterations From Single-Cell RNA-Seq Data}
 \usage{
-infercna(m, dipcells = NULL, window = 100, range = c(-3, 3))
+infercna(m, reference = NULL, window = 100, range = c(-3, 3),
+  n = NULL, noise = 0.1)
 }
 \arguments{
 \item{m}{a matrix of genes X cells RNA-seq expression data. The matrix should be row-centered.}
 
-\item{dipcells}{a list of two or more character vectors, each containg cell IDs of normal cell types (one cell type per list element). Since these cell types are presumed diploid cells, their CNA values can be used to correct the remaining CNA values. Note that all cell IDs should correspond to column names in <m>. See infercna::dipcells (diploid cells) for an example. Default: NULL}
+\item{reference}{a list of two or more character vectors, each containg cell IDs of normal cell types (one cell type per list element). Since these cell types are presumed refloid cells, their CNA values can be used to correct the remaining CNA values. Note that all cell IDs should correspond to column names in <m>. See infercna::reference (refloid cells) for an example. Default: NULL}
 
 \item{window}{the size of the window to use for the rolling mean. Units are in number of genes. Default: 100}
 
@@ -22,9 +23,9 @@ a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 g
 Infer Copy-Number Alterations From Single-Cell RNA-Seq Data
 }
 \details{
-Correction with diploid cells' <dipcells> CNAs: the boundaries of dipcells CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.
+Correction with reference cells' <reference> CNAs: the boundaries of reference CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.
 }
 \examples{
  m = infercna::useData()
- cna = infercna::infercna(m = m, dipcells = infercna::dipcells)
+ cna = infercna::infercna(m = m, reference = infercna::reference)
 }

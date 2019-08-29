@@ -44,10 +44,7 @@ infercna = function(m,
     m = clip(m, range = range)
     m = TPM(m) 
     ms = splitGenes(m, by = 'chr')
-    minChr = min(sapply(ms, nrow))
-    if (minChr < window) window = minChr
-    browser()
-    cna = Reduce(rbind.data.frame,
+    cna = Reduce(rbind,
                  sapply(ms,
                         runMean,
                         k = window,

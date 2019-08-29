@@ -33,18 +33,23 @@ infercna = function(m,
                     window = 100,
                     range = c(-3, 3),
                     n = 5000,
-                    noise = 0.2) {
+                    noise = 0.2,
+                    isLog = FALSE) {
 
     # note: m should be row(gene)-centered
-    if (!is.null(n)) {
-        m = .HQgenes(m, n = n)
-    }
-    cna = orderGenes(m)
-    cna = clip(cna, range = range)
+    if (!isLog) m = logTPM(m)
+    if (!is.null(n)) m = .HQgenes(m, n = n)
+    m = rowCenter(m)
+    m = orderGenes(m)
+    m = clip(cna, range = range)
+    cna = TPM(cna) 
     cna = runMean(cna, k = window)
+    cna = logTPM(cna)
+    # MEDIAN Option in colCenter (set as default here)
     cna = colCenter(cna)
+
     if (!is.null(reference)) {
-        Args = c(list(cna = cna, noise = noise), reference)
+        Args = c(list(cna = cna, noise = noise, isLog = TRUE), reference)
         cna = do.call(refCorrect, Args)}
     cna
 }

@@ -1,8 +1,10 @@
 
-.refrange = function(cna, ...) {
+.refrange = function(cna, isLog = FALSE, ...) {
     dots = list(...)
+    if (isLog) cna = TPM(cna)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
-    list(Min = do.call(pmin, v), Max = do.call(pmax, v))
+    res = list(Min = do.call(pmin, v), Max = do.call(pmax, v))
+    sapply(res, logTPM, dividebyten = F, simplify = F)
 }
 
 .refcenter = function(v, Min, Max, noise = NULL) {
@@ -10,8 +12,8 @@
         Min = Min - noise
         Max = Max + noise
     }
-    above = v > Min & v > Max
-    below = v < Min & v < Max
+    above = v > Max
+    below = v < Min
     normal = !above & !below
     v[above] <- v[above] - Max
     v[below] <- v[below] - Min
@@ -26,10 +28,10 @@
 #' @param ... normal cell column IDs. Expects at least two character vectors. 
 #' @rdname refCorrect
 #' @export 
-refCorrect = function(cna, noise = NULL, ...) {
+refCorrect = function(cna, noise = NULL, isLog = FALSE, ...) {
     dots = list(...)
     genes = rownames(cna)
-    Args = c(list(cna = cna), dots)
+    Args = c(list(cna = cna, isLog = isLog), dots)
     rg = do.call(.refrange, Args)
     n = nrow(cna)
     cna = t(sapply(1:n, function(i) {

@@ -43,7 +43,15 @@ infercna = function(m,
     m = orderGenes(m)
     m = clip(m, range = range)
     m = TPM(m) 
-    cna = runMean(m, k = window)
+    ms = splitGenes(m, by = 'chr')
+    minChr = min(sapply(ms, nrow))
+    if (minChr < window) window = minChr
+    browser()
+    cna = Reduce(rbind.data.frame,
+                 sapply(ms,
+                        runMean,
+                        k = window,
+                        simplify = F))
     cna = logTPM(cna, dividebyten = T)
     # MEDIAN Option in colCenter (set as default here)
     cna = colCenter(cna)

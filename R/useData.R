@@ -4,7 +4,8 @@
 #' @return centered expression matrix of genes X cells 
 #' @rdname useData
 #' @export 
-useData = function() {
+useData = function(rowcenter = T) {
     m = as.matrix(mgh125)
+    if (!rowcenter) return(m)
     rowCenter(m)
 }

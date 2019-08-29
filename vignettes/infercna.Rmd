@@ -42,7 +42,6 @@ To explore the basic functionality of infercna, we'll use `infercna::bt771`. Thi
 library(infercna)
 dim(bt771)
 bt771
-flights = nycflights13::flights
 ```
 
 Note that `infercna::bt771` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
@@ -66,7 +65,7 @@ infercna aims to provide a function for all of the CNA-related queries one may h
 For example, we can select all flights on January 1st with:
 
 ```{r}
-filter(flights, month == 1, day == 1)
+dplyr::filter(flights, month == 1, day == 1)
 ```
 
 This is rougly equivalent to this base R code:

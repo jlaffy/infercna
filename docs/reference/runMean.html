@@ -87,6 +87,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/useGenome.html">Set your Genome</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -117,7 +129,8 @@
     <p>Apply a rolling window mean to a matrix or vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>runMean</span>(<span class='no'>m</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>endrule</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>align</span> <span class='kw'>=</span> <span class='st'>"center"</span>)</pre>
+    <pre class="usage"><span class='fu'>runMean</span>(<span class='no'>m</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>endrule</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>align</span> <span class='kw'>=</span> <span class='st'>"center"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,6 +150,10 @@
     <tr>
       <th>align</th>
       <td><p>specifies whether result should be centered (default), left-aligned or right-aligned. See caTools::runmean for more details. Default: 'center'</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>print progress messages. Default: TRUE</p></td>
     </tr>
     </table>
 

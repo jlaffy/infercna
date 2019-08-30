@@ -87,6 +87,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/useGenome.html">Set your Genome</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -117,7 +129,7 @@
     <p>Center a matrix row-wise</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rowCenter</span>(<span class='no'>m</span>)</pre>
+    <pre class="usage"><span class='fu'>rowCenter</span>(<span class='no'>m</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>centerBy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -126,11 +138,19 @@
       <th>m</th>
       <td><p>a matrix</p></td>
     </tr>
+    <tr>
+      <th>method</th>
+      <td><p>a character string. one of "mean" or "median" definining how to do the centering. Default: "mean"</p></td>
+    </tr>
+    <tr>
+      <th>centerBy</th>
+      <td><p>a numeric vector of length equal to nrow(m) of values to be subtracted from each row.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a matrix with rowMeans == 0</p>
+    <p>a matrix centered by rows such that the statistic defined in method is equal to 0 for each column.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

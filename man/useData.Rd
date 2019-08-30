@@ -4,7 +4,7 @@
 \alias{useData}
 \title{Load Example Data}
 \usage{
-useData(rowcenter = T)
+useData(x = NULL, rowcenter = F)
 }
 \value{
 centered expression matrix of genes X cells

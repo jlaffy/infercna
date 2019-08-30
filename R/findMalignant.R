@@ -9,17 +9,52 @@
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @rdname isMalignant
+#' @rdname findMalignant
 #' @export 
-isMalignant = function(cna, samples = NULL, threshold = .9, sep = "-|_") {
-    hotspotGenes = cnaHotspotGenes(cna, threshold = threshold)
-    cna = cna[hotspotGenes, ]
-    ratios = cnaCor(cna, samples = samples)/cnaSignal(cna)
-    stopifnot(isTRUE(fitBimodal(ratios, boolean = T)))
-    modes = fitBimodal(ratios, assign = T)
-    modeRatioMean = sapply(modes, function(mo) mean(ratios[mo]))
-    i_nonmal = which(modeRatioMean == min(modeRatioMean))
-    nonmal = modes[i_nonmal]
-    mal = modes[-1 * i_nonmal]
-    stats::setNames(list(nonmal, mal), c("nonMalignant", "malignant"))
+findMalignant = function(cna,
+                         threshold = NULL,
+                         cor.threshold = threshold,
+                         signal.threshold = .9,
+                         bySample = FALSE,
+                         samples = NULL,
+                         sep = "-|_",
+                         ...) {
+
+    ratios = .cnaStatistic(cna,
+                           cor.threshold = cor.threshold,
+                           signal.threshold = signal.threshold,
+                           samples = samples,
+                           sep = sep)
+
+    isBimodal = fitBimodal(ratios,
+                           boolean = T,
+                           verbose = F,
+                           ...)
+
+    if (!isBimodal) {
+        stop('Two modes not found.')
+    }
+
+    modes = fitBimodal(ratios,
+                       assign = T,
+                       verbose = F,
+                       ...)
+
+    modeMeans = sapply(modes, function(mo) mean(ratios[mo]))
+    i_nonmal = which(modeMeans == min(modeMeans))
+    nonmal = modes[[i_nonmal]]
+    mal = modes[[-1 * i_nonmal]]
+    modes = stats::setNames(list(nonmal, mal), c("nonmalignant", "malignant"))
+
+    if (bySample) {
+    }
+
+    modes
+}
+
+.findMalignantBySample = function(cna, modes, samples, sep) {
+    groups = splitCellsBySample(modes$malignant, samples = samples, sep = sep)
+    cnaBySample = sapply(groups, function(gr) cna[, c(modes$nonmalignant, gr)], simplify = F)
+    sapply(cnaBySample, findMalignant, cor.threshold = cor.threshold, signal.threshold = signal.threshold)
+
 }

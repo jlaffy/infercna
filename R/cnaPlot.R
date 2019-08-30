@@ -75,6 +75,61 @@
 }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param cna PARAM_DESCRIPTION
+#' @param limits PARAM_DESCRIPTION, Default: c(-1, 1)
+#' @param ratio PARAM_DESCRIPTION, Default: 0.7
+#' @param cols PARAM_DESCRIPTION, Default: heatCols
+#' @param orderCells PARAM_DESCRIPTION, Default: F
+#' @param x.name PARAM_DESCRIPTION, Default: 'Chromosome'
+#' @param y.name PARAM_DESCRIPTION, Default: 'Cell'
+#' @param angle PARAM_DESCRIPTION, Default: NULL
+#' @param x.angle PARAM_DESCRIPTION, Default: NULL
+#' @param y.angle PARAM_DESCRIPTION, Default: 0
+#' @param axis.rel PARAM_DESCRIPTION, Default: 1
+#' @param base.size PARAM_DESCRIPTION, Default: 12
+#' @param axis.title.size PARAM_DESCRIPTION, Default: 12
+#' @param axis.text.size PARAM_DESCRIPTION, Default: 11
+#' @param base.col PARAM_DESCRIPTION, Default: '#073642'
+#' @param title PARAM_DESCRIPTION, Default: NULL
+#' @param subtitle PARAM_DESCRIPTION, Default: NULL
+#' @param caption PARAM_DESCRIPTION, Default: NULL
+#' @param text.size PARAM_DESCRIPTION, Default: 12
+#' @param x.hide PARAM_DESCRIPTION, Default: c("13", "18", "21", "Y")
+#' @param y.hide PARAM_DESCRIPTION, Default: NULL
+#' @param tile.size PARAM_DESCRIPTION, Default: 0.1
+#' @param tile.col PARAM_DESCRIPTION, Default: NULL
+#' @param legend.position PARAM_DESCRIPTION, Default: 'right'
+#' @param legend.height PARAM_DESCRIPTION, Default: 2
+#' @param legend.width PARAM_DESCRIPTION, Default: 0.6
+#' @param legend.rel PARAM_DESCRIPTION, Default: 0.9
+#' @param legend.colour PARAM_DESCRIPTION, Default: 'black'
+#' @param legend.breaks PARAM_DESCRIPTION, Default: NULL
+#' @param legend.labels PARAM_DESCRIPTION, Default: NULL
+#' @param legend.title PARAM_DESCRIPTION, Default: 'Inferred CNA
+[log2 ratio]'
+#' @param legend.justification PARAM_DESCRIPTION, Default: 'top'
+#' @param legend.title.position PARAM_DESCRIPTION, Default: 'bottom'
+#' @param legend.title.angle PARAM_DESCRIPTION, Default: NULL
+#' @param legend.title.rel PARAM_DESCRIPTION, Default: 0.9
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[scrabble]{clusta}}
+#'  \code{\link[reshape2]{melt}}
+#'  \code{\link[ggpubr]{rotate_axis_text}}
+#' @rdname cnaPlot
+#' @export 
+#' @importFrom scrabble clusta
+#' @importFrom reshape2 melt
+#' @importFrom ggpubr rotate_x_text rotate_y_text
 cnaPlot = function(cna,
                    limits = c(-1, 1),
                    ratio = 0.7,

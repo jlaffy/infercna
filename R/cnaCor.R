@@ -1,8 +1,8 @@
 
-.cnaCor = function(cna, cor.method = 'pearson') {
+.cnaCor = function(cna, cor.method = 'pearson', threshold = NULL) {
     cna = as.matrix(cna)
     genemeans = rowMeans(cna)
-    cellcors = stats::cor(genemeans, cna, method = cor.method)
+    cellcors = suppressWarnings(stats::cor(genemeans, cna, method = cor.method))
     unlist(as.data.frame(cellcors))
 }
 
@@ -10,36 +10,41 @@
 #' @description Compute the pairwise correlations between individual cells' CNA values and the average CNA values in their tumour of origin. 
 #' @param cna a matrix of gene rows by cell columns containing CNA values.
 #' @param cor.method character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'
-#' @param samples a list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE
+#' @param samples a character vector of sample names list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE
 #' @return a numeric vector or list of numeric vectors
 #' @rdname cnaCor
 #' @export 
 cnaCor = function(cna,
                   cor.method = 'pearson',
                   threshold = NULL,
-                  samples = FALSE,
+                  bySample = F,
+                  samples = NULL,
                   sep = "-|_") {
+
+    if (!is.null(samples)) {
+        bySample = TRUE
+    }
 
     if (!is.null(threshold)) {
         cna = cna[cnaHotspotGenes(cna, threshold = threshold), ]
     }
 
-    if (isFALSE(samples)) {
+    if (!bySample) {
         return(.cnaCor(cna, cor.method = cor.method))
     }
 
-    if (isTRUE(samples)) {
-        samples = .splitSamples(colnames(cna), sep = sep)
-    }
+    cnaBySample = splitCellsBySample(x = cna,
+                                     sep = sep,
+                                     samples = samples)
 
-    stopifnot(!is.null(samples))
+    corBySample = sapply(cnaBySample,
+                         .cnaCor,
+                         cor.method = cor.method,
+                         simplify = F)
 
-    Call = quote(.cnaCor(cna[, Sample], cor.method = cor.method))
-    
-    # calculate the correlation of each cell to its tumour
-    # and column-bind the resulting tumour-specific dataframes
-
-    Reduce(cbind.data.frame,
-           sapply(samples, function(Sample) eval(Call), simplify = F))
+    corNames = unlist(sapply(corBySample, names))
+    cors = stats::setNames(unlist(corBySample), corNames)[colnames(cna)]
+    cors[is.na(cors)] = 0
+    cors
 }
 

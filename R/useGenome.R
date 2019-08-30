@@ -33,7 +33,7 @@ retrieveGenome = function(name = NULL) {
     if (is.null(name)) name = Genv$name
     data = .fetchGenome(name)
     message('Retrieving: ', name)
-    tibble::as_tibble(Genv$data)
+    tibble::as_tibble(data)
 }
 
 #' @title Add your own Genome

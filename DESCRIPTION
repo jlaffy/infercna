@@ -21,7 +21,7 @@ Imports:
     testthat,
     magrittr,
     mixtools,
-    utils,
+    utils
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

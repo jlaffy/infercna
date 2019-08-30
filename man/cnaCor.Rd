@@ -4,8 +4,8 @@
 \alias{cnaCor}
 \title{Cell - Tumour CNA Correlations}
 \usage{
-cnaCor(cna, cor.method = "pearson", threshold = NULL,
-  samples = FALSE, sep = "-|_")
+cnaCor(cna, cor.method = "pearson", threshold = NULL, samples = NULL,
+  sep = "-|_")
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}

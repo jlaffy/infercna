@@ -87,6 +87,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/useGenome.html">Set your Genome</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -117,7 +129,7 @@
     <p>If the identities of normal cells are known, the expected CNA values of these cells should be 0. Thus, CNA values within the range of normal cell CNA values are corrected to 0; CNA values below the range have the minimum substracted; CNA values above the range have the maximum subtracted.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>refCorrect</span>(<span class='no'>cna</span>, <span class='kw'>noise</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>refCorrect</span>(<span class='no'>cna</span>, <span class='kw'>noise</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>isLog</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

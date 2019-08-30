@@ -4,13 +4,12 @@
 #' @return a numeric vector of CNA signal values or the Mean of Absolute CNA values
 #' @rdname cnaSignal
 #' @export 
-cnaSignal = function(cna, threshold = .9) {
+cnaSignal = function(cna, threshold = NULL) {
     cna = as.matrix(cna)
-    sqmat = 2^cna
-    if (!is.null(threshold) & is.numeric(threshold)) {
-        msq = rowMeans(sqmat)
-        top = names(msq)[msq >= quantile(msq, threshold)]
-        sqmat = sqmat[top, ]
+    if (!is.null(threshold)) {
+        hotspotGenes = cnaHotspotGenes(cna, threshold = threshold)
+        cna = cna[hotspotGenes, ]
     }
+    sqmat = cna^2
     colMeans(sqmat)
 }

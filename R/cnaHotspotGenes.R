@@ -15,6 +15,6 @@
 #' @export 
 cnaHotspotGenes = function(cna, threshold) {
     stopifnot(is.numeric(threshold))
-    msq = rowMeans(2^cna)
-    names(msq)[msq >= quantile(msq, threshold)]
+    msq = rowMeans(cna^2)
+    names(msq)[msq >= stats::quantile(msq, threshold)]
 }

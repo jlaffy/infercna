@@ -1,16 +1,15 @@
 
-.HQgenes = function(m, n) {
-    if (n >= 0 & n <= 1) {
-        n = n * nrow(m)
+.mostExpressedGenes = function(m, ngenes) {
+    if (ngenes >= 0 & ngenes <= 1) {
+        ngenes = ngenes * nrow(m)
     }
 
-    if (nrow(m) < n) {
-        n = nrow(m)
+    if (nrow(m) < ngenes) {
+        ngenes = nrow(m)
     }
 
     rom = rowMeans(m)
-    hq = names(sort(rowMeans(m), decreasing = T)[1:n])
-    m[rownames(m) %in% hq, ]
+    names(sort(rowMeans(m), decreasing = T)[1:ngenes])
 }
 
 #' @title Infer Copy-Number Alterations From Single-Cell RNA-Seq Data
@@ -34,24 +33,23 @@ infercna = function(m,
                     range = c(-3, 3),
                     n = 5000,
                     noise = 0.2,
-                    isLog = FALSE) {
+                    center.method = 'median',
+                    isLog = FALSE,
+                    verbose = TRUE) {
 
     # note: m should be row(gene)-centered
     if (!isLog) m = logTPM(m)
-    if (!is.null(n)) m = .HQgenes(m, n = n)
+    if (!is.null(n)) m = m[.mostExpressedGenes(m, ngenes = n), ]
     m = rowCenter(m)
     m = orderGenes(m)
     m = clip(m, range = range)
     m = TPM(m) 
     ms = splitGenes(m, by = 'chr')
-    cna = Reduce(rbind,
-                 sapply(ms,
-                        runMean,
-                        k = window,
-                        simplify = F))
+    cna = sapply(ms, function(m) try(runMean(m, k = window, verbose = verbose)), simplify = F)
+    cna = cna[!sapply(cna, class) == 'try-error']
+    cna = Reduce(rbind, cna)
     cna = logTPM(cna, dividebyten = T)
-    # MEDIAN Option in colCenter (set as default here)
-    cna = colCenter(cna)
+    cna = colCenter(cna, method = center.method) # note: using median centering here
     if (!is.null(reference)) {
         Args = c(list(cna = cna, noise = noise, isLog = TRUE), reference)
         cna = do.call(refCorrect, Args)}

@@ -11,7 +11,7 @@ colCenter = function(m, method = 'mean', centerBy = NULL) {
         stopifnot(length(centerBy) == ncol(m))
         center = centerBy
     }
-    else if (method == 'median') center = apply(m, 2, median)
+    else if (method == 'median') center = apply(m, 2, stats::median)
     else if (method == 'mean') center = T
     else stop('method not recognised')
     scale(m, center = center, scale = F)
@@ -31,7 +31,7 @@ rowCenter = function(m, method = 'mean', centerBy = NULL) {
         stopifnot(length(centerBy) == nrow(m))
         center = centerBy
     }
-    else if (method == 'median') center = apply(m, 1, median)
+    else if (method == 'median') center = apply(m, 1, stats::median)
     else if (method == 'mean') center = T
     else stop('method not recognised')
     t(scale(t(m), center = T, scale = F))
@@ -56,6 +56,7 @@ clip <- function(m, range = c(-3, 3)) {
 #' @param k width of rolling window. Default: 100
 #' @param endrule character string indicating how the values at the beginning and the end of the data should be treated. One of "mean", "trim", "keep", "constant". See caTools::runmean for more details. Default: 'mean'
 #' @param align specifies whether result should be centered (default), left-aligned or right-aligned. See caTools::runmean for more details. Default: 'center'
+#' @param verbose print progress messages. Default: TRUE
 #' @return a numeric vector or matrix of the same size as <m>. Only in case of endrule=trim, the output vectors will be shorter and output matrices will have fewer rows. 
 #' @seealso 
 #'  \code{\link[caTools]{runmean}}
@@ -65,14 +66,15 @@ clip <- function(m, range = c(-3, 3)) {
 runMean <- function(m,
                     k = 100,
                     endrule = 'mean',
-                    align = 'center') {
+                    align = 'center',
+                    verbose = T) {
 
     if (!is.null(dim(m))) {
         m = as.matrix(m)
     }
     if (nrow(m) < k) {
         k = nrow(m)
-        message('Setting <k> to nrow(m): ', k)
+        if (verbose) message('Setting <k> to nrow(m): ', k)
     }
     mout = caTools::runmean(m,
                             k = k,

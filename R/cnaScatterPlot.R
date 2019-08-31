@@ -1,5 +1,32 @@
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param cna a matrix of gene rows by cell columns containing CNA values.
+#' @param cor.method character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'
+#' @param samples a character vector of sample names list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE
+#' @param threshold PARAM_DESCRIPTION, Default: NULL
+#' @param cor.threshold PARAM_DESCRIPTION, Default: threshold
+#' @param signal.threshold PARAM_DESCRIPTION, Default: 0.9
+#' @param group PARAM_DESCRIPTION, Default: NULL
+#' @param group.col PARAM_DESCRIPTION, Default: 'magenta'
+#' @param hline PARAM_DESCRIPTION, Default: NULL
+#' @param vline PARAM_DESCRIPTION, Default: NULL
+#' @param bySample PARAM_DESCRIPTION, Default: FALSE
+#' @param samples PARAM_DESCRIPTION, Default: NULL
+#' @param sep if bySample is TRUE and samples are NULL, split cell IDs by <sep> and take the first substring to be the sample name. Default: '-|_'
+#' @param excludeFromAvg a character vector of cell IDs to exclude from the average tumour profile. Default: NULL
+#' @return a base R plot
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname cnaScatterPlot
+#' @export 
 cnaScatterPlot = function(cna,
+                          cor.method = 'pearson',
                           threshold = NULL,
                           cor.threshold = threshold,
                           signal.threshold = .9,

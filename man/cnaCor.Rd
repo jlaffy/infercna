@@ -13,6 +13,8 @@ cnaCor(cna, cor.method = "pearson", threshold = NULL, bySample = F,
 \item{cor.method}{character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'}
 
 \item{samples}{a character vector of sample names list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE}
+
+\item{sep}{if bySample is TRUE and samples are NULL, split cell IDs by <sep> and take the first substring to be the sample name. Default: '-|_'}
 }
 \value{
 a numeric vector or list of numeric vectors

@@ -2,28 +2,18 @@
 % Please edit documentation in R/cnaHotspotGenes.R
 \name{cnaHotspotGenes}
 \alias{cnaHotspotGenes}
-\title{FUNCTION_TITLE}
+\title{Find the Genes with the highest CNA signal}
 \usage{
 cnaHotspotGenes(cna, threshold)
 }
 \arguments{
-\item{cna}{PARAM_DESCRIPTION}
+\item{cna}{a matrix of gene rows by cell columns containing CNA values}
 
 \item{threshold}{PARAM_DESCRIPTION}
 }
 \value{
-OUTPUT_DESCRIPTION
+gene names in the top nth quantile, where n is specified via <threshold>
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Find Genes in the top nth quantile for CNA Signal values
 }

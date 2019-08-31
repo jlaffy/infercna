@@ -11,12 +11,8 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 knitr::opts_knit$set(warning = FALSE, error = TRUE)
-set.seed(1014)
-```
-```
-
-``` {r}
 library(infercna)
+set.seed(1014)
 ```
 
 ### Set your genome with `useGenome()`

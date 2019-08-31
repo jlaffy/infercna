@@ -91,7 +91,7 @@ Using `infercna::addGenome`, it is possible to configure infercna to use the gen
         
     2. `chromosome_name` : chromosome name
         + must be a *factor* column with chromosomes correctly ordered.
-        + e.g. `levels(data$arm) == c(1:22, "X", "Y")`
+        + e.g. `levels(data$chromosome_name) == c(1:22, "X", "Y")`
         
     3. `arm` : chromosome arm name
         + must be a *factor* column with chromosome arms correctly ordered.
@@ -114,6 +114,14 @@ Data = data.frame(symbol = letters,
 
 tibble::as_tibble(Data)
 ```
+
+The default columns are those that are required for one or more of the following:
+
+1. Order the genes by their genomic position: `chromosome_name`, `start_position`
+        + Note that the input ordering of `symbol` column does not matter.
+    
+2. Split the genes by their chromosomal position: `chromosome_name`, `arm`
+        + Note that you can additionally split genes by additional columns that you might add, such as `band`.
 
 ```{r }
 addGenome(genome = Data, name = 'dummyAlphabetGenome')

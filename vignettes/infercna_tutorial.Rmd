@@ -15,6 +15,7 @@ library(infercna)
 set.seed(1014)
 ```
 
+## Prepare your data
 ### Set your genome with `useGenome()`
 ``` {r}
 useGenome('hg19')
@@ -29,31 +30,172 @@ range(m)
 lengths(refCells)
 ```
 
-### Infer CNAs with `infercna()`
+## Infer CNAs and plot a heatmap
+### Infer cells' CNA profiles with `infercna()`
 ``` {r}
 args(infercna)
 cna = infercna(m = m, refCells = refCells, n = 5000, noise = 0.1, isLog = TRUE, verbose = FALSE)
 cnaM = cna[, !colnames(cna) %in% unlist(refCells)]
 ```
 
-### Plot CNA Heatmap with `cnaPlot()`
+### Plot heatmap with `cnaPlot()`
 ``` {r}
 args(cnaPlot)
 obj = cnaPlot(cna = cnaM,
               orderCells = TRUE,
               subtitle = 'Copy-Number Aberrations in a patient with Glioblastoma')
 names(obj)
+
 obj$data
+
 obj$p
 ```
 
+### Ordering cells in `cnaPlot()`
+In cases where you can see the subclones in the heatmap but don't yet have the subclone assignments to direct the cell clustering, you can instead give a set of chromosome and chromosome arms that you would like the clustering to use. In the example above, we probably want the cells belonging to the presumed subclones (chromosome 2, chromosome arm 4p, etc) to be grouped together. We can specify this using the `order.with` argument in `infercna::cnaPlot`:
 
-### Order Cells without Genetic Subclone Groupings?
 ```{r}
 obj = cnaPlot(cna = cnaM,
               orderCells = TRUE,
               order.with = c(2, "4p", 7, 10, 12, 13, 15),
               subtitle = 'Copy-Number Aberrations in a patient with Glioblastoma')
+
 obj$p
 ```
+
+## Find malignant cells
+In the above section, we filtered out the `infercna::refCells` that we know are normal prior to looking at the CNA heatmap. In reality, our reference normal cells will only comprise a subset of all normal cells in the data, and we will need to identify the remaining ones to exclude them from downstream analyses concerning the malignant cells *only*.
+
+infercna defines two parameters, `infercna::cnaCor` and `infercna::cnaSignal` that quantify the *extent* of copy-number aberrations in individual cells and thus help to separate the malignant and non-malignant subsets. 
+
+### Compute `cnaSignal()` and `cnaCor()`
+
+**“CNA signal”** reflects the overall extent of CNAs. It's defined as the mean of the squares of CNA values across the genome and should therefore accentuate genome-wide differences in CNA profiles between malignant and non-malignant cells.
+
+Some note-worthy arguments in the call to `infercna::cnaSignal()`:
+
+* `<threshold>` : see below
+
+**Note:** Here, and generally speaking, we use CNA signal values per *cell*, but they can also be useful per *gene*. In fact, setting the `<threshold>` value above uses per-gene CNA values.
+
+```{r}
+args(cnaSignal)
+```
+
+**“CNA correlation”** refers to the correlation between the CNA profile of each cell and the average CNA profile of all cells. Best results are seen when correlating cells to the **average CNA profile of cells from the corresponding tumour** and, if possible, **excluding from the average those already classified as non-malignant**.
+
+```{r}
+args(cnaCor)
+```
+
+Some note-worthy arguments in the call to `infercna::cnaCor()`:
+
+* `<samples>` : the names of tumours that will be used to split the matrix and correlate cells to their tumour's average profile.
+
+* `<excludeFromAvg>` :  names of the (normal) cells to be excluded from the average profile.
+
+* `<threshold>` : see below
+
+
+#### Calculate using top CNA-Signal genes only, with `cnaHotspotGenes()`
+
+You may have noticed the `<threshold>` argument, both in `infercna::cnaSignal` and in `infercna::cnaCor`. If set to a value **i** between 0 and 1, these functions internally call `infercna::cnaHotspotGenes()`, which does two things:
+
+1. Compute CNA signal values for each *gene*
+
+2. Return genes with values of CNA signal in the top `1 - **i** %`
+
+```{r}
+args(cnaHotspotGenes)
+
+# Number of genes in top 50%
+length(cnaHotspotGenes(cna = cnaM, threshold = .5))
+
+# Number of genes in top 10%
+length(cnaHotspotGenes(cna = cnaM, threshold = .9))
+```
+
+
+### Visualise CNA Signal and Correlation with `cnaScatterPlot()`
+
+Plotting `cnaCor` agaisnt `cnaSignal` for all cells is a good first approximation to the malignant and non-malignant groups. `infercna::cnaScatterPlot` simply integrates these two function calls and their respective parameters into one function, and plots the results.
+
+```{r}
+args(cnaScatterPlot)
+```
+
+Let's quickly go over the arguments:
+
+* threshol
+Below is the result default `cnaCor` and `cnaSignal` parameters, with no specification of:
+
+* `threshold` : to reduce top genes
+* `samples` : 
+```{r}
+```
+layout(t(1:3))
+
+### 
+
+layout(t(1:3))
+cnaScatterPlot(cna = cna, threshold = .9, samples = 'MGH125', group = unlist(refCells), excludeFromAvg = unlist(refCells))
+```
+
+## Find genetic subclones
+
+
+
+
+## Extra functionality
+
+There are many additional functions that are useful when conducting an analysis. We will explore these in future tutorials, but below is a selected list of some. 
+
+### Split, Filter and Order vectors or matrices by Chromosome (Arms)
+
+* `splitGenes()`
+* `orderGenes()`
+* `filterGenes()`
+
+```{r}
+genesByChr = splitGenes(rownames(m), by = 'chr')
+lengths(genesByChr)
+
+datByChr = splitGenes(m, by = 'arm')
+names(datByChr)
+```
+
+```{r}
+filterGenes(m, '4p', 'arm') %>% nrow
+
+filterGenes(m, '4p', 'arm', out = TRUE) %>% nrow
+
+filterGenes(m, 2, 'chr') %>% nrow
+
+filterGenes(m, c(2, '4p'), c('chr', 'arm')) %>% nrow
+```
+
+```{r}
+all(orderGenes(rownames(m)) == rownames(orderGenes(m)))
+```
+
+### Probe genes on specified Chromosomes (Arms) with `genesOn()`
+
+```{r}
+chr7 = genesOn(7, 'chr')
+
+# First 5 genes on chromosome 7:
+head(chr7, 5)
+
+'EGFR' %in% chr7
+```
+
+### Identify high-CNA genes with `cnaHotspotGenes()`
+
+```{r}
+
+```
+
+* `modality()`
+
+
 

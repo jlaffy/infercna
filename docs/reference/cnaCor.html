@@ -95,6 +95,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/infercna_tutorial.html">Tutorial with a single-cell dataset</a>
+    </li>
+    <li>
       <a href="../articles/useGenome.html">Set your Genome</a>
     </li>
   </ul>
@@ -129,8 +132,8 @@
     <p>Compute the pairwise correlations between individual cells' CNA values and the average CNA values in their tumour of origin.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cnaCor</span>(<span class='no'>cna</span>, <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"-|_"</span>)</pre>
+    <pre class="usage"><span class='fu'>cnaCor</span>(<span class='no'>cna</span>, <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bySample</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"-|_"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,7 +148,7 @@
     </tr>
     <tr>
       <th>samples</th>
-      <td><p>a list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE</p></td>
+      <td><p>a character vector of sample names list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE</p></td>
     </tr>
     </table>
 

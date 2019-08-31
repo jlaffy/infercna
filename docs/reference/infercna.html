@@ -95,6 +95,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/infercna_tutorial.html">Tutorial with a single-cell dataset</a>
+    </li>
+    <li>
       <a href="../articles/useGenome.html">Set your Genome</a>
     </li>
   </ul>
@@ -129,8 +132,8 @@
     <p>Infer Copy-Number Alterations From Single-Cell RNA-Seq Data</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infercna</span>(<span class='no'>m</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>3</span>, <span class='fl'>3</span>),
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>noise</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>center.method</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>isLog</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>infercna</span>(<span class='no'>m</span>, <span class='kw'>refCells</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>3</span>, <span class='fl'>3</span>),
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>noise</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>center.method</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>isLog</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -138,11 +141,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>m</th>
-      <td><p>a matrix of genes X cells RNA-seq expression data. The matrix should be row-centered.</p></td>
+      <td><p>a matrix of genes X cells containing scRNA-seq expression data. The matrix should NOT be row-centered.</p></td>
     </tr>
     <tr>
-      <th>reference</th>
-      <td><p>a list of two or more character vectors, each containg cell IDs of normal cell types (one cell type per list element). Since these cell types are presumed refloid cells, their CNA values can be used to correct the remaining CNA values. Note that all cell IDs should correspond to column names in &lt;m&gt;. See infercna::reference (refloid cells) for an example. Default: NULL</p></td>
+      <th>refCells</th>
+      <td><p>a list of two or more character vectors, each containg cell IDs of normal cell types (one cell type per list element). Since these cell types are presumed normal cells, their CNA values can be used to correct the remaining CNA values. Note that all cell IDs should correspond to column names in &lt;m&gt;. See infercna::refCells (normal cells) for an example. Default: NULL</p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -154,11 +157,11 @@
     </tr>
     <tr>
       <th>n</th>
-      <td><p>a numeric value indicating if only top genes should be used in the CNA calculation and how many. if n is a fraction between 0 and 1, the number of genes included will n * nrow(m). Else the number of genes included will be n. Default: 5000</p></td>
+      <td><p>a numeric value indicating if only top genes should be used in the CNA calculation and how many. if n is a fraction between 0 and 1, the number of genes included will n * nrow(m). Else the number of genes included will be n. Default: NULL</p></td>
     </tr>
     <tr>
       <th>noise</th>
-      <td><p>a numeric value, which if given, increases the boundaries within which CNA values are considered 0. Increases by &lt;noise&gt; i.e. the bounds become Minimum - noise and Maximum + noise. Default: 0.2</p></td>
+      <td><p>a numeric value, which if given, increases the boundaries within which CNA values are considered 0. Increases by &lt;noise&gt; i.e. the bounds become Minimum - noise and Maximum + noise. Default: 0.1</p></td>
     </tr>
     </table>
 
@@ -167,12 +170,11 @@
     <p>a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 genes will be lost from either extremity of the genome (ie. n genes lost at the start of chromosome 1 and at the end of chromosome Y, if the genome in question is H.sapiens.)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Correction with reference cells' &lt;reference&gt; CNAs: the boundaries of reference CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.</p>
+    <p>Correction with reference cells' &lt;refCells&gt; CNAs: the boundaries of reference CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='no'>m</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/infercna/man/useData.html'>useData</a></span>()
- <span class='no'>cna</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/infercna/man/infercna.html'>infercna</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='no'>m</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/infercna/man/reference.html'>reference</a></span>)</div><div class='output co'>#&gt; <span class='message'>Setting &lt;k&gt; to nrow(m): 77</span></div><div class='output co'>#&gt; <span class='message'>Setting &lt;k&gt; to nrow(m): 63</span></div><div class='output co'>#&gt; <span class='message'>Setting &lt;k&gt; to nrow(m): 47</span></div><div class='output co'>#&gt; <span class='message'>Setting &lt;k&gt; to nrow(m): 0</span></div><div class='output co'>#&gt; Error in `colnames&lt;-`(`*tmp*`, value = c("BT771-P12-A08", "BT771-P12-A12",  : 
-#&gt;   attempt to set 'colnames' on an object with less than two dimensions</div></pre>
+ <span class='no'>cna</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/infercna/man/infercna.html'>infercna</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='no'>m</span>, <span class='kw'>refCells</span> <span class='kw'>=</span> <span class='kw pkg'>infercna</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/infercna/man/refCells.html'>refCells</a></span>)</div><div class='output co'>#&gt; <span class='message'>Setting &lt;k&gt; to nrow(m): 86</span></div><div class='output co'>#&gt; <span class='message'>Setting &lt;k&gt; to nrow(m): 5</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

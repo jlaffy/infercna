@@ -57,6 +57,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/infercna_tutorial.html">Tutorial with a single-cell dataset</a>
+    </li>
+    <li>
       <a href="../articles/useGenome.html">Set your Genome</a>
     </li>
   </ul>
@@ -85,36 +88,184 @@
       <h1>Set your Genome</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/jlaffy/infercna/blob/master/vignettes/vignettes/useGenome.Rmd"><code>vignettes/vignettes/useGenome.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jlaffy/infercna/blob/master/vignettes/useGenome.Rmd"><code>vignettes/useGenome.Rmd</code></a></small>
       <div class="hidden name"><code>useGenome.Rmd</code></div>
 
     </div>
 
     
     
-<div id="use-your-own-genome-data-with-addgenome" class="section level2">
+<div id="default-genomes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#use-your-own-genome-data-with-addgenome" class="anchor"></a>Use your own genome data with <code>addGenome()</code>
-</h2>
-<p>In future implementations of infercna, we plan to have more default genomes for you to choose from. Even in such scenarios however, you may be using a self-built genome that is specifically tailored to your purposes. Thus, using <code><a href="../reference/addGenome.html">infercna::addGenome</a></code>, it is possible to configure infercna to use the genome of your choosing.</p>
-<div id="data-requirements" class="section level3">
+<a href="#default-genomes" class="anchor"></a>Default Genomes</h2>
+<p>Different scRNA-seq datasets are built using different genome references, namely different species and different genome versions. infercna comes with a number of inbuilt genomes that can be configured to work with the package. See below for more information.</p>
+<p><strong>Note:</strong> Additional genomes / genome versions will be added in future releases of infercna.</p>
+<div id="list-available-genomes-with-availablegenomes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#data-requirements" class="anchor"></a>Data requirements</h3>
-<p>Your genome should meet the following requirements: * Be a dataframe * Contain the following columns: 1. <code>symbol</code> gene name (SOX11, BRAF, etc) 2. <code>chromosome_name</code> chromosome name (1, 2, …, X, Y) 3. <code>arm</code> <strong>Note</strong>: if your genome does not have chromosome arms, you should instead duplicate the <code>chromosome_name</code> column. 4. <code>start_position</code> of each gene 5. <code>end_position</code> of each gene * Ensure that columns <code>chromosome_name</code> and <code>arm</code> are factor columns with the correct levels. e.g. <code>levels(data$chromosome_name) == c(1:22, "X", "Y")</code></p>
-<p><code>addGenome</code> will return an error if any of these requirements are not met. Beyond this, you can of course add a dataframe with more than the above five columns. For example, you may want to have a <code>band</code> column as another genome variable to subset your genes by.</p>
+<a href="#list-available-genomes-with-availablegenomes" class="anchor"></a>List available genomes with <code>availableGenomes()</code>
+</h3>
+<p>Find out which genomes are available in infercna.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/availableGenomes.html">availableGenomes</a></span>()</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co">#&gt; Available genomes:</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co">#&gt; hg19</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; hg38</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co">#&gt; mm10</span></a></code></pre></div>
+</div>
+<div id="check-which-genome-is-configured-with-currentgenome" class="section level3">
+<h3 class="hasAnchor">
+<a href="#check-which-genome-is-configured-with-currentgenome" class="anchor"></a>Check which genome is configured with <code>currentGenome()</code>
+</h3>
+<p>Note that the default genome that infercna is built to use is genome <code>hg19</code>. This is the penultimate release version of the H. sapiens genome. You can always check which genome is configured with <code><a href="../reference/currentGenome.html">infercna::currentGenome()</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/currentGenome.html">currentGenome</a></span>()</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Genome: hg19</span></a></code></pre></div>
+</div>
+<div id="configure-a-different-genome-with-usegenome" class="section level3">
+<h3 class="hasAnchor">
+<a href="#configure-a-different-genome-with-usegenome" class="anchor"></a>Configure a different genome with <code>useGenome()</code>
+</h3>
+<p>You can configure infercna to work with one of the inbuilt genomes. Currently built-in genomes are the two latest versions of H. <em>sapiens</em>, <code>hg38</code> and <code>hg19</code> and the latest version of the M. <em>musculus</em>, <code>mm10</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/useGenome.html">useGenome</a></span>(<span class="st">'mm10'</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; Genome has been set to mm10</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw"><a href="../reference/currentGenome.html">currentGenome</a></span>()</a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; Genome: mm10</span></a></code></pre></div>
+</div>
+<div id="fetch-genome-data-with-retrievegenome" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fetch-genome-data-with-retrievegenome" class="anchor"></a>Fetch genome data with <code>retrieveGenome()</code>
+</h3>
+<p>You can also get the genome data (in dataframe form). By default <code>retrieveGenome</code> will return the current genome in use, but you can instead specify a different genome in the function call.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/retrieveGenome.html">retrieveGenome</a></span>()</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; Retrieving: mm10</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; # A tibble: 54,513 x 8</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt;   symbol start_position end_position chromosome_name arm   band  strand</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt; &lt;chr&gt;  &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 1 49334…        3073253      3074322 1               1     A1         1</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 2 Gm262…        3102016      3102125 1               1     A1         1</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 3 Xkr4          3205901      3671498 1               1     A1        -1</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 4 Gm189…        3252757      3253236 1               1     A1         1</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; # … with 54,509 more rows, and 1 more variable: ensembl_gene_id &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb4-11" title="11"></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="kw"><a href="../reference/retrieveGenome.html">retrieveGenome</a></span>(<span class="dt">name =</span> <span class="st">'hg19'</span>)</a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; Retrieving: hg19</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; # A tibble: 33,575 x 8</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt;   symbol start_position end_position chromosome_name arm   band  strand</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;        &lt;dbl&gt; &lt;fct&gt;           &lt;fct&gt; &lt;chr&gt;  &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; 1 DDX11…          11869        14412 1               1p    p36.…      1</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 2 WASH7P          14363        29806 1               1p    p36.…     -1</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; 3 MIR13…          29554        31109 1               1p    p36.…      1</span></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt; 4 FAM13…          34554        36081 1               1p    p36.…     -1</span></a>
+<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; # … with 33,571 more rows, and 1 more variable: ensembl_gene_id &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb4-22" title="22"></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="kw"><a href="../reference/retrieveGenome.html">retrieveGenome</a></span>(<span class="dt">name =</span> <span class="st">'hg38'</span>)</a>
+<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; Retrieving: hg38</span></a>
+<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt; # A tibble: 37,501 x 8</span></a>
+<a class="sourceLine" id="cb4-26" title="26"><span class="co">#&gt;   symbol start_position end_position chromosome_name arm   band  strand</span></a>
+<a class="sourceLine" id="cb4-27" title="27"><span class="co">#&gt;   &lt;chr&gt;           &lt;int&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt; &lt;chr&gt;  &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb4-28" title="28"><span class="co">#&gt; 1 DDX11…          11869        14409 1               1p    p36.…      1</span></a>
+<a class="sourceLine" id="cb4-29" title="29"><span class="co">#&gt; 2 WASH7P          14404        29570 1               1p    p36.…     -1</span></a>
+<a class="sourceLine" id="cb4-30" title="30"><span class="co">#&gt; 3 MIR68…          17369        17436 1               1p    p36.…     -1</span></a>
+<a class="sourceLine" id="cb4-31" title="31"><span class="co">#&gt; 4 MIR13…          29554        31109 1               1p    p36.…      1</span></a>
+<a class="sourceLine" id="cb4-32" title="32"><span class="co">#&gt; # … with 37,497 more rows, and 1 more variable: ensembl_gene_id &lt;chr&gt;</span></a></code></pre></div>
+</div>
+<div id="genome-data-variables" class="section level3">
+<h3 class="hasAnchor">
+<a href="#genome-data-variables" class="anchor"></a>Genome data variables</h3>
+<p>The default genomes available in infercna have the following columns.</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>symbol</code> : gene name</li>
+<li>
+<code>chromosome_name</code> : chromosome name</li>
+<li>
+<code>arm</code> : chromosome arm
+<ul>
+<li>identical to <code>chromosome_name</code> in genome <code>mm10</code>
+</li>
+</ul>
+</li>
+<li>
+<code>start_position</code> : of each gene</li>
+<li>
+<code>end_position</code> : of each gene</li>
+<li>
+<code>band</code> : chromosome band</li>
+<li>
+<code>strand</code> : chromosome strand</li>
+<li><code>ensembl_gene_id</code></li>
+</ol>
+<p><strong>Note:</strong> Only the first four columns amongst these are required if you intend to add your genome (discussed below in more detail).</p>
 </div>
 </div>
-<div id="find-out-which-genome-infercna-is-using-with-currentgenome" class="section level2">
+<div id="user-defined-genomes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#find-out-which-genome-infercna-is-using-with-currentgenome" class="anchor"></a>Find out which genome infercna is using with <code>currentGenome()</code>
-</h2>
-<p>Note that the default genome that infercna is built to use is genome <code>hg19</code>. This is the penultimate release version of the H. sapiens genome. If you forget this though, you can check with <code><a href="../reference/currentGenome.html">infercna::currentGenome()</a></code>. If you have added your genome with <code><a href="../reference/addGenome.html">addGenome(genome, name)</a></code>, you can check that this has configured correctly by ensuring that your name <name> is effectively what is now returned when running <code>currentGenome</code>.</name></p>
+<a href="#user-defined-genomes" class="anchor"></a>User-defined Genomes</h2>
+<div id="add-a-new-genome-with-addgenome" class="section level3">
+<h3 class="hasAnchor">
+<a href="#add-a-new-genome-with-addgenome" class="anchor"></a>Add a new genome with <code>addGenome()</code>
+</h3>
+<p>In some cases you may need to configure infercna with your own genome, either because it is not built-in with infercna, or because it is a genome that you built yourself, tailored to your purposes.</p>
+<p>Using <code><a href="../reference/addGenome.html">infercna::addGenome</a></code>, it is possible to configure infercna to use the genome of your choosing, so long as it meets the following requirements.</p>
+<p><strong>Note:</strong> <code>addGenome</code> will return an error if any of these requirements are not met.</p>
+<ul>
+<li><p>Be a dataframe</p></li>
+<li>
+<p>Contain the following columns</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>symbol</code> : gene name
+<ul>
+<li>e.g. <code>SOX11, BRAF, TP53</code>
+</li>
+</ul>
+</li>
+<li>
+<code>chromosome_name</code> : chromosome name
+<ul>
+<li>must be a <em>factor</em> column with chromosomes correctly ordered.</li>
+<li>e.g. <code>levels(data$arm) == c(1:22, "X", "Y")</code>
+</li>
+</ul>
+</li>
+<li>
+<code>arm</code> : chromosome arm name
+<ul>
+<li>must be a <em>factor</em> column with chromosome arms correctly ordered.</li>
+<li>e.g. <code>levels(data$arm) == c('1p', '1q', ..., 'Yp', 'Yq')</code>
+</li>
+<li>if not applicable because your genome doesn’t have arms (e.g. mouse!), instead set <code>arm</code> as a duplicate of <code>chromosome_name</code>.</li>
+</ul>
+</li>
+<li>
+<code>start_position</code> : of each gene</li>
+</ol>
+</li>
+<li><p>Columns <code>chromosome_name</code> and <code>arm</code> are factor columns (see above)</p></li>
+</ul>
+<p><strong>Note:</strong> You can add a genome with as many additional columns as you like. For example, you may want to have <code>end_position</code> and <code>band</code> columns in addition to those listed above.</p>
+<div id="a-dummy-example" class="section level4">
+<h4 class="hasAnchor">
+<a href="#a-dummy-example" class="anchor"></a>A dummy example</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">Data =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">symbol =</span> letters,</a>
+<a class="sourceLine" id="cb5-2" title="2">                  <span class="dt">chromosome_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(LETTERS),</a>
+<a class="sourceLine" id="cb5-3" title="3">                  <span class="dt">arm =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(LETTERS),</a>
+<a class="sourceLine" id="cb5-4" title="4">                  <span class="dt">start_position =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(letters)<span class="op">*</span><span class="dv">2</span>, <span class="dt">by =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb5-5" title="5">                  <span class="dt">end_position =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">2</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(letters)<span class="op">*</span><span class="dv">2</span>, <span class="dt">by =</span> <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7">tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>(Data)</a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; # A tibble: 26 x 5</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt;   symbol chromosome_name arm   start_position end_position</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;   &lt;fct&gt;  &lt;fct&gt;           &lt;fct&gt;          &lt;dbl&gt;        &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt; 1 a      A               A                  1            2</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt; 2 b      B               B                  3            4</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt; 3 c      C               C                  5            6</span></a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt; 4 d      D               D                  7            8</span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt; # … with 22 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/addGenome.html">addGenome</a></span>(<span class="dt">genome =</span> Data, <span class="dt">name =</span> <span class="st">'dummyAlphabetGenome'</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; Genome has been set to dummyAlphabetGenome</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/currentGenome.html">currentGenome</a></span>()</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; Genome: dummyAlphabetGenome</span></a></code></pre></div>
 </div>
-<div id="see-which-genomes-come-built-in-with-infercna-using-availablegenomes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#see-which-genomes-come-built-in-with-infercna-using-availablegenomes" class="anchor"></a>See which genomes come built-in with infercna using <code>availableGenomes()</code>
-</h2>
-<p>Currently built-in genomes are the two latest versions of H.sapiens, “hg38” and “hg19” and the latest version of the M.musculus, “mm10”.</p>
+</div>
 </div>
   </div>
 
@@ -124,9 +275,8 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#use-your-own-genome-data-with-addgenome">Use your own genome data with <code>addGenome()</code></a></li>
-      <li><a href="#find-out-which-genome-infercna-is-using-with-currentgenome">Find out which genome infercna is using with <code>currentGenome()</code></a></li>
-      <li><a href="#see-which-genomes-come-built-in-with-infercna-using-availablegenomes">See which genomes come built-in with infercna using <code>availableGenomes()</code></a></li>
+<li><a href="#default-genomes">Default Genomes</a></li>
+      <li><a href="#user-defined-genomes">User-defined Genomes</a></li>
       </ul>
 </div>
       </div>

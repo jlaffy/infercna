@@ -72,10 +72,14 @@ runMean <- function(m,
     if (!is.null(dim(m))) {
         m = as.matrix(m)
     }
-    if (is.null(m) || nrow(m) < k) {
+
+    if (is.null(dim(m))) return(FALSE)
+
+    if (nrow(m) < k) {
         k = nrow(m)
         if (verbose) message('Setting <k> to nrow(m): ', k)
     }
+
     mout = caTools::runmean(m,
                             k = k,
                             endrule = endrule,

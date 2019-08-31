@@ -16,26 +16,6 @@ library(ggplot2)
 set.seed(1014)
 ```
 
-When working with data you must:
-
-* Figure out what you want to do.
-
-* Describe those tasks in the form of a computer program.
-
-* Execute the program.
-
-The infercna package makes these steps fast and easy:
-
-* By constraining your options, it helps you think about your data manipulation 
-  challenges.
-
-* It provides simple "verbs", functions that correspond to the most common data 
-  manipulation tasks, to help you translate your thoughts into code.
-
-* It uses efficient backends, so you spend less time waiting for the computer.
-
-This document introduces you to infercna's basic set of tools, and shows you how to apply them to data frames. infercna also supports databases via the dbplyr package, once you've installed, read `vignette("dbplyr")` to learn more.
-
 ## Data: a patient mgh125 with Glioblastoma
 
 To explore the basic functionality of infercna, we'll use `infercna::mgh125`. This dataset contains `r ncol(infercna::mgh125)` cell columns, each of which is described with RNA-sequencing data of `r nrow(infercna::mgh125)` gene variables. The data comes from a large study that we did looking at 28 patients with Glioblastoma (a very aggressive form of brain cancer). You can look at the publication [here](Neftel*, Laffy* et al. 2019, Cell) and the data is easily available via the [Single Cell Portal](https://portals.broadinstitute.org/single_cell/study/SCP393/single-cell-rna-seq-of-adult-and-pediatric-glioblastoma). `mgh125` is one of the 28 patients and this much smaller dataset is documented in `?mgh125`.

@@ -1,5 +1,6 @@
 
 .splitCellsBySample = function(cells, samples = NULL, sep = "-|_") {
+
     if (is.null(samples)) {
         splut = stringr::str_split(cells, sep)
         samples = sapply(splut, `[`, 1)

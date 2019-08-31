@@ -49,7 +49,7 @@ infercna = function(m,
     m = TPM(m) 
     ms = splitGenes(m, by = 'chr')
     cna = sapply(ms, function(m) try(runMean(m, k = window, verbose = verbose)), simplify = F)
-    cna = cna[!sapply(cna, class) == 'try-error']
+    cna = cna[sapply(cna, class) != 'try-error' | !sapply(class, isFALSE)]
     cna = Reduce(rbind, cna)
     cna = logTPM(cna, dividebyten = T)
     cna = colCenter(cna, method = center.method) # note: using median centering here

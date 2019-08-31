@@ -9,13 +9,15 @@ cnaScatterPlot = function(cna,
                           vline = NULL,
                           bySample = FALSE,
                           samples = NULL,
-                          sep = "-|_") {
+                          sep = "-|_",
+                          excludeFromAvg = NULL) {
 
     cors = cnaCor(cna,
                   threshold = cor.threshold,
                   bySample = bySample,
                   samples = samples,
-                  sep = sep)
+                  sep = sep,
+                  excludeFromAvg = excludeFromAvg)
 
     signals = cnaSignal(cna, threshold = signal.threshold)
 

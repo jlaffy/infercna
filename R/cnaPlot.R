@@ -6,7 +6,18 @@
     else stop('Value ', val, ' not found in genome attributes.')
 }
 
+.orderCellsByGroup = function(cna, include = NULL, euclid.dist = F, groups = NULL, ...) {
+    cnas = sapply(groups, function(gr) cna[, gr], simplify = F)
+    dfmat = Reduce(do.call(cbind.data.frame, sapply(cnas, .orderCells, simplify = F)))
+    mat = as.matrix(dfmat)
+    mat
+}
+
 .orderCells = function(cna, include = NULL, euclid.dist = F, ...) {
+#     if (!is.null(groups)) {
+#         return(.orderCellsByGroup(cna, include = include, euclid.dist = euclid.dist, groups = groups, ...))
+#     }
+# 
     cna.orig = cna
 
     if (!is.null(include)) {

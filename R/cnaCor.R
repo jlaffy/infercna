@@ -1,7 +1,11 @@
 
-.cnaCor = function(cna, cor.method = 'pearson', threshold = NULL) {
+.cnaCor = function(cna, cor.method = 'pearson', threshold = NULL, excludeFromAvg = NULL) {
     cna = as.matrix(cna)
-    genemeans = rowMeans(cna)
+    if (!is.null(excludeFromAvg)) {
+        genemeans = rowMeans(cna[, !colnames(cna) %in% unlist(excludeFromAvg)])
+    } else {
+        genemeans = rowMeans(cna)
+    }
     cellcors = suppressWarnings(stats::cor(genemeans, cna, method = cor.method))
     unlist(as.data.frame(cellcors))
 }
@@ -19,7 +23,8 @@ cnaCor = function(cna,
                   threshold = NULL,
                   bySample = F,
                   samples = NULL,
-                  sep = "-|_") {
+                  sep = "-|_",
+                  excludeFromAvg = NULL) {
 
     if (!is.null(samples)) {
         bySample = TRUE
@@ -30,7 +35,7 @@ cnaCor = function(cna,
     }
 
     if (!bySample) {
-        return(.cnaCor(cna, cor.method = cor.method))
+        return(.cnaCor(cna, cor.method = cor.method, excludeFromAvg = excludeFromAvg))
     }
 
     cnaBySample = splitCellsBySample(x = cna,

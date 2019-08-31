@@ -11,7 +11,8 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 knitr::opts_knit$set(warning = FALSE, error = TRUE)
-library(infercna)
+#library(infercna)
+devtools::load_all()
 set.seed(1014)
 ```
 
@@ -70,40 +71,74 @@ infercna defines two parameters, `infercna::cnaCor` and `infercna::cnaSignal` th
 
 ### Compute `cnaSignal()` and `cnaCor()`
 
-**“CNA signal”** reflects the overall extent of CNAs. It's defined as the mean of the squares of CNA values across the genome and should therefore accentuate genome-wide differences in CNA profiles between malignant and non-malignant cells.
+#### `cnaSignal()`
 
-Some note-worthy arguments in the call to `infercna::cnaSignal()`:
-
-* `<threshold>` : see below
-
-**Note:** Here, and generally speaking, we use CNA signal values per *cell*, but they can also be useful per *gene*. In fact, setting the `<threshold>` value above uses per-gene CNA values.
+CNA signal reflects the overall extent of CNAs. It's defined as the mean of the squares of CNA values across the genome and should therefore accentuate genome-wide differences in CNA profiles between malignant and non-malignant cells.
 
 ```{r}
 args(cnaSignal)
 ```
 
-**“CNA correlation”** refers to the correlation between the CNA profile of each cell and the average CNA profile of all cells. Best results are seen when correlating cells to the **average CNA profile of cells from the corresponding tumour** and, if possible, **excluding from the average those already classified as non-malignant**.
+#### `cnaCor()`
+
+CNA corrleation refers to the correlation between the CNA profile of each cell and the average CNA profile of all cells. Best results are seen when correlating cells to the **average CNA profile of cells from the corresponding tumour** and, if possible, **excluding from the average those already classified as non-malignant**.
 
 ```{r}
 args(cnaCor)
 ```
 
-Some note-worthy arguments in the call to `infercna::cnaCor()`:
 
-* `<samples>` : the names of tumours that will be used to split the matrix and correlate cells to their tumour's average profile.
+#### Visualise CNA Signal and Correlation with `cnaScatterPlot()`
 
-* `<excludeFromAvg>` :  names of the (normal) cells to be excluded from the average profile.
+Plotting `cnaCor` against `cnaSignal` for all cells is a good first approximation to the malignant and non-malignant groups. `infercna::cnaScatterPlot` simply integrates these two function calls and their respective parameters into one function, and plots the results.
 
-* `<threshold>` : see below
+```{r}
+args(cnaScatterPlot)
+```
+
+Let's quickly go over the note-worthy arguments:
+
+* `<threshold>` : of which genes to include in calculation; it determines what fraction of genes with top CNA signal to keep.
+    + in `cnaSignal()`
+    + in `cnaCor()`
+
+* `<cor.threshold>` : inherits from `<threshold>`; can be supplied if the threshold intended is specific to `infercna::cnaCor` calculation.
+    + in `cnaCor()`
+    
+* `<signal.threshold>` : inherits from `<threshold>`; can be supplied if the threshold intended is specific to `infercna::cnaSignal` calculation.
+    + in `cnaSignal()`
+
+* `<samples>` : used to determine tumour-specific CNA profiles; can be one of:
+    + names of tumour samples (unique)
+    + vector of tumour samples of length equal to the number of columns and ordered correspondingly.
+
+* `<excludeFromAvg>` :  names of the (normal) cells to be excluded from the average CNA profile(s).
 
 
-#### Calculate using top CNA-Signal genes only, with `cnaHotspotGenes()`
+```{r}
+cnaScatterPlot(cna = cna, signal.threshold = NULL, main = 'Default')
+cnaScatterPlot(cna = cna, signal.threshold = 0.5, main = 'threshold: 0.5')
+cnaScatterPlot(cna = cna, signal.threshold = 0.7, main = 'threshold: 0.7')
+cnaScatterPlot(cna = cna, signal.threshold = 0.9, main = 'threshold: 0.9')
+```
 
-You may have noticed the `<threshold>` argument, both in `infercna::cnaSignal` and in `infercna::cnaCor`. If set to a value **i** between 0 and 1, these functions internally call `infercna::cnaHotspotGenes()`, which does two things:
+```{r}
+cnaScatterPlot(cna = cna, signal.threshold = 0.9, main = 'Default (signal.threshold = 0.9)')
+cnaScatterPlot(cna = cna, threshold = 0.9, main = 'threshold: 0.9')
+cnaScatterPlot(cna = cna, threshold = 0.9, samples = 'MGH125', excludeFromAvg = unlist(refCells), main = "threshold: 0.9, samples:'MGH125', excludeFromAvg")
+cnaScatterPlot(cna = cna, threshold = 0.9, samples = 'MGH125', excludeFromAvg = unlist(refCells), main = "threshold: 0.9, samples:'MGH125', excludeFromAvg", group = unlist(refCells))
 
-1. Compute CNA signal values for each *gene*
+```
 
-2. Return genes with values of CNA signal in the top `1 - **i** %`
+#### `threshold` finds top genes with `cnaHotspotGenes()`
+
+When the `<threshold>` argument is set (to a value between 0 and 1) as above, `infercna::cnaHotspotGenes()` is called, and does two things:
+
+1. Compute CNA signal values for each *gene* ()
+
+2. Return genes with values of CNA signal in the top nth quantile
+    
+    + *where n is the value in threshold*
 
 ```{r}
 args(cnaHotspotGenes)
@@ -116,45 +151,25 @@ length(cnaHotspotGenes(cna = cnaM, threshold = .9))
 ```
 
 
-### Visualise CNA Signal and Correlation with `cnaScatterPlot()`
-
-Plotting `cnaCor` agaisnt `cnaSignal` for all cells is a good first approximation to the malignant and non-malignant groups. `infercna::cnaScatterPlot` simply integrates these two function calls and their respective parameters into one function, and plots the results.
-
-```{r}
-args(cnaScatterPlot)
-```
-
-Let's quickly go over the arguments:
-
-* threshol
-Below is the result default `cnaCor` and `cnaSignal` parameters, with no specification of:
-
-* `threshold` : to reduce top genes
-* `samples` : 
-```{r}
-```
-layout(t(1:3))
-
-### 
-
-layout(t(1:3))
-cnaScatterPlot(cna = cna, threshold = .9, samples = 'MGH125', group = unlist(refCells), excludeFromAvg = unlist(refCells))
-```
-
 ## Find genetic subclones
 
 
 
 
-## Extra functionality
+## Added functionality
 
 There are many additional functions that are useful when conducting an analysis. We will explore these in future tutorials, but below is a selected list of some. 
+
+* `splitGenes()`
+* `filterGenes()`
+* `orderGenes()`
+* `genesOn()`
+* `modality()`
+* `fitBimodal()`
 
 ### Split, Filter and Order vectors or matrices by Chromosome (Arms)
 
 * `splitGenes()`
-* `orderGenes()`
-* `filterGenes()`
 
 ```{r}
 genesByChr = splitGenes(rownames(m), by = 'chr')
@@ -164,6 +179,7 @@ datByChr = splitGenes(m, by = 'arm')
 names(datByChr)
 ```
 
+* `filterGenes()`
 ```{r}
 filterGenes(m, '4p', 'arm') %>% nrow
 
@@ -174,11 +190,14 @@ filterGenes(m, 2, 'chr') %>% nrow
 filterGenes(m, c(2, '4p'), c('chr', 'arm')) %>% nrow
 ```
 
+* `orderGenes()`
+
 ```{r}
+# you can provide a matrix or ch
 all(orderGenes(rownames(m)) == rownames(orderGenes(m)))
 ```
 
-### Probe genes on specified Chromosomes (Arms) with `genesOn()`
+### Find genes with `genesOn()`
 
 ```{r}
 chr7 = genesOn(7, 'chr')
@@ -188,14 +207,5 @@ head(chr7, 5)
 
 'EGFR' %in% chr7
 ```
-
-### Identify high-CNA genes with `cnaHotspotGenes()`
-
-```{r}
-
-```
-
-* `modality()`
-
 
 

@@ -6,7 +6,7 @@
 #' @param samples a character vector of sample names list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE
 #' @param threshold PARAM_DESCRIPTION, Default: NULL
 #' @param cor.threshold PARAM_DESCRIPTION, Default: threshold
-#' @param signal.threshold PARAM_DESCRIPTION, Default: 0.9
+#' @param signal.threshold PARAM_DESCRIPTION, Default: NULL
 #' @param group PARAM_DESCRIPTION, Default: NULL
 #' @param group.col PARAM_DESCRIPTION, Default: 'magenta'
 #' @param hline PARAM_DESCRIPTION, Default: NULL
@@ -15,6 +15,7 @@
 #' @param samples PARAM_DESCRIPTION, Default: NULL
 #' @param sep if bySample is TRUE and samples are NULL, split cell IDs by <sep> and take the first substring to be the sample name. Default: '-|_'
 #' @param excludeFromAvg a character vector of cell IDs to exclude from the average tumour profile. Default: NULL
+#' @param ... other arguments passed to base plot
 #' @return a base R plot
 #' @details DETAILS
 #' @examples 
@@ -29,7 +30,7 @@ cnaScatterPlot = function(cna,
                           cor.method = 'pearson',
                           threshold = NULL,
                           cor.threshold = threshold,
-                          signal.threshold = .9,
+                          signal.threshold = threshold,
                           group = NULL,
                           group.col = 'magenta',
                           hline = NULL,
@@ -37,7 +38,8 @@ cnaScatterPlot = function(cna,
                           bySample = FALSE,
                           samples = NULL,
                           sep = "-|_",
-                          excludeFromAvg = NULL) {
+                          excludeFromAvg = NULL,
+                          ...) {
 
     cors = cnaCor(cna,
                   threshold = cor.threshold,
@@ -48,7 +50,7 @@ cnaScatterPlot = function(cna,
 
     signals = cnaSignal(cna, threshold = signal.threshold)
 
-    plot(cors, signals, xlab = 'CNA Correlation', ylab = 'CNA Signal', pch = 1, cex = 0.5)
+    plot(cors, signals, xlab = 'CNA Correlation', ylab = 'CNA Signal', pch = 1, cex = 0.5, ...)
 
     if (!is.null(group)) {
         points(cors[group], signals[group], pch = 20, col = group.col, cex = 0.5)

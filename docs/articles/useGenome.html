@@ -222,7 +222,7 @@
 <code>chromosome_name</code> : chromosome name
 <ul>
 <li>must be a <em>factor</em> column with chromosomes correctly ordered.</li>
-<li>e.g. <code>levels(data$arm) == c(1:22, "X", "Y")</code>
+<li>e.g. <code>levels(data$chromosome_name) == c(1:22, "X", "Y")</code>
 </li>
 </ul>
 </li>
@@ -260,6 +260,11 @@
 <a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt; 3 c      C               C                  5            6</span></a>
 <a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt; 4 d      D               D                  7            8</span></a>
 <a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt; # … with 22 more rows</span></a></code></pre></div>
+<p>The default columns are those that are required for one or more of the following:</p>
+<ol style="list-style-type: decimal">
+<li><p>Order the genes by their genomic position: <code>chromosome_name</code>, <code>start_position</code> + Note that the input ordering of <code>symbol</code> column does not matter.</p></li>
+<li><p>Split the genes by their chromosomal position: <code>chromosome_name</code>, <code>arm</code> + Note that you can additionally split genes by additional columns that you might add, such as <code>band</code>.</p></li>
+</ol>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/addGenome.html">addGenome</a></span>(<span class="dt">genome =</span> Data, <span class="dt">name =</span> <span class="st">'dummyAlphabetGenome'</span>)</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; Genome has been set to dummyAlphabetGenome</span></a></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/currentGenome.html">currentGenome</a></span>()</a>

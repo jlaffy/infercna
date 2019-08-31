@@ -2,13 +2,13 @@
 % Please edit documentation in R/cnaScatterPlot.R
 \name{cnaScatterPlot}
 \alias{cnaScatterPlot}
-\title{FUNCTION_TITLE}
+\title{Visualise Malignant and Non-Malignant Subsets}
 \usage{
 cnaScatterPlot(cna, cor.method = "pearson", threshold = NULL,
-  cor.threshold = threshold, signal.threshold = 0.9, group = NULL,
-  group.col = "magenta", hline = NULL, vline = NULL,
+  cor.threshold = threshold, signal.threshold = threshold,
+  group = NULL, group.col = "magenta", hline = NULL, vline = NULL,
   bySample = FALSE, samples = NULL, sep = "-|_",
-  excludeFromAvg = NULL)
+  excludeFromAvg = NULL, ...)
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}
@@ -19,7 +19,7 @@ cnaScatterPlot(cna, cor.method = "pearson", threshold = NULL,
 
 \item{cor.threshold}{PARAM_DESCRIPTION, Default: threshold}
 
-\item{signal.threshold}{PARAM_DESCRIPTION, Default: 0.9}
+\item{signal.threshold}{PARAM_DESCRIPTION, Default: NULL}
 
 \item{group}{PARAM_DESCRIPTION, Default: NULL}
 
@@ -37,13 +37,15 @@ cnaScatterPlot(cna, cor.method = "pearson", threshold = NULL,
 
 \item{excludeFromAvg}{a character vector of cell IDs to exclude from the average tumour profile. Default: NULL}
 
+\item{...}{other arguments passed to base plot}
+
 \item{samples}{PARAM_DESCRIPTION, Default: NULL}
 }
 \value{
 a base R plot
 }
 \description{
-FUNCTION_DESCRIPTION
+Visualise Malignant and Non-Malignant Subsets of cells. This is achieved by plotting, for each cell, its CNA signal over its CNA correlation. Please see `infercna::cnaSignal` and `infercna::cnaCor` for details.
 }
 \details{
 DETAILS

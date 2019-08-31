@@ -1,5 +1,24 @@
 
-.axisSpacer <- function(breaks, labels, limits, levels = NULL) {
+.getAttributeName = function(val) {
+    if (val %in% levels(Genv$chr)) return('chr')
+    if (val %in% levels(Genv$arm)) return('arm')
+    if (val %in% Genv$symbol) return('symbol')
+    else stop('Value ', val, ' not found in genome attributes.')
+}
+
+.orderCells = function(cna, include = NULL, euclid.dist = F, ...) {
+    cna.orig = cna
+
+    if (!is.null(include)) {
+        atts = sapply(include, .getAttributeName)
+        Args = split(include, atts)
+        cna = filterGenes(x = cna, value = Args, attribute = names(Args))
+    }
+    
+    cna.orig[, scrabble::clusta(cna, ord = T, compute.dist = euclid.dist, ...)]
+}
+
+.axisSpacer = function(breaks, labels, limits, levels = NULL) {
     if (!is.null(labels) & !is.null(levels)) {
         breaks = levels %in% labels
         labels = levels[breaks]
@@ -61,7 +80,8 @@
         y.angle +
         x.angle +
         ggplot2::geom_vline(xintercept = xLineBreaks, size = 0.08, linetype = 2) +
-        ggplot2::theme(title = ggplot2::element_text(colour = base.col),
+        ggplot2::theme(aspect.ratio = ratio,
+                       title = ggplot2::element_text(colour = base.col),
                        rect = ggplot2::element_rect(colour = base.col),
                        line = ggplot2::element_line(colour = base.col),
                        panel.border = ggplot2::element_rect(colour = 'black', fill = NA),
@@ -75,18 +95,18 @@
 }
 
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param cna PARAM_DESCRIPTION
-#' @param limits PARAM_DESCRIPTION, Default: c(-1, 1)
-#' @param ratio PARAM_DESCRIPTION, Default: 0.7
-#' @param cols PARAM_DESCRIPTION, Default: heatCols
-#' @param orderCells PARAM_DESCRIPTION, Default: F
-#' @param x.name PARAM_DESCRIPTION, Default: 'Chromosome'
-#' @param y.name PARAM_DESCRIPTION, Default: 'Cell'
-#' @param angle PARAM_DESCRIPTION, Default: NULL
-#' @param x.angle PARAM_DESCRIPTION, Default: NULL
-#' @param y.angle PARAM_DESCRIPTION, Default: 0
+#' @title Plot a Heatmap of CNA Values
+#' @description Plot a heatmap of CNA values.
+#' @param cna matrix of CNA values (genes by cells).
+#' @param limits colour range. Cells >= upper limit will be the same colour, and likewise for cells <= lower limit. Default: c(-1, 1)
+#' @param ratio aspect ratio of the panel. Default: 0.7
+#' @param cols character vector of colours to use. Default: heatCols
+#' @param orderCells boolean value indicating whether cells should be ordered by hierarchical clustering. Default: F
+#' @param x.name x axis label. Default: 'Chromosome'
+#' @param y.name y axis label. Default: 'Cell'
+#' @param angle angle of axes tick labels. x.angle and y.angle inherit from angle. Default: NULL
+#' @param x.angle angle of x axis tick labels. If left, will inherit from angle. Default: NULL
+#' @param y.angle angle of y axis tick labels. If left, will inherit from angle. Default: 0
 #' @param axis.rel PARAM_DESCRIPTION, Default: 1
 #' @param base.size PARAM_DESCRIPTION, Default: 12
 #' @param axis.title.size PARAM_DESCRIPTION, Default: 12
@@ -107,8 +127,7 @@
 #' @param legend.colour PARAM_DESCRIPTION, Default: 'black'
 #' @param legend.breaks PARAM_DESCRIPTION, Default: NULL
 #' @param legend.labels PARAM_DESCRIPTION, Default: NULL
-#' @param legend.title PARAM_DESCRIPTION, Default: 'Inferred CNA
-[log2 ratio]'
+#' @param legend.title PARAM_DESCRIPTION, Default: 'Inferred CNA `[log2 ratio`]'
 #' @param legend.justification PARAM_DESCRIPTION, Default: 'top'
 #' @param legend.title.position PARAM_DESCRIPTION, Default: 'bottom'
 #' @param legend.title.angle PARAM_DESCRIPTION, Default: NULL
@@ -132,11 +151,15 @@
 #' @importFrom ggpubr rotate_x_text rotate_y_text
 cnaPlot = function(cna,
                    limits = c(-1, 1),
-                   ratio = 0.7,
+                   ratio = 0.5,
                    cols = heatCols, 
-                   orderCells = F,
                    x.name = 'Chromosome',
                    y.name = 'Cell',
+                   legend.title = 'Inferred CNA\n[log2 ratio]',
+                   x.hide = c('13', '18', '21', 'Y'),
+                   orderCells = F,
+                   order.with = NULL,
+                   euclid.dist = F,
                    angle = NULL,
                    x.angle = NULL,
                    y.angle = 0,
@@ -149,7 +172,6 @@ cnaPlot = function(cna,
                    subtitle = NULL,
                    caption = NULL,
                    text.size = 12,
-                   x.hide = c('13', '18', '21', 'Y'),
                    y.hide = NULL,
                    tile.size = 0.1,
                    tile.col = NULL,
@@ -160,7 +182,6 @@ cnaPlot = function(cna,
                    legend.colour = 'black',
                    legend.breaks = NULL,
                    legend.labels = NULL,
-                   legend.title = 'Inferred CNA\n[log2 ratio]',
                    legend.justification = 'top',
                    legend.title.position = 'bottom',
                    legend.title.angle = NULL,
@@ -169,7 +190,7 @@ cnaPlot = function(cna,
     # order genes by genomic position
     cna = orderGenes(cna)
     # order cells?
-    if (orderCells) cna = cna[, scrabble::clusta(cna, ord = T, compute.dist = F)]
+    if (orderCells) cna = .orderCells(cna, include = order.with, euclid.dist = euclid.dist) 
     # prepare dataframe
     dat = reshape2::melt(as.matrix(cna))
     colnames(dat) = c('Gene', 'Cell', 'CNA')
@@ -192,5 +213,5 @@ cnaPlot = function(cna,
     Args = mget(ls()[-1 * which(ls() %in% c('cna', 'x.hide', 'orderCells'))])
     # make ggplot object
     G = do.call(.cnaPlot, Args)
-    list(p = G, data = dat)
+    list(p = G, data = tibble::as_tibble(dat))
 }

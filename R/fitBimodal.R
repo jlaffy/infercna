@@ -7,14 +7,14 @@
 #' @param assign if set to TRUE, returns a list of length two containing the vector names that were assigned to each mode. Default: FALSE
 #' @param boolean if set to TRUE, returns a boolean value indicating whether the distribution is bimodal. Default: FALSE
 #' @param verbose print progress messages. Default: TRUE 
-#' @param maxrestarts the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 200
-#' @param maxit the maximum number of iterations. Default: 10000
-#' @param k number of components. Default: 2
+#' @param maxrestarts the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 100
+#' @param maxit the maximum number of iterations. Default: 5000
+#' @param m number of components (modes). Default: 2
 #' @return The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
 #' @examples 
-#'  cna = infercna(m = useData(), reference = reference)
-#'  # Malignant cells only (remove columns corresponding to reference)
-#'  cna = cna[, !colnames(cna) %in% unlist(reference)] 
+#'  cna = infercna(m = useData(), dipcells = dipcells)
+#'  # Malignant cells only (remove columns corresponding to dipcells)
+#'  cna = cna[, !colnames(cna) %in% unlist(dipcells)] 
 #'  cnaByChr = splitGenes(cna, by = 'chr')
 #'  sapply(cnaByChr, fitBimodal, assign = TRUE)
 #'  sapply(cnaByChr, fitBimodal, boolean = TRUE)
@@ -33,9 +33,24 @@ fitBimodal = function(x,
                       assign = FALSE,
                       boolean = FALSE,
                       verbose = TRUE,
-                      maxrestarts = 200,
-                      maxit = 10000,
-                      k = 2) {
+                      maxit = 5000,
+                      maxrestarts = 100,
+                      bySampling = FALSE,
+                      nsamp = 200,
+                      ...) {
+
+    if (bySampling) {
+        out = .fitBimodalBySampling(x = x,
+                                    tries = nsamp,
+                                    prob = prob,
+                                    coverage = coverage,
+                                    size = size,
+                                    verbose = verbose,
+                                    maxit = maxit,
+                                    maxrestarts = maxrestarts,
+                                    ...)
+        return(out)
+    }
 
     if (!is.null(dim(x))) x = colMeans(x)
 
@@ -43,7 +58,14 @@ fitBimodal = function(x,
         stop('Number of observations is too small for 2 modes >= ' , size)
     }
 
-    result = try(mixtools::normalmixEM(x, maxrestarts = maxrestarts, maxit = maxit)$posterior)
+    obj = nor1mix::norMixEM(x, m = 2, maxit = maxit)
+
+    if (isFALSE(attr(obj, 'converged'))) {
+        if (verbose) message('No bimodal distribution found.')
+        return(FALSE)
+    }
+
+    result = nor1mix::estep.nm(x, obj)
     passed = result >= prob
     failed = is.null(dim(passed)) || ncol(passed) != 2 || nrow(passed) != length(x)
     
@@ -66,12 +88,12 @@ fitBimodal = function(x,
     if (verbose) message('Success!')
 
     if (assign) {
-        a = names(x)[which(passed[,1])]
-        b = names(x)[which(passed[,2])]
-        return(list(a = a, b = b))
+        L = sapply(as.data.frame(passed), function(col) names(x)[which(col)], simplify = F)
+        return(stats::setNames(L, letters[1:length(L)]))
     }
 
     if (boolean) return(TRUE)
 
     result
 }
+

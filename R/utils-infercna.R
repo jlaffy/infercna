@@ -72,7 +72,7 @@ runMean <- function(m,
     if (!is.null(dim(m))) {
         m = as.matrix(m)
     }
-    if (nrow(m) < k) {
+    if (is.null(m) || nrow(m) < k) {
         k = nrow(m)
         if (verbose) message('Setting <k> to nrow(m): ', k)
     }

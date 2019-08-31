@@ -5,7 +5,7 @@
 \title{Find Clones}
 \usage{
 findClones(m, prob = 0.95, coverage = 0.8, mode.size = 10,
-  clone.size = NULL, by = "chr")
+  clone.size = 3, by = "chr")
 }
 \arguments{
 \item{m}{a matrix of genes X cells (variables X observations) containing CNA values.}
@@ -14,9 +14,9 @@ findClones(m, prob = 0.95, coverage = 0.8, mode.size = 10,
 
 \item{coverage}{the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8}
 
-\item{mode.size}{the minimum number of observations that must be assigned to a mode in order for the distribution to qualify as bimodal. Default: 10}
+\item{mode.size}{the minimum number of observations required to define a mode. Default: 10}
 
-\item{clone.size}{PARAM_DESCRIPTION, Default: NULL}
+\item{clone.size}{the minimum number of cells required to define a clone. Default: 3}
 
 \item{by}{PARAM_DESCRIPTION, Default: 'chr'}
 }

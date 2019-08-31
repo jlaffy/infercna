@@ -1,0 +1,66 @@
+---
+title: "Tutorial with a single-cell dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Set your Genome}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+knitr::opts_knit$set(warning = FALSE, error = TRUE)
+#library(infercna)
+set.seed(1014)
+```
+```
+
+``` {r}
+#library(infercna)
+devtools::load_all()
+```
+
+### Set your genome with `useGenome()`
+``` {r}
+useGenome('hg19')
+retrieveGenome()
+```
+
+### Load example data with `useData()`
+``` {r}
+m = useData(mgh125)
+dim(m)
+range(m)
+lengths(refCells)
+
+```
+
+### Infer CNAs with `infercna()`
+``` {r}
+args(infercna)
+cna = infercna(m = m, ref = refCells, n = 5000, noise = 0.1, isLog = TRUE, verbose = FALSE)
+cnaM = cna[, !colnames(cna) %in% unlist(refCells)]
+```
+
+### Plot CNA Heatmap with `cnaPlot()`
+``` {r}
+args(cnaPlot)
+obj = cnaPlot(cna = cnaM,
+              orderCells = TRUE,
+              subtitle = 'Copy-Number Aberrations in a patient with Glioblastoma')
+names(obj)
+obj$data
+obj$p
+```
+
+
+### Order Cells Without Genetic Subclones?
+```{r}
+obj = cnaPlot(cna = cnaM,
+              orderCells = TRUE,
+              order.with = c(2, "4p", 7, 10, 12, 13, 15),
+              subtitle = 'Copy-Number Aberrations in a patient with Glioblastoma')
+obj$p
+```
+

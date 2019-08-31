@@ -5,8 +5,8 @@
 \title{Fit a Bimodal Gaussian Distribution}
 \usage{
 fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
-  assign = FALSE, boolean = FALSE, verbose = TRUE,
-  maxrestarts = 200, maxit = 10000, k = 2)
+  assign = FALSE, boolean = FALSE, verbose = TRUE, maxit = 5000,
+  maxrestarts = 100, bySampling = FALSE, nsamp = 200, ...)
 }
 \arguments{
 \item{x}{a named numeric vector of cells/observations or a matrix of genes X cells (variables X observations). If the latter, the column means are first computed.}
@@ -23,11 +23,11 @@ fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
 
 \item{verbose}{print progress messages. Default: TRUE}
 
-\item{maxrestarts}{the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 200}
+\item{maxit}{the maximum number of iterations. Default: 5000}
 
-\item{maxit}{the maximum number of iterations. Default: 10000}
+\item{maxrestarts}{the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 100}
 
-\item{k}{number of components. Default: 2}
+\item{m}{number of components (modes). Default: 2}
 }
 \value{
 The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
@@ -36,9 +36,9 @@ The posterior probabilities of each observation to one of two modes. If boolean 
 Fit a bimodal gaussian distribution to a set of observations.
 }
 \examples{
- cna = infercna(m = useData(), reference = reference)
- # Malignant cells only (remove columns corresponding to reference)
- cna = cna[, !colnames(cna) \%in\% unlist(reference)] 
+ cna = infercna(m = useData(), dipcells = dipcells)
+ # Malignant cells only (remove columns corresponding to dipcells)
+ cna = cna[, !colnames(cna) \%in\% unlist(dipcells)] 
  cnaByChr = splitGenes(cna, by = 'chr')
  sapply(cnaByChr, fitBimodal, assign = TRUE)
  sapply(cnaByChr, fitBimodal, boolean = TRUE)

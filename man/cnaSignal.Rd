@@ -4,7 +4,7 @@
 \alias{cnaSignal}
 \title{Calculate the Means of Absolute CNA Values}
 \usage{
-cnaSignal(cna, threshold = 0.9)
+cnaSignal(cna, threshold = NULL)
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}

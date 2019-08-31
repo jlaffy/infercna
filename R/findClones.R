@@ -65,8 +65,8 @@ expandToClones = function(modes,
 #' @param m a matrix of genes X cells (variables X observations) containing CNA values.
 #' @param prob a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.95
 #' @param coverage the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8
-#' @param mode.size the minimum number of observations that must be assigned to a mode in order for the distribution to qualify as bimodal. Default: 10
-#' @param clone.size PARAM_DESCRIPTION, Default: NULL
+#' @param mode.size the minimum number of observations required to define a mode. Default: 10
+#' @param clone.size the minimum number of cells required to define a clone. Default: 3
 #' @param by PARAM_DESCRIPTION, Default: 'chr'
 #' @return 
 #' @examples 
@@ -81,7 +81,7 @@ findClones = function(m,
                       prob = 0.95,
                       coverage = 0.8,
                       mode.size = 10,
-                      clone.size = NULL,
+                      clone.size = 3,
                       by = 'chr') {
 
     modes = fetchModes(m,

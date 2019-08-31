@@ -19,42 +19,14 @@ findMalignant = function(cna,
                          samples = NULL,
                          sep = "-|_",
                          ...) {
+    cors = cnaCor(cna,
+                  threshold = cor.threshold,
+                  bySample = bySample,
+                  samples = samples,
+                  sep = sep)
 
-    ratios = .cnaStatistic(cna,
-                           cor.threshold = cor.threshold,
-                           signal.threshold = signal.threshold,
-                           samples = samples,
-                           sep = sep)
-
-    isBimodal = fitBimodal(ratios,
-                           boolean = T,
-                           verbose = F,
-                           ...)
-
-    if (!isBimodal) {
-        stop('Two modes not found.')
-    }
-
-    modes = fitBimodal(ratios,
-                       assign = T,
-                       verbose = F,
-                       ...)
-
-    modeMeans = sapply(modes, function(mo) mean(ratios[mo]))
-    i_nonmal = which(modeMeans == min(modeMeans))
-    nonmal = modes[[i_nonmal]]
-    mal = modes[[-1 * i_nonmal]]
-    modes = stats::setNames(list(nonmal, mal), c("nonmalignant", "malignant"))
-
-    if (bySample) {
-    }
-
-    modes
-}
-
-.findMalignantBySample = function(cna, modes, samples, sep) {
-    groups = splitCellsBySample(modes$malignant, samples = samples, sep = sep)
-    cnaBySample = sapply(groups, function(gr) cna[, c(modes$nonmalignant, gr)], simplify = F)
-    sapply(cnaBySample, findMalignant, cor.threshold = cor.threshold, signal.threshold = signal.threshold)
-
+    corGroups = fitBimodal(cors, bySampling = TRUE)
+    signals = cnaSignal(cna, threshold = signal.threshold)
+    sigGroups = fitBimodal(signals, bySampling = TRUE, nsamp = 10000)
+    browser()
 }

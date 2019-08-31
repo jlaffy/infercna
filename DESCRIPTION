@@ -20,8 +20,9 @@ Imports:
     Matrix,
     testthat,
     magrittr,
-    mixtools,
-    utils
+    utils,
+    scrabble,
+    nor1mix
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

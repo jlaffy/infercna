@@ -8,4 +8,4 @@
 #'   \item{macrophages}{707 normal macrophage cells in the GBM cohort}
 #' }
 #' @source \url{portals.broadinstitute.org/single_cell/study/SCP393/single-cell-rna-seq-of-adult-and-pediatric-glioblastoma}
-"reference"
+"refCells"

@@ -52,11 +52,11 @@ addGenome = function(genome, name = 'userDefined') {
         stop('Columns must include: ', columns)
     }
 
-    if (!is.null(levels(genome$chromosome_name))) {
+    if (is.null(levels(genome$chromosome_name))) {
         stop('Please add levels to the chromosome_name column')
     }
 
-    if (!is.null(levels(genome$arm))) {
+    if (is.null(levels(genome$arm))) {
         stop('Please add levels to the arm column')
     }
 

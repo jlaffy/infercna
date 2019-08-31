@@ -42,9 +42,20 @@ cnaCor = function(cna,
                          cor.method = cor.method,
                          simplify = F)
 
-    corNames = unlist(sapply(corBySample, names))
-    cors = stats::setNames(unlist(corBySample), corNames)[colnames(cna)]
+    corNames = unlist(sapply(corBySample, names, simplify = F))
+    cors = stats::setNames(unlist(corBySample), corNames)
     cors[is.na(cors)] = 0
-    cors
+
+    if (length(cors) == ncol(cna)) {
+        maincors = cors
+    }
+
+    else if (length(cors) < ncol(cna)) {
+        maincors = .cnaCor(cna, cor.method = cor.method)
+        maincors[is.na(cors)] = 0
+        maincors[names(cors)] = cors
+    }
+
+    maincors[colnames(cna)]
 }
 

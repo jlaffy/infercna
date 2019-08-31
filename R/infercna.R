@@ -53,8 +53,8 @@ infercna = function(m,
     cna = Reduce(rbind, cna)
     cna = logTPM(cna, dividebyten = T)
     cna = colCenter(cna, method = center.method) # note: using median centering here
-    if (!is.null(reference)) {
-        Args = c(list(cna = cna, noise = noise, isLog = TRUE), reference)
+    if (!is.null(refCells)) {
+        Args = c(list(cna = cna, noise = noise, isLog = TRUE), refCells)
         cna = do.call(refCorrect, Args)}
     cna
 }

@@ -2,7 +2,7 @@
 title: "Example with a single-cell dataset"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Set your Genome}
+  %\VignetteIndexEntry{test}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -27,7 +27,7 @@ dim(m)
 range(m)
 class(m)
 
-lengths(infercna::reference)
+lengths(infercna::refCells)
 ```
 ## Set Genome with `useGenome()`
 
@@ -36,7 +36,7 @@ lengths(infercna::reference)
 **Note:** Had we been using `hg38`, we would have called `useGenome('hg38')`.
 
 ## Infer CNA values with `infercna()`
-### CNA correction using normal reference cells with `refCorrect()`
+### CNA correction using normal refCells cells with `refCorrect()`
 ## Use your own genome data with `addGenome()`
 
 In future implementations of infercna, we plan to have more default genomes for you to choose from. Even in such scenarios however, you may be using a self-built genome that is specifically tailored to your purposes. Thus, using `infercna::addGenome`, it is possible to configure infercna to use the genome of your choosing.

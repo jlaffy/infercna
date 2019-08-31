@@ -2,7 +2,7 @@
 title: "Tutorial with a single-cell dataset"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Set your Genome}
+  %\VignetteIndexEntry{Tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -16,8 +16,7 @@ set.seed(1014)
 ```
 
 ``` {r}
-#library(infercna)
-devtools::load_all()
+library(infercna)
 ```
 
 ### Set your genome with `useGenome()`

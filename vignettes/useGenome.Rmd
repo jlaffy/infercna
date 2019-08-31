@@ -10,38 +10,115 @@ vignette: >
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
-library(infercna)
+#library(infercna)
+devtools::load_all()
 set.seed(1014)
 ```
 
-### Use your own genome data with `addGenome()`
+## Default Genomes
 
-In future implementations of infercna, we plan to have more default genomes for you to choose from. Even in such scenarios however, you may be using a self-built genome that is specifically tailored to your purposes. Thus, using `infercna::addGenome`, it is possible to configure infercna to use the genome of your choosing.
+Different scRNA-seq datasets are built using different genome references, namely different species and different genome versions. infercna comes with a number of inbuilt genomes that can be configured to work with the package. See below for more information.
 
-#### Required structure of genome to add
+**Note:** Additional genomes / genome versions will be added in future releases of infercna.
 
-Your genome should meet the following requirements:
+
+### List available genomes with `availableGenomes()`
+Find out which genomes are available in infercna.
+
+```{r}
+availableGenomes()
+```
+
+
+### Check which genome is configured with `currentGenome()`
+Note that the default genome that infercna is built to use is genome `hg19`. This is the penultimate release version of the H. sapiens genome. You can always check which genome is configured with `infercna::currentGenome()`.
+
+```{r}
+currentGenome()
+```
+
+
+### Configure a different genome with `useGenome()`
+You can configure infercna to work with one of the inbuilt genomes. Currently built-in genomes are the two latest versions of H. *sapiens*,  `hg38` and `hg19` and the latest version of the M. *musculus*,  `mm10`.
+
+```{r}
+useGenome('mm10')
+currentGenome()
+```
+
+### Fetch genome data with `retrieveGenome()`
+You can also get the genome data (in dataframe form). By default `retrieveGenome` will return the current genome in use, but you can instead specify a different genome in the function call.
+
+```{r}
+retrieveGenome()
+
+retrieveGenome(name = 'hg19')
+
+retrieveGenome(name = 'hg38')
+```
+
+### Genome data variables
+
+The default genomes available in infercna have the following columns.
+
+1.  `symbol` : gene name
+2.  `chromosome_name` : chromosome name
+3.  `arm` : chromosome arm
+    + identical to `chromosome_name` in genome `mm10`
+4.  `start_position` : of each gene
+5.  `end_position` : of each gene 
+6.  `band` : chromosome band
+7.  `strand` : chromosome strand
+8.  `ensembl_gene_id`
+
+**Note:** Only the first four columns amongst these are required if you intend to add your genome (discussed below in more detail).
+
+## User-defined Genomes
+### Add a new genome with `addGenome()`
+
+In some cases you may need to configure infercna with your own genome, either because it is not built-in with infercna, or because it is a genome that you built yourself, tailored to your purposes. 
+
+Using `infercna::addGenome`, it is possible to configure infercna to use the genome of your choosing, so long as it meets the following requirements.
+
+**Note:** `addGenome` will return an error if any of these requirements are not met.
+
 * Be a dataframe
 
-* Contain the following columns:
+* Contain the following columns
 
-    1. `symbol` gene name
-      - (SOX11, BRAF, etc)
-    2. `chromosome_name` chromosome name (1, 2, ..., X, Y)
-    3. `arm` **Note**: if your genome does not have chromosome arms, you should instead duplicate the `chromosome_name` column. 
-    4. `start_position` of each gene
-    5. `end_position` of each gene
+    1. `symbol` : gene name
+        + e.g. `SOX11, BRAF, TP53`
+        
+    2. `chromosome_name` : chromosome name
+        + must be a *factor* column with chromosomes correctly ordered.
+        + e.g. `levels(data$arm) == c(1:22, "X", "Y")`
+        
+    3. `arm` : chromosome arm name
+        + must be a *factor* column with chromosome arms correctly ordered.
+        + e.g. `levels(data$arm) == c('1p', '1q', ..., 'Yp', 'Yq')`
+        + if not applicable because your genome doesn't have arms (e.g. mouse!), instead set `arm` as a duplicate of `chromosome_name`.
+        
+    4. `start_position` : of each gene
     
-* Ensure that columns `chromosome_name` and `arm` are factor columns with the correct levels. e.g. `levels(data$chromosome_name) == c(1:22, "X", "Y")`
+* Columns `chromosome_name` and `arm` are factor columns (see above)
 
-`addGenome` will return an error if any of these requirements are not met.
-Beyond this, you can of course add a dataframe with more than the above five columns. For example, you may want to have a `band` column as another genome variable to subset your genes by.
+**Note:** You can add a genome with as many additional columns as you like. For example, you may want to have `end_position` and `band` columns in addition to those listed above.
 
-### Find out which genome infercna is using with `currentGenome()`
+#### A dummy example
+```{r}
+Data = data.frame(symbol = letters,
+                  chromosome_name = factor(LETTERS),
+                  arm = factor(LETTERS),
+                  start_position = seq(1, length(letters)*2, by = 2),
+                  end_position = seq(2, length(letters)*2, by = 2))
 
-Note that the default genome that infercna is built to use is genome `hg19`. This is the penultimate release version of the H. sapiens genome. If you forget this though, you can check with `infercna::currentGenome()`. If you have added your genome with `addGenome(genome, name)`, you can check that this has configured correctly by ensuring that your name <name> is effectively what is now returned when running `currentGenome`.
+tibble::as_tibble(Data)
+```
 
-### See which genomes come built-in with infercna using `availableGenomes()`
+```{r }
+addGenome(genome = Data, name = 'dummyAlphabetGenome')
+```
 
-Currently built-in genomes are the two latest versions of H. *sapiens*,  `hg38` and `hg19` and the latest version of the M. *musculus*,  `mm10`.
-
+```{r }
+currentGenome()
+````

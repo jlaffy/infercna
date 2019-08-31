@@ -14,30 +14,34 @@ library(infercna)
 set.seed(1014)
 ```
 
-## Use your own genome data with `addGenome()`
+### Use your own genome data with `addGenome()`
 
 In future implementations of infercna, we plan to have more default genomes for you to choose from. Even in such scenarios however, you may be using a self-built genome that is specifically tailored to your purposes. Thus, using `infercna::addGenome`, it is possible to configure infercna to use the genome of your choosing.
 
-### Data requirements
+#### Required structure of genome to add
 
 Your genome should meet the following requirements:
 * Be a dataframe
+
 * Contain the following columns:
-    1. `symbol` gene name (SOX11, BRAF, etc)
+
+    1. `symbol` gene name
+      - (SOX11, BRAF, etc)
     2. `chromosome_name` chromosome name (1, 2, ..., X, Y)
     3. `arm` **Note**: if your genome does not have chromosome arms, you should instead duplicate the `chromosome_name` column. 
     4. `start_position` of each gene
     5. `end_position` of each gene
+    
 * Ensure that columns `chromosome_name` and `arm` are factor columns with the correct levels. e.g. `levels(data$chromosome_name) == c(1:22, "X", "Y")`
 
 `addGenome` will return an error if any of these requirements are not met.
 Beyond this, you can of course add a dataframe with more than the above five columns. For example, you may want to have a `band` column as another genome variable to subset your genes by.
 
-## Find out which genome infercna is using with `currentGenome()`
+### Find out which genome infercna is using with `currentGenome()`
 
 Note that the default genome that infercna is built to use is genome `hg19`. This is the penultimate release version of the H. sapiens genome. If you forget this though, you can check with `infercna::currentGenome()`. If you have added your genome with `addGenome(genome, name)`, you can check that this has configured correctly by ensuring that your name <name> is effectively what is now returned when running `currentGenome`.
 
-## See which genomes come built-in with infercna using `availableGenomes()`
+### See which genomes come built-in with infercna using `availableGenomes()`
 
-Currently built-in genomes are the two latest versions of H.sapiens, "hg38" and "hg19" and the latest version of the M.musculus, "mm10".
+Currently built-in genomes are the two latest versions of H. *sapiens*,  `hg38` and `hg19` and the latest version of the M. *musculus*,  `mm10`.
 

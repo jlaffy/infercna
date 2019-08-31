@@ -70,9 +70,9 @@ expandToClones = function(modes,
 #' @param by PARAM_DESCRIPTION, Default: 'chr'
 #' @return 
 #' @examples 
-#' cna = infercna(useData(), reference = reference)
+#' cna = infercna(useData(), refCells = refCells)
 #' # malignant cells only
-#' cna = cna[, !colnames(cna) %in% unlist(reference)]
+#' cna = cna[, !colnames(cna) %in% unlist(refCells)]
 #' findClones(cna, by = 'chr')
 #' findClones(cna, by = 'arm')
 #' @rdname findClones

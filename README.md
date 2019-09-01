@@ -70,17 +70,19 @@ RNA-sequencing data was first formulated.
 
 The bare minimum for use in infercna is:
 
-  - a single-cell expression matrix of genes by cells + *not* centered +
-    normalised for sequencing depth and gene length (e.g. one of TPM,
-    RPKM, CPM, etc). + *optionally* in log space. e.g. `log2(TPM/10
-    + 1)` + Note: also see `infercna::TPM` and `infercna::logTPM`
+  - a single-cell expression matrix of genes by cells
+      - **not** centered
+      - normalised for sequencing depth and gene length (e.g. one of
+        TPM, RPKM, CPM, etc).
+      - optionally in log space. e.g. `log2(TPM/10 + 1)`
+      - Note: also see `infercna::TPM` and `infercna::logTPM`
 
-If you would like to compute *absolute*, rather than *relative*, CNA
+If you would like to compute absolute (rather than *relative*) CNA
 values, you should additionally provide:
 
   - a list of length two or more containing reference cell IDs of normal
-    cells. For example list(macrophages, oligodendrocytes). + see
-    example reference `infercna::refCells`
+    cells. For example list(macrophages, oligodendrocytes).
+    1.  see example reference `infercna::refCells`
 
 Finally, if your genome is not available in the current implementation
 of infercna, you should additionally provide:

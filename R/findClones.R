@@ -20,10 +20,15 @@ fetchModes = function(m,
                       prob = 0.95,
                       coverage = 0.8,
                       size = 10,
-                      by = 'chr') {
+                      by = 'chr',
+                      bySampling = FALSE,
+                      nsamp = 10000,
+                      minGenes = 50,
+                      ...) {
 
     mats = splitGenes(m, by = by)
-    modes = sapply(mats, fitBimodal, prob = prob, coverage = coverage, size = size, assign = T)
+    mats = mats[unlist(sapply(mats, nrow)) >= minGenes | is.null(unlist(sapply(mats, nrow)))]
+    modes = sapply(mats, fitBimodal, prob = prob, coverage = coverage, size = size, assign = T, bySampling = bySampling, nsamp = nsamp, ...)
     modes[!sapply(modes, isFALSE)]
 }
 
@@ -82,13 +87,25 @@ findClones = function(m,
                       coverage = 0.8,
                       mode.size = 10,
                       clone.size = 3,
-                      by = 'chr') {
+                      by = 'chr',
+                      bySampling = FALSE,
+                      nsamp = 10000,
+                      verbose = FALSE,
+                      ...) {
 
-    modes = fetchModes(m,
-                       prob = prob,
-                       coverage = coverage,
-                       size = mode.size,
-                       by = by)
-
+    if (is.list(as.matrix(m))) {
+        if (verbose) {
+            modes = sapply(m, fitBimodal, prob = prob, coverage = coverage, size = mode.size, assign = T, bySampling = bySampling, nsamp = nsamp, ...)
+        } else {
+            modes = suppressWarnings(sapply(m, fitBimodal, prob = prob, coverage = coverage, size = mode.size, assign = T, bySampling = bySampling, nsamp = nsamp, ...))
+        }
+    } else {
+        if (verbose) {
+            modes = fetchModes(m, prob = prob, coverage = coverage, size = mode.size, by = by, bySampling = bySampling, nsamp = nsamp, ...)
+        } else {
+            modes = suppressWarnings(fetchModes(m, prob = prob, coverage = coverage, size = mode.size, by = by, bySampling = bySampling, nsamp = nsamp, ...))
+        }
+    }
+    
     expandToClones(modes, greaterThan = clone.size)
 }

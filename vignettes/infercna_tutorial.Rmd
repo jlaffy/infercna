@@ -11,9 +11,9 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 knitr::opts_knit$set(warning = FALSE, error = TRUE)
-#library(infercna)
+library(infercna)
 library(magrittr)
-devtools::load_all()
+#devtools::load_all()
 set.seed(1014)
 ```
 

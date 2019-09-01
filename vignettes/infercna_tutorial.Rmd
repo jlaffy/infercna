@@ -12,6 +12,7 @@ knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 knitr::opts_knit$set(warning = FALSE, error = TRUE)
 #library(infercna)
+library(magrittr)
 devtools::load_all()
 set.seed(1014)
 ```
@@ -171,11 +172,36 @@ names(Modes) = c('nonmalignant', 'malignant')
 ```
 
 
-### 
 ## Find genetic subclones
 
+```{r}
+args(findClones)
 
+cnaCancer = cna[, Modes$malignant]
+L = Map(filterGenes, value = c(2, '4p', 15), attribute = c('chr', 'arm', 'chr'), MoreArgs = list(cnaCancer))
+```
 
+```{r, warning = FALSE, results = 'hide'}
+out = sapply(L, fitBimodal, assign = T)
+```
+
+```{r}
+lengths(out)
+```
+
+```{r, warning = FALSE, results = 'hide'}
+out[[3]] = fitBimodal(L[[3]], assign = T, bySampling = T, nsamp = 300)
+```
+
+```{r}
+lengths(out)
+sapply(out, lengths)
+expandToClones(out, greaterThan = 3) %>% lengths %>% as.matrix
+```
+
+```{r, warning = FALSE, results = 'hide'}
+findClones(cna[, Modes$malignant], by = 'chr') %>% lengths
+```
 
 ## Additional featuers
 

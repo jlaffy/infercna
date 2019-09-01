@@ -4,14 +4,15 @@
 \alias{fetchModes}
 \title{FUNCTION_TITLE}
 \usage{
-fetchModes(m, prob = 0.95, coverage = 0.8, size = 10, by = "chr")
+fetchModes(m, prob = 0.95, coverage = 0.8, size = 10, by = "chr",
+  bySampling = FALSE, nsamp = 2000, minGenes = 50, ...)
 }
 \arguments{
 \item{m}{PARAM_DESCRIPTION}
 
 \item{prob}{PARAM_DESCRIPTION, Default: 0.95}
 
-\item{coverage}{PARAM_DESCRIPTION, Default: 0.8}
+\item{coverage}{PARAM_DESCRIPTION, Default: 0.8vto}
 
 \item{size}{PARAM_DESCRIPTION, Default: 10}
 

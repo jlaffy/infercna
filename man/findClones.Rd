@@ -5,7 +5,8 @@
 \title{Find Clones}
 \usage{
 findClones(m, prob = 0.95, coverage = 0.8, mode.size = 10,
-  clone.size = 3, by = "chr")
+  clone.size = 3, by = "chr", bySampling = FALSE, nsamp = 2000,
+  force.tries = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{m}{a matrix of genes X cells (variables X observations) containing CNA values.}

@@ -3,7 +3,7 @@
 #' @description FUNCTION_DESCRIPTION
 #' @param m PARAM_DESCRIPTION
 #' @param prob PARAM_DESCRIPTION, Default: 0.95
-#' @param coverage PARAM_DESCRIPTION, Default: 0.8
+#' @param coverage PARAM_DESCRIPTION, Default: 0.8vto
 #' @param size PARAM_DESCRIPTION, Default: 10
 #' @param by PARAM_DESCRIPTION, Default: 'chr'
 #' @return OUTPUT_DESCRIPTION
@@ -27,7 +27,9 @@ fetchModes = function(m,
                       ...) {
 
     mats = splitGenes(m, by = by)
-    mats = mats[unlist(sapply(mats, nrow)) >= minGenes | is.null(unlist(sapply(mats, nrow)))]
+    Rows = unlist(sapply(mats, nrow))
+    Rows[is.null(Rows)] = 0
+    mats = mats[Rows >= minGenes]
     modes = sapply(mats, fitBimodal, prob = prob, coverage = coverage, size = size, assign = T, bySampling = bySampling, nsamp = nsamp, ...)
     modes[!sapply(modes, isFALSE)]
 }

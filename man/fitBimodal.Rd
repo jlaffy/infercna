@@ -7,7 +7,8 @@
 \usage{
 fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
   assign = FALSE, boolean = FALSE, verbose = TRUE, maxit = 5000,
-  maxrestarts = 100, bySampling = FALSE, nsamp = 200, ...)
+  maxrestarts = 100, bySampling = FALSE, nsamp = 2000,
+  force.tries = FALSE, ...)
 
 fitModal(x, m, prob = 0.95, coverage = 0.8, size = 10,
   assign = FALSE, boolean = FALSE, verbose = TRUE, maxit = 5000,

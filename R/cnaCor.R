@@ -36,7 +36,7 @@ cnaCor = function(cna,
     }
 
     if (!bySample) {
-        return(.cnaCor(cna, cor.method = cor.method, excludeFromAvg = excludeFromAvg))
+        return(.cnaCor(cna, cor.method = cor.method))
     }
 
     cnaBySample = splitCellsBySample(x = cna,
@@ -46,6 +46,7 @@ cnaCor = function(cna,
     corBySample = sapply(cnaBySample,
                          .cnaCor,
                          cor.method = cor.method,
+                         excludeFromAvg = excludeFromAvg,
                          simplify = F)
 
     corNames = unlist(sapply(corBySample, names, simplify = F))

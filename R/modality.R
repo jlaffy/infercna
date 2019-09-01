@@ -17,6 +17,6 @@
 modality = function(x, modes = 2:3, prob = 0.95, coverage = 0.8, size = 10, ...) {
     dots = c(list(x = x, size = size, coverage = coverage, prob = prob, boolean = T),
              list(...))
-    res = sapply(modes, function(i) do.call(fitBimodal, c(dots, list(m = i))))
+    res = sapply(modes, function(i) do.call(fitModal, c(dots, list(m = i))))
     stats::setNames(res, modes)
 }

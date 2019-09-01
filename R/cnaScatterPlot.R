@@ -33,6 +33,7 @@ cnaScatterPlot = function(cna,
                           signal.threshold = threshold,
                           group = NULL,
                           group.col = 'magenta',
+                          cex = 0.5,
                           hline = NULL,
                           vline = NULL,
                           bySample = FALSE,
@@ -50,10 +51,10 @@ cnaScatterPlot = function(cna,
 
     signals = cnaSignal(cna, threshold = signal.threshold)
 
-    plot(cors, signals, xlab = 'CNA Correlation', ylab = 'CNA Signal', pch = 1, cex = 0.5, ...)
+    plot(cors, signals, xlab = 'CNA Correlation', ylab = 'CNA Signal', pch = 1, cex = cex, ...)
 
     if (!is.null(group)) {
-        points(cors[group], signals[group], pch = 20, col = group.col, cex = 0.5)
+        points(cors[group], signals[group], pch = 20, col = group.col, cex = cex)
     }
 
     if (!is.null(vline)) abline(v = vline, lty = 2)

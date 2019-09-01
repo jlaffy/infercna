@@ -134,7 +134,7 @@ cnaScatterPlot(cna = cna, threshold = 0.9, samples = 'MGH125', excludeFromAvg = 
 
 When the `<threshold>` argument is set (to a value between 0 and 1) as above, `infercna::cnaHotspotGenes()` is called, and does two things:
 
-1. Compute CNA signal values for each *gene* ()
+1. Compute CNA signal values for each *gene*
 
 2. Return genes with values of CNA signal in the top nth quantile
     
@@ -150,15 +150,34 @@ length(cnaHotspotGenes(cna = cnaM, threshold = .5))
 length(cnaHotspotGenes(cna = cnaM, threshold = .9))
 ```
 
+### Find malignant cells with `findMalignant()`
 
+`infercna::findMalignant()` provides a first attempt at identifying malignant (and non-malignant) cells in the data. It fits bimodal distributions to the cells' `cnaSignal()` and `cnaCor()` values, respectively. If two modes are found for each parameter, these are cross-checked and -- if compatible --, joined and returned. If any of these steps fail, the return value is `FALSE`.
+
+```{r}
+args(findMalignant)
+```
+
+```{r, warning = FALSE, results = 'hide'}
+Modes = findMalignant(cna, signal.threshold = .9, samples = 'MGH125')
+```
+
+```{r}
+lengths(Modes)
+
+scrabble::jaccard(Modes, refCells)
+
+names(Modes) = c('nonmalignant', 'malignant')
+```
+
+
+### 
 ## Find genetic subclones
 
 
 
 
-## Added functionality
-
-There are many additional functions that are useful when conducting an analysis. We will explore these in future tutorials, but below is a selected list of some. 
+## Additional featuers
 
 * `splitGenes()`
 * `filterGenes()`

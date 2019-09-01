@@ -5,8 +5,10 @@
 \title{Find Malignant Subset of Cells}
 \usage{
 findMalignant(cna, threshold = NULL, cor.threshold = threshold,
-  signal.threshold = 0.9, bySample = FALSE, samples = NULL,
-  sep = "-|_", ...)
+  signal.threshold = threshold, bySample = FALSE, samples = NULL,
+  sep = "-|_", mode.overlap = 0.05, excludeFromAvg = NULL,
+  cor.bySampling = TRUE, signal.bySampling = TRUE, nsamples = 10000,
+  ...)
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}

@@ -5,4 +5,7 @@ articles:
   infercna: infercna.html
   infercna_tutorial: infercna_tutorial.html
   useGenome: useGenome.html
+urls:
+  reference: http://jlaffy.github.io/infercna/reference
+  article: http://jlaffy.github.io/infercna/articles
 

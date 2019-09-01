@@ -89,46 +89,96 @@
     
     
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="infercna" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#infercna" class="anchor"></a>infercna</h1></div>
-<!-- badges: start -->
-<!-- badges: end -->
-<p>The goal of infercna is to …</p>
+<div id="overview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p>infercna aims to provide functions for inferring CNA values from scRNA-seq data and related queries.</p>
+<ul>
+<li>
+<code><a href="reference/infercna.html">infercna()</a></code> to infer copy-number alterations from single-cell RNA-seq data</li>
+<li>
+<code><a href="reference/refCorrect.html">refCorrect()</a></code> to convert relative CNA values to absolute values + computed in <code><a href="reference/infercna.html">infercna()</a></code> if reference cells are provided</li>
+<li>
+<code><a href="reference/cnaPlot.html">cnaPlot()</a></code> to plot a heatmap of CNA values</li>
+<li>
+<code><a href="reference/cnaScatterPlot.html">cnaScatterPlot()</a></code> to visualise malignant and non-malignant cell subsets</li>
+<li>
+<code><a href="reference/cnaCor.html">cnaCor()</a></code> a parameter to identify cells with high CNAs + computed in <code><a href="reference/cnaScatterPlot.html">cnaScatterPlot()</a></code>
+</li>
+<li>
+<code><a href="reference/cnaSignal.html">cnaSignal()</a></code> a second parameter to identify cells with high CNAs + computed in <code><a href="reference/cnaScatterPlot.html">cnaScatterPlot()</a></code>
+</li>
+<li>
+<code><a href="reference/findMalignant.html">findMalignant()</a></code> to find malignant subsets of cells</li>
+<li>
+<code><a href="reference/findClones.html">findClones()</a></code> to identify genetic subclones</li>
+<li>
+<code><a href="reference/fitBimodal.html">fitBimodal()</a></code> to fit a bimodal gaussian distribution + used in <code><a href="reference/findMalignant.html">findMalignant()</a></code> + used in <code><a href="reference/findClones.html">findClones()</a></code>
+</li>
+<li>
+<code><a href="reference/filterGenes.html">filterGenes()</a></code> to filter genes by their genome features</li>
+<li>
+<code><a href="reference/splitGenes.html">splitGenes()</a></code> to split genes by their genome features</li>
+<li>
+<code><a href="reference/orderGenes.html">orderGenes()</a></code> to order genes by their genomic position</li>
+<li>
+<code><a href="reference/useGenome.html">useGenome()</a></code> to change the default genome configured with infercna</li>
+<li>
+<code><a href="reference/addGenome.html">addGenome()</a></code> to configure infercna with a new genome specified by the user</li>
+</ul>
+<p><em>See Reference tab for a full list and documentation pages.</em></p>
+</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of infercna from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"infercna"</span>)</a></code></pre></div>
-<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb2-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"jlaffy/infercna"</span>)</a></code></pre></div>
+<p>To install <code>infercna</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("devtools")</span></a>
+<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"jlaffy/infercna"</span>)</a></code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="references" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(infercna)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; Attaching package: 'infercna'</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; The following object is masked from 'package:graphics':</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt;     clip</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="co">## basic example code</span></a></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(cars)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt;      speed           dist       </span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt;  Median :15.0   Median : 36.00  </span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></a></code></pre></div>
-<p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date.</p>
-<p>You can also embed plots, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" width="100%"></p>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub!</p>
+<a href="#references" class="anchor"></a>References</h2>
+<p>The methodology behind infercna has been tried and tested in several high-impact publications. It was actually in the earliest of these papers (last listed) that the idea to infer CNAs from single-cell RNA-sequencing data was first formulated.</p>
+<ul>
+<li><p><a href="https://doi.org/10.1016/j.cell.2019.06.024">An Integrative Model of Cellular States, Plasticity, and Genetics for Glioblastoma (Neftel, Laffy et al., 2019, <em>Cell</em>)</a></p></li>
+<li><p><a href="https://doi.org/10.1126/science.aao4750">Developmental and oncogenic programs in H3K27M gliomas dissected by single-cell RNA-seq (Filbin, Tirosh et al., 2018, <em>Science</em>)</a></p></li>
+<li><p><a href="https://doi.org/10.1126/science.aai8478">Decoupling genetics, lineages, and microenvironment in IDH-mutant gliomas by single-cell RNA-seq (Venteicher, Tirosh et al., 2017, <em>Science</em>)</a></p></li>
+<li><p><a href="https://doi.org/10.1038/nature20123">Single-cell RNA-seq supports a developmental hierarchy in human oligodendroglioma (Tirosh, Venteicher et al., 2016, <em>Nature</em>)</a></p></li>
+<li><p><a href="https://doi.org/10.1126/science.1254257">Single-cell RNA-seq highlights intratumoral heterogeneity in primary glioblastoma (Patel, Tirosh et al., 2014, <em>Science</em>)</a></p></li>
+</ul>
 </div>
+<div id="data-requirements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-requirements" class="anchor"></a>Data requirements</h2>
+<p>The bare minimum for use in infercna is:</p>
+<ul>
+<li>a single-cell expression matrix of genes by cells + <em>not</em> centered + normalised for sequencing depth and gene length (e.g. one of TPM, RPKM, CPM, etc). + <em>optionally</em> in log space. e.g. <code><a href="https://rdrr.io/r/base/Log.html">log2(TPM/10 + 1)</a></code> + Note: also see <code>infercna::TPM</code> and <code>infercna::logTPM</code>
+</li>
+</ul>
+<p>If you would like to compute <em>absolute</em>, rather than <em>relative</em>, CNA values, you should additionally provide:</p>
+<ul>
+<li>a list of length two or more containing reference cell IDs of normal cells. For example list(macrophages, oligodendrocytes). + see example reference <code><a href="reference/refCells.html">infercna::refCells</a></code>
+</li>
+</ul>
+<p>Finally, if your genome is not available in the current implementation of infercna, you should additionally provide:</p>
+<ul>
+<li>a genome dataframe, containing the columns: <code>symbol</code>, <code>chromosome_name</code>, <code>start_position</code>, <code>arm</code>.</li>
+</ul>
+</div>
+<div id="example-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-data" class="anchor"></a>Example data</h2>
+<p>infercna is built with two example datasets of scRNA-seq data from two patients with Glioblastoma, <code><a href="reference/bt771.html">infercna::bt771</a></code> and <code><a href="reference/mgh125.html">infercna::mgh125</a></code>, along with two normal reference groups, <code><a href="reference/refCells.html">infercna::refCells</a></code>. The matrices are stored as sparse matrices and you can use <code><a href="reference/useData.html">infercna::useData()</a></code> to load them as normal matrices. These patients are taken from a much larger cohort of 28 Glioblastoma samples. You can look at the complete study <a href="Neftel*,%20Laffy*%20et%20al.%202019,%20Cell">here</a> and can download the complete dataset via the <a href="https://portals.broadinstitute.org/single_cell/study/SCP393/single-cell-rna-seq-of-adult-and-pediatric-glioblastoma">Single Cell Portal</a>.</p>
+</div>
+<div id="future-implementations" class="section level2">
+<h2 class="hasAnchor">
+<a href="#future-implementations" class="anchor"></a>Future implementations</h2>
+<p>Future implementations will include:</p>
+<ul>
+<li>more default genomes to choose from</li>
+<li>option to correct CNA values (to absolute) when just <em>one</em> reference is available.</li>
+<li>more stuff…</li>
+</ul>
 </div>
   </div>
 

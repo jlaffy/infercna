@@ -36,7 +36,8 @@
 
 
 <meta property="og:title" content="Fit a Bimodal Gaussian Distribution — fitBimodal" />
-<meta property="og:description" content="Fit a bimodal gaussian distribution to a set of observations." />
+<meta property="og:description" content="Fit a bimodal gaussian distribution to a set of observations.
+Fit a bimodal gaussian distribution to a set of observations." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,15 +125,20 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fit a Bimodal Gaussian Distribution</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jlaffy/infercna/blob/master/R/fitBimodal.R'><code>R/fitBimodal.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jlaffy/infercna/blob/master/R/fitBimodal.R'><code>R/fitBimodal.R</code></a>, <a href='https://github.com/jlaffy/infercna/blob/master/R/fitModal.R'><code>R/fitModal.R</code></a></small>
     <div class="hidden name"><code>fitBimodal.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Fit a bimodal gaussian distribution to a set of observations.</p>
+<p>Fit a bimodal gaussian distribution to a set of observations.</p>
     </div>
 
     <pre class="usage"><span class='fu'>fitBimodal</span>(<span class='no'>x</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>coverage</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>assign</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>boolean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>maxit</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
+  <span class='kw'>maxrestarts</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>bySampling</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nsamp</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='no'>...</span>)
+
+<span class='fu'>fitModal</span>(<span class='no'>x</span>, <span class='no'>m</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>coverage</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>assign</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>boolean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>maxit</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
   <span class='kw'>maxrestarts</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>bySampling</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nsamp</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='no'>...</span>)</pre>
 
@@ -179,17 +185,64 @@
       <th>m</th>
       <td><p>number of components (modes). Default: 2</p></td>
     </tr>
+    <tr>
+      <th>x</th>
+      <td><p>a named numeric vector of cells/observations or a matrix of genes X cells (variables X observations). If the latter, the column means are first computed.</p></td>
+    </tr>
+    <tr>
+      <th>m</th>
+      <td><p>numeric value indicating the modality to test; 1 for unimodal; 2 for bimodal; etc.</p></td>
+    </tr>
+    <tr>
+      <th>prob</th>
+      <td><p>a numeric value &gt;= 0 and &lt;= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.95</p></td>
+    </tr>
+    <tr>
+      <th>coverage</th>
+      <td><p>the fraction of observations that must have a posterior probability higher than &lt;prob&gt; to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8</p></td>
+    </tr>
+    <tr>
+      <th>size</th>
+      <td><p>the minimum number of observations that must be assigned to a mode in order for the distribution to qualify as bimodal. Default: 10</p></td>
+    </tr>
+    <tr>
+      <th>assign</th>
+      <td><p>if set to TRUE, returns a list of length two containing the vector names that were assigned to each mode. Default: FALSE</p></td>
+    </tr>
+    <tr>
+      <th>boolean</th>
+      <td><p>if set to TRUE, returns a boolean value indicating whether the distribution is bimodal. Default: FALSE</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>print progress messages. Default: TRUE</p></td>
+    </tr>
+    <tr>
+      <th>maxrestarts</th>
+      <td><p>the maximum number of restarts allowed. See <code><a href='https://rdrr.io/pkg/mixtools/man/normalmixEM.html'>normalmixEM</a></code> for details. Default: 100</p></td>
+    </tr>
+    <tr>
+      <th>maxit</th>
+      <td><p>the maximum number of iterations. Default: 5000</p></td>
+    </tr>
+    <tr>
+      <th>m</th>
+      <td><p>number of components (modes). Default: 2</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.</p>
+<p>The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/mixtools/man/normalmixEM.html'>normalmixEM</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/mixtools/man/normalmixEM.html'>normalmixEM</a></code></p>
+<p><code><a href='https://rdrr.io/pkg/mixtools/man/normalmixEM.html'>normalmixEM</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> <span class='no'>cna</span> <span class='kw'>=</span> <span class='fu'><a href='infercna.html'>infercna</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fu'><a href='useData.html'>useData</a></span>(), <span class='kw'>dipcells</span> <span class='kw'>=</span> <span class='no'>dipcells</span>)</div><div class='output co'>#&gt; <span class='error'>Error in infercna(m = useData(), dipcells = dipcells): unused argument (dipcells = dipcells)</span></div><div class='input'> <span class='co'># Malignant cells only (remove columns corresponding to dipcells)</span>
+ <span class='no'>cna</span> <span class='kw'>=</span> <span class='no'>cna</span>[, !<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>cna</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>dipcells</span>)]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'cna' not found</span></div><div class='input'> <span class='no'>cnaByChr</span> <span class='kw'>=</span> <span class='fu'><a href='splitGenes.html'>splitGenes</a></span>(<span class='no'>cna</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>'chr'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in splitGenes(cna, by = "chr"): object 'cna' not found</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>cnaByChr</span>, <span class='no'>fitBimodal</span>, <span class='kw'>assign</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lapply(X = X, FUN = FUN, ...): object 'cnaByChr' not found</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>cnaByChr</span>, <span class='no'>fitBimodal</span>, <span class='kw'>boolean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lapply(X = X, FUN = FUN, ...): object 'cnaByChr' not found</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>cnaByChr</span>, <span class='no'>fitBimodal</span>, <span class='kw'>boolean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>coverage</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lapply(X = X, FUN = FUN, ...): object 'cnaByChr' not found</span></div><div class='input'> <span class='no'>cna</span> <span class='kw'>=</span> <span class='fu'><a href='infercna.html'>infercna</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fu'><a href='useData.html'>useData</a></span>(), <span class='kw'>dipcells</span> <span class='kw'>=</span> <span class='no'>dipcells</span>)</div><div class='output co'>#&gt; <span class='error'>Error in infercna(m = useData(), dipcells = dipcells): unused argument (dipcells = dipcells)</span></div><div class='input'> <span class='co'># Malignant cells only (remove columns corresponding to dipcells)</span>
  <span class='no'>cna</span> <span class='kw'>=</span> <span class='no'>cna</span>[, !<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>cna</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>dipcells</span>)]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'cna' not found</span></div><div class='input'> <span class='no'>cnaByChr</span> <span class='kw'>=</span> <span class='fu'><a href='splitGenes.html'>splitGenes</a></span>(<span class='no'>cna</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>'chr'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in splitGenes(cna, by = "chr"): object 'cna' not found</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>cnaByChr</span>, <span class='no'>fitBimodal</span>, <span class='kw'>assign</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lapply(X = X, FUN = FUN, ...): object 'cnaByChr' not found</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>cnaByChr</span>, <span class='no'>fitBimodal</span>, <span class='kw'>boolean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lapply(X = X, FUN = FUN, ...): object 'cnaByChr' not found</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>cnaByChr</span>, <span class='no'>fitBimodal</span>, <span class='kw'>boolean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>coverage</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lapply(X = X, FUN = FUN, ...): object 'cnaByChr' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

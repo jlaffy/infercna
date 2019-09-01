@@ -6,8 +6,8 @@
 \usage{
 cnaScatterPlot(cna, cor.method = "pearson", threshold = NULL,
   cor.threshold = threshold, signal.threshold = threshold,
-  group = NULL, group.col = "magenta", hline = NULL, vline = NULL,
-  bySample = FALSE, samples = NULL, sep = "-|_",
+  group = NULL, group.col = "magenta", cex = 0.5, hline = NULL,
+  vline = NULL, bySample = FALSE, samples = NULL, sep = "-|_",
   excludeFromAvg = NULL, ...)
 }
 \arguments{

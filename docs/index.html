@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">infercna</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -152,12 +152,25 @@
 <a href="#data-requirements" class="anchor"></a>Data requirements</h2>
 <p>The bare minimum for use in infercna is:</p>
 <ul>
-<li>a single-cell expression matrix of genes by cells + <em>not</em> centered + normalised for sequencing depth and gene length (e.g. one of TPM, RPKM, CPM, etc). + <em>optionally</em> in log space. e.g. <code><a href="https://rdrr.io/r/base/Log.html">log2(TPM/10 + 1)</a></code> + Note: also see <code>infercna::TPM</code> and <code>infercna::logTPM</code>
+<li>a single-cell expression matrix of genes by cells
+<ul>
+<li>
+<strong>not</strong> centered</li>
+<li>normalised for sequencing depth and gene length (e.g. one of TPM, RPKM, CPM, etc).</li>
+<li>optionally in log space. e.g. <code><a href="https://rdrr.io/r/base/Log.html">log2(TPM/10 + 1)</a></code>
+</li>
+<li>Note: also see <code>infercna::TPM</code> and <code>infercna::logTPM</code>
 </li>
 </ul>
-<p>If you would like to compute <em>absolute</em>, rather than <em>relative</em>, CNA values, you should additionally provide:</p>
+</li>
+</ul>
+<p>If you would like to compute absolute (rather than <em>relative</em>) CNA values, you should additionally provide:</p>
 <ul>
-<li>a list of length two or more containing reference cell IDs of normal cells. For example list(macrophages, oligodendrocytes). + see example reference <code><a href="reference/refCells.html">infercna::refCells</a></code>
+<li>a list of length two or more containing reference cell IDs of normal cells. For example list(macrophages, oligodendrocytes).
+<ol style="list-style-type: decimal">
+<li>see example reference <code><a href="reference/refCells.html">infercna::refCells</a></code>
+</li>
+</ol>
 </li>
 </ul>
 <p>Finally, if your genome is not available in the current implementation of infercna, you should additionally provide:</p>

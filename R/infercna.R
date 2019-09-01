@@ -41,16 +41,20 @@ infercna = function(m,
     if (all(round(range(rowMeans(m)), 3) == 0)) {
         stop('Matrix is row-centered. Please provide non-centered data.')
     }
-    if (!isLog) m = logTPM(m)
+    if (isLog) m = TPM(m)
     if (!is.null(n)) m = m[.mostExpressedGenes(m, ngenes = n), ]
+
+    m = logTPM(m)
     m = rowCenter(m)
     m = orderGenes(m)
     m = clip(m, range = range)
+
     m = TPM(m) 
     ms = splitGenes(m, by = 'chr')
     cna = sapply(ms, function(m) try(runMean(m, k = window, verbose = verbose)), simplify = F)
     cna = cna[sapply(cna, class) != 'try-error' | !sapply(class, isFALSE)]
     cna = Reduce(rbind, cna)
+
     cna = logTPM(cna, dividebyten = T)
     cna = colCenter(cna, method = center.method) # note: using median centering here
     if (!is.null(refCells)) {

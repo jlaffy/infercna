@@ -22,7 +22,7 @@ fetchModes = function(m,
                       size = 10,
                       by = 'chr',
                       bySampling = FALSE,
-                      nsamp = 10000,
+                      nsamp = 2000,
                       minGenes = 50,
                       ...) {
 
@@ -89,21 +89,22 @@ findClones = function(m,
                       clone.size = 3,
                       by = 'chr',
                       bySampling = FALSE,
-                      nsamp = 10000,
+                      nsamp = 2000,
+                      force.tries = FALSE,
                       verbose = FALSE,
                       ...) {
 
     if (is.list(as.matrix(m))) {
         if (verbose) {
-            modes = sapply(m, fitBimodal, prob = prob, coverage = coverage, size = mode.size, assign = T, bySampling = bySampling, nsamp = nsamp, ...)
+            modes = sapply(m, fitBimodal, prob = prob, coverage = coverage, size = mode.size, assign = T, bySampling = bySampling, nsamp = nsamp, force.tries = force.tries,...)
         } else {
-            modes = suppressWarnings(sapply(m, fitBimodal, prob = prob, coverage = coverage, size = mode.size, assign = T, bySampling = bySampling, nsamp = nsamp, ...))
+            modes = suppressWarnings(sapply(m, fitBimodal, prob = prob, coverage = coverage, size = mode.size, assign = T, bySampling = bySampling, nsamp = nsamp, force.tries = force.tries,...))
         }
     } else {
         if (verbose) {
-            modes = fetchModes(m, prob = prob, coverage = coverage, size = mode.size, by = by, bySampling = bySampling, nsamp = nsamp, ...)
+            modes = fetchModes(m, prob = prob, coverage = coverage, size = mode.size, by = by, bySampling = bySampling, nsamp = nsamp,force.tries = force.tries, ...)
         } else {
-            modes = suppressWarnings(fetchModes(m, prob = prob, coverage = coverage, size = mode.size, by = by, bySampling = bySampling, nsamp = nsamp, ...))
+            modes = suppressWarnings(fetchModes(m, prob = prob, coverage = coverage, size = mode.size, by = by, bySampling = bySampling, nsamp = nsamp, force.tries = force.tries,...))
         }
     }
     

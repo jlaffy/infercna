@@ -1,7 +1,7 @@
 
 .fitBimodalBySampling = function(x,
                                  sample.size = 100,
-                                 tries = 1000,
+                                 tries = 2000,
                                  force.tries = FALSE,
                                  prob = 0.95,
                                  coverage = 0.8,

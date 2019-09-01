@@ -36,7 +36,8 @@ fitBimodal = function(x,
                       maxit = 5000,
                       maxrestarts = 100,
                       bySampling = FALSE,
-                      nsamp = 200,
+                      nsamp = 2000,
+                      force.tries = FALSE,
                       ...) {
 
     if (bySampling) {
@@ -48,6 +49,7 @@ fitBimodal = function(x,
                                     verbose = verbose,
                                     maxit = maxit,
                                     maxrestarts = maxrestarts,
+                                    force.tries = force.tries,
                                     ...)
         return(out)
     }

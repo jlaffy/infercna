@@ -13,13 +13,12 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 knitr::opts_knit$set(warning = FALSE, error = TRUE)
 library(infercna)
 library(magrittr)
-#devtools::load_all()
 set.seed(1014)
 ```
 
 ## Prepare your data
-### Set your genome with `useGenome()`
-``` {r}
+### Set your genome with `useGenome()` 
+```{r}
 useGenome('hg19')
 retrieveGenome()
 ```
@@ -117,17 +116,27 @@ Let's quickly go over the note-worthy arguments:
 
 
 ```{r}
-cnaScatterPlot(cna = cna, signal.threshold = NULL, main = 'Default')
-cnaScatterPlot(cna = cna, signal.threshold = 0.5, main = 'threshold: 0.5')
-cnaScatterPlot(cna = cna, signal.threshold = 0.7, main = 'threshold: 0.7')
-cnaScatterPlot(cna = cna, signal.threshold = 0.9, main = 'threshold: 0.9')
+cnaScatterPlot(cna = cna,
+               signal.threshold = NULL,
+               main = 'Default')
+cnaScatterPlot(cna = cna,
+               signal.threshold = 0.9,
+               main = 'threshold: 0.9')
 ```
 
 ```{r}
-cnaScatterPlot(cna = cna, signal.threshold = 0.9, main = 'Default (signal.threshold = 0.9)')
-cnaScatterPlot(cna = cna, threshold = 0.9, main = 'threshold: 0.9')
-cnaScatterPlot(cna = cna, threshold = 0.9, samples = 'MGH125', excludeFromAvg = unlist(refCells), main = "threshold: 0.9, samples:'MGH125', excludeFromAvg")
-cnaScatterPlot(cna = cna, threshold = 0.9, samples = 'MGH125', excludeFromAvg = unlist(refCells), main = "threshold: 0.9, samples:'MGH125', excludeFromAvg", group = unlist(refCells))
+cnaScatterPlot(cna = cna, 
+               signal.threshold = 0.9, 
+               main = 'signal threshold = 0.9')
+cnaScatterPlot(cna = cna, 
+               threshold = 0.9, 
+               main = 'signal and cor threshold: 0.9')
+cnaScatterPlot(cna = cna,
+               threshold = 0.9, 
+               samples = 'MGH125', 
+               excludeFromAvg = unlist(refCells), 
+               main = "threshold: 0.9, samples:'MGH125', excludeFromAvg", 
+               group = unlist(refCells))
 
 ```
 
@@ -159,10 +168,9 @@ length(cnaHotspotGenes(cna = cnaM, threshold = .9))
 args(findMalignant)
 ```
 
-```{r, warning = FALSE, results = 'hide'}
+```{r, warning = FALSE, results = 'hide', message = FALSE}
 Modes = findMalignant(cna, signal.threshold = .9, samples = 'MGH125')
 ```
-
 ```{r}
 lengths(Modes)
 
@@ -181,15 +189,14 @@ cnaCancer = cna[, Modes$malignant]
 L = Map(filterGenes, value = c(2, '4p', 15), attribute = c('chr', 'arm', 'chr'), MoreArgs = list(cnaCancer))
 ```
 
-```{r, warning = FALSE, results = 'hide'}
+```{r, warning = FALSE, message = FALSE, results = 'hide'}
 out = sapply(L, fitBimodal, assign = T)
 ```
-
 ```{r}
 lengths(out)
 ```
 
-```{r, warning = FALSE, results = 'hide'}
+```{r, warning = FALSE, message = FALSE, results = 'hide'}
 out[[3]] = fitBimodal(L[[3]], assign = T, bySampling = T, nsamp = 300)
 ```
 
@@ -199,8 +206,11 @@ sapply(out, lengths)
 expandToClones(out, greaterThan = 3) %>% lengths %>% as.matrix
 ```
 
-```{r, warning = FALSE, results = 'hide'}
-findClones(cna[, Modes$malignant], by = 'chr') %>% lengths
+```{r, warning = FALSE, message = FALSE, results = 'hide'}
+Clones = findClones(cna[, Modes$malignant], by = 'chr')
+```
+```{r}
+lengths(Clones)
 ```
 
 ## Additional featuers

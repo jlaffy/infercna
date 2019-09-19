@@ -7,17 +7,18 @@
 #' @param assign if set to TRUE, returns a list of length two containing the vector names that were assigned to each mode. Default: FALSE
 #' @param boolean if set to TRUE, returns a boolean value indicating whether the distribution is bimodal. Default: FALSE
 #' @param verbose print progress messages. Default: TRUE 
-#' @param maxrestarts the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 100
 #' @param maxit the maximum number of iterations. Default: 5000
-#' @param m number of components (modes). Default: 2
+#' @param maxrestarts the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 100
+#' @param bySampling
+#' @param nsamp
+#' @param force.tries
 #' @return The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.
 #' @examples 
-#'  cna = infercna(m = useData(), dipcells = dipcells)
-#'  # Malignant cells only (remove columns corresponding to dipcells)
-#'  cna = cna[, !colnames(cna) %in% unlist(dipcells)] 
+#'  cna = infercna(m = useData(), refCells = refCells)
+#'  # Malignant cells only (remove columns corresponding to refCells)
+#'  cna = cna[, !colnames(cna) %in% unlist(refCells)] 
 #'  cnaByChr = splitGenes(cna, by = 'chr')
 #'  sapply(cnaByChr, fitBimodal, assign = TRUE)
-#'  sapply(cnaByChr, fitBimodal, boolean = TRUE)
 #'  sapply(cnaByChr, fitBimodal, boolean = TRUE, coverage = 0.5)
 #' @seealso 
 #'  \code{\link[mixtools]{normalmixEM}}
@@ -37,8 +38,7 @@ fitBimodal = function(x,
                       maxrestarts = 100,
                       bySampling = FALSE,
                       nsamp = 2000,
-                      force.tries = FALSE,
-                      ...) {
+                      force.tries = FALSE) {
 
     if (bySampling) {
         out = .fitBimodalBySampling(x = x,

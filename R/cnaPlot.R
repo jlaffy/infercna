@@ -118,39 +118,32 @@
 #' @param angle angle of axes tick labels. x.angle and y.angle inherit from angle. Default: NULL
 #' @param x.angle angle of x axis tick labels. If left, will inherit from angle. Default: NULL
 #' @param y.angle angle of y axis tick labels. If left, will inherit from angle. Default: 0
-#' @param axis.rel PARAM_DESCRIPTION, Default: 1
-#' @param base.size PARAM_DESCRIPTION, Default: 12
-#' @param axis.title.size PARAM_DESCRIPTION, Default: 12
-#' @param axis.text.size PARAM_DESCRIPTION, Default: 11
-#' @param base.col PARAM_DESCRIPTION, Default: '#073642'
-#' @param title PARAM_DESCRIPTION, Default: NULL
-#' @param subtitle PARAM_DESCRIPTION, Default: NULL
-#' @param caption PARAM_DESCRIPTION, Default: NULL
-#' @param text.size PARAM_DESCRIPTION, Default: 12
-#' @param x.hide PARAM_DESCRIPTION, Default: c("13", "18", "21", "Y")
-#' @param y.hide PARAM_DESCRIPTION, Default: NULL
-#' @param tile.size PARAM_DESCRIPTION, Default: 0.1
-#' @param tile.col PARAM_DESCRIPTION, Default: NULL
-#' @param legend.position PARAM_DESCRIPTION, Default: 'right'
-#' @param legend.height PARAM_DESCRIPTION, Default: 2
-#' @param legend.width PARAM_DESCRIPTION, Default: 0.6
-#' @param legend.rel PARAM_DESCRIPTION, Default: 0.9
-#' @param legend.colour PARAM_DESCRIPTION, Default: 'black'
-#' @param legend.breaks PARAM_DESCRIPTION, Default: NULL
-#' @param legend.labels PARAM_DESCRIPTION, Default: NULL
-#' @param legend.title PARAM_DESCRIPTION, Default: 'Inferred CNA `[log2 ratio`]'
-#' @param legend.justification PARAM_DESCRIPTION, Default: 'top'
-#' @param legend.title.position PARAM_DESCRIPTION, Default: 'bottom'
-#' @param legend.title.angle PARAM_DESCRIPTION, Default: NULL
-#' @param legend.title.rel PARAM_DESCRIPTION, Default: 0.9
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @param axis.rel relative size of axes labels. Default: 1
+#' @param base.size base text size. Default: 12
+#' @param axis.title.size axes titles text size. Default: 12
+#' @param axis.text.size axes labels text size. Default: 11
+#' @param base.col base text colour. Default: '#073642'
+#' @param title title of plot. Default: NULL
+#' @param subtitle subtitle of plot. Default: NULL
+#' @param caption caption of plot. Default: NULL
+#' @param text.size base text size. Default: 12
+#' @param x.hide x axis labels to hide from plot. Default: c("13", "18", "21", "Y")
+#' @param y.hide y axis labels to hide from plot. Default: NULL
+#' @param tile.size size of tile borders. No border if is equal to NULL. Default: 0.1
+#' @param tile.col colour of tile borders. No border if is equal to NULL. Default: NULL
+#' @param legend.position legend position on plot. Default: 'right'
+#' @param legend.height legend height. Default: 2
+#' @param legend.width legend width. Default: 0.6
+#' @param legend.rel relative size of legend text. Default: 0.9
+#' @param legend.colour legend text colour. Default: 'black'
+#' @param legend.breaks breaks to include on colour key. Default: NULL
+#' @param legend.labels specify labels on colour key. Default: NULL
+#' @param legend.title title of legend. Default: 'Inferred CNA `[log2 ratio`]'
+#' @param legend.justification legend justification on plot. Default: 'top'
+#' @param legend.title.position position of legend title on plot. Default: 'bottom'
+#' @param legend.title.angle angle of legend title. Default: NULL
+#' @param legend.title.rel relative size of legend title text. Default: 0.9
+#' @return a list containing $p, the ggplot plot, and $data, the data (in dataframe format).
 #' @seealso 
 #'  \code{\link[scrabble]{clusta}}
 #'  \code{\link[reshape2]{melt}}

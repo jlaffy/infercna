@@ -31,9 +31,9 @@ cnaPlot(cna, limits = c(-1, 1), ratio = 0.5, cols = heatCols,
 
 \item{y.name}{y axis label. Default: 'Cell'}
 
-\item{legend.title}{PARAM_DESCRIPTION, Default: 'Inferred CNA `[log2 ratio`]'}
+\item{legend.title}{title of legend. Default: 'Inferred CNA `[log2 ratio`]'}
 
-\item{x.hide}{PARAM_DESCRIPTION, Default: c("13", "18", "21", "Y")}
+\item{x.hide}{x axis labels to hide from plot. Default: c("13", "18", "21", "Y")}
 
 \item{orderCells}{boolean value indicating whether cells should be ordered by hierarchical clustering. Default: F}
 
@@ -43,67 +43,57 @@ cnaPlot(cna, limits = c(-1, 1), ratio = 0.5, cols = heatCols,
 
 \item{y.angle}{angle of y axis tick labels. If left, will inherit from angle. Default: 0}
 
-\item{axis.rel}{PARAM_DESCRIPTION, Default: 1}
+\item{axis.rel}{relative size of axes labels. Default: 1}
 
-\item{base.size}{PARAM_DESCRIPTION, Default: 12}
+\item{base.size}{base text size. Default: 12}
 
-\item{axis.title.size}{PARAM_DESCRIPTION, Default: 12}
+\item{axis.title.size}{axes titles text size. Default: 12}
 
-\item{axis.text.size}{PARAM_DESCRIPTION, Default: 11}
+\item{axis.text.size}{axes labels text size. Default: 11}
 
-\item{base.col}{PARAM_DESCRIPTION, Default: '#073642'}
+\item{base.col}{base text colour. Default: '#073642'}
 
-\item{title}{PARAM_DESCRIPTION, Default: NULL}
+\item{title}{title of plot. Default: NULL}
 
-\item{subtitle}{PARAM_DESCRIPTION, Default: NULL}
+\item{subtitle}{subtitle of plot. Default: NULL}
 
-\item{caption}{PARAM_DESCRIPTION, Default: NULL}
+\item{caption}{caption of plot. Default: NULL}
 
-\item{text.size}{PARAM_DESCRIPTION, Default: 12}
+\item{text.size}{base text size. Default: 12}
 
-\item{y.hide}{PARAM_DESCRIPTION, Default: NULL}
+\item{y.hide}{y axis labels to hide from plot. Default: NULL}
 
-\item{tile.size}{PARAM_DESCRIPTION, Default: 0.1}
+\item{tile.size}{size of tile borders. No border if is equal to NULL. Default: 0.1}
 
-\item{tile.col}{PARAM_DESCRIPTION, Default: NULL}
+\item{tile.col}{colour of tile borders. No border if is equal to NULL. Default: NULL}
 
-\item{legend.position}{PARAM_DESCRIPTION, Default: 'right'}
+\item{legend.position}{legend position on plot. Default: 'right'}
 
-\item{legend.height}{PARAM_DESCRIPTION, Default: 2}
+\item{legend.height}{legend height. Default: 2}
 
-\item{legend.width}{PARAM_DESCRIPTION, Default: 0.6}
+\item{legend.width}{legend width. Default: 0.6}
 
-\item{legend.rel}{PARAM_DESCRIPTION, Default: 0.9}
+\item{legend.rel}{relative size of legend text. Default: 0.9}
 
-\item{legend.colour}{PARAM_DESCRIPTION, Default: 'black'}
+\item{legend.colour}{legend text colour. Default: 'black'}
 
-\item{legend.breaks}{PARAM_DESCRIPTION, Default: NULL}
+\item{legend.breaks}{breaks to include on colour key. Default: NULL}
 
-\item{legend.labels}{PARAM_DESCRIPTION, Default: NULL}
+\item{legend.labels}{specify labels on colour key. Default: NULL}
 
-\item{legend.justification}{PARAM_DESCRIPTION, Default: 'top'}
+\item{legend.justification}{legend justification on plot. Default: 'top'}
 
-\item{legend.title.position}{PARAM_DESCRIPTION, Default: 'bottom'}
+\item{legend.title.position}{position of legend title on plot. Default: 'bottom'}
 
-\item{legend.title.angle}{PARAM_DESCRIPTION, Default: NULL}
+\item{legend.title.angle}{angle of legend title. Default: NULL}
 
-\item{legend.title.rel}{PARAM_DESCRIPTION, Default: 0.9}
+\item{legend.title.rel}{relative size of legend title text. Default: 0.9}
 }
 \value{
-OUTPUT_DESCRIPTION
+a list containing $p, the ggplot plot, and $data, the data (in dataframe format).
 }
 \description{
 Plot a heatmap of CNA values.
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
 }
 \seealso{
 \code{\link[scrabble]{clusta}}

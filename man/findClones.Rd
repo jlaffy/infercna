@@ -22,7 +22,7 @@ findClones(m, prob = 0.95, coverage = 0.8, mode.size = 10,
 \item{by}{PARAM_DESCRIPTION, Default: 'chr'}
 }
 \description{
-FUNCTION_DESCRIPTION
+Assign cells to genetic subclones from their inferred CNA profiles. You can compute their CNA profiles using infercna::infercna().
 }
 \examples{
 cna = infercna(useData(), refCells = refCells)

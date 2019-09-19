@@ -206,13 +206,6 @@ sapply(out, lengths)
 expandToClones(out, greaterThan = 3) %>% lengths %>% as.matrix
 ```
 
-```{r, warning = FALSE, message = FALSE, results = 'hide'}
-Clones = findClones(cna[, Modes$malignant], by = 'chr')
-```
-```{r}
-lengths(Clones)
-```
-
 ## Additional featuers
 
 * `splitGenes()`

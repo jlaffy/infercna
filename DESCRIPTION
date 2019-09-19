@@ -29,6 +29,7 @@ Imports:
     ggplot2,
     hrbrthemes,
     scales
+Remotes: jlaffy/scrabble
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

@@ -30,10 +30,17 @@ currentGenome = function() {
 #' @export 
 #' @importFrom tibble as_tibble
 retrieveGenome = function(name = NULL) {
-    if (is.null(name)) name = Genv$name
-    data = .fetchGenome(name)
+
+    if (is.null(name)) {
+        name = Genv$name
+        data = Genv$data
+    } else {
+        data = .fetchGenome(name)
+    }
+
     message('Retrieving: ', name)
     tibble::as_tibble(data)
+    
 }
 
 #' @title Add your own Genome

@@ -22,7 +22,13 @@ Imports:
     magrittr,
     utils,
     scrabble,
-    nor1mix
+    nor1mix,
+    ggpubr,
+    reshape2,
+    mixtools,
+    ggplot2,
+    hrbrthemes,
+    scales
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

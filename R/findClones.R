@@ -68,7 +68,7 @@ expandToClones = function(modes,
 
 
 #' @title Find Clones 
-#' @description FUNCTION_DESCRIPTION
+#' @description Assign cells to genetic subclones from their inferred CNA profiles. You can compute their CNA profiles using infercna::infercna().
 #' @param m a matrix of genes X cells (variables X observations) containing CNA values.
 #' @param prob a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.95
 #' @param coverage the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8

@@ -75,7 +75,7 @@ expandToClones = function(modes,
 #' @param mode.size the minimum number of observations required to define a mode. Default: 10
 #' @param clone.size the minimum number of cells required to define a clone. Default: 3
 #' @param by PARAM_DESCRIPTION, Default: 'chr'
-#' @return 
+#' @return OUTPUT 
 #' @examples 
 #' cna = infercna(useData(), refCells = refCells)
 #' # malignant cells only

@@ -2,11 +2,13 @@
 .mostExpressedGenes = function(m, ngenes) {
     if (ngenes >= 0 & ngenes <= 1) {
         ngenes = ngenes * nrow(m)
-    }
+    } 
 
-    if (nrow(m) < ngenes) {
+    else if (nrow(m) <= ngenes) {
         ngenes = nrow(m)
     }
+
+    else stop('<ngenes> must be either a value no larger than the number of genes in the matrix <m>, or a fraction between 0 and 1.')
 
     rom = rowMeans(m)
     names(sort(rowMeans(m), decreasing = T)[1:ngenes])

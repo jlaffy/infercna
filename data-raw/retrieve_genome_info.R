@@ -24,7 +24,7 @@ quickmart = function(genome = 'hg19',
 
 getGenome = function(mart, add_attribute = 'hgnc_symbol') {
     filters = c('chromosome_name', 'hgnc_symbol')
-    values = list(c(1:22, 'X', 'Y'), readRDS('genes.rds'))
+    values = list(c(1:22, 'X', 'Y'), load('genes.rda'))
     attributes = c('chromosome_name',
                    'band',
                    'strand',

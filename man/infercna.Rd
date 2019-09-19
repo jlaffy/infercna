@@ -6,7 +6,7 @@
 \usage{
 infercna(m, refCells = NULL, window = 100, range = c(-3, 3),
   n = NULL, noise = 0.1, center.method = "median", isLog = FALSE,
-  verbose = TRUE)
+  verbose = FALSE)
 }
 \arguments{
 \item{m}{a matrix of genes X cells containing scRNA-seq expression data. The matrix should NOT be row-centered.}
@@ -20,6 +20,12 @@ infercna(m, refCells = NULL, window = 100, range = c(-3, 3),
 \item{n}{a numeric value indicating if only top genes should be used in the CNA calculation and how many. if n is a fraction between 0 and 1, the number of genes included will n * nrow(m). Else the number of genes included will be n. Default: NULL}
 
 \item{noise}{a numeric value, which if given, increases the boundaries within which CNA values are considered 0. Increases by <noise> i.e. the bounds become Minimum - noise and Maximum + noise. Default: 0.1}
+
+\item{center.method}{method by which to center the cells after calculating CNA values. One of 'median', 'mean', etc.... Default: 'median'}
+
+\item{isLog}{boolean value indicating whether the input expression matrix <m> is in log2 form. Default: FALSE}
+
+\item{verbose}{print progress messages. Default: FALSE}
 }
 \value{
 a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 genes will be lost from either extremity of the genome (ie. n genes lost at the start of chromosome 1 and at the end of chromosome Y, if the genome in question is H.sapiens.)

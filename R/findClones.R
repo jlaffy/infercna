@@ -76,12 +76,6 @@ expandToClones = function(modes,
 #' @param clone.size the minimum number of cells required to define a clone. Default: 3
 #' @param by PARAM_DESCRIPTION, Default: 'chr'
 #' @return OUTPUT 
-#' @examples 
-#' cna = infercna(useData(), refCells = refCells)
-#' # malignant cells only
-#' cna = cna[, !colnames(cna) %in% unlist(refCells)]
-#' findClones(cna, by = 'chr')
-#' findClones(cna, by = 'arm')
 #' @rdname findClones
 #' @export 
 findClones = function(m,

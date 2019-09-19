@@ -27,10 +27,3 @@ OUTPUT
 \description{
 Assign cells to genetic subclones from their inferred CNA profiles. You can compute their CNA profiles using infercna::infercna().
 }
-\examples{
-cna = infercna(useData(), refCells = refCells)
-# malignant cells only
-cna = cna[, !colnames(cna) \%in\% unlist(refCells)]
-findClones(cna, by = 'chr')
-findClones(cna, by = 'arm')
-}

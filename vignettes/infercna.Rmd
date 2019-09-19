@@ -96,6 +96,6 @@ Future implementations will include:
 
 * more default genomes to choose from
 * option to correct CNA values (to absolute) when just *one* reference is available.
-* more stuff... 
+* more...
 
 

@@ -6,7 +6,7 @@
     else stop('Value ', val, ' not found in genome attributes.')
 }
 
-.orderCellsByGroup = function(cna, include = NULL, euclid.dist = F, groups = NULL, ...) {
+.orderCellsByGroup = function(cna, include = NULL, dist.method = 'euclidean', groups = NULL, ...) {
     cnas = sapply(groups, function(gr) cna[, gr], simplify = F)
     dfmat = Reduce(do.call(cbind.data.frame, sapply(cnas, .orderCells, simplify = F)))
     mat = as.matrix(dfmat)
@@ -15,7 +15,7 @@
 
 .orderCells = function(cna, include = NULL, cor.method = 'pearson', dist.method = 'euclidean', ...) {
 #     if (!is.null(groups)) {
-#         return(.orderCellsByGroup(cna, include = include, euclid.dist = euclid.dist, groups = groups, ...))
+#         return(.orderCellsByGroup(cna, include = include, dist.method = dist.method, groups = groups, ...))
 #     }
 # 
     cna.orig = cna
@@ -26,7 +26,7 @@
         cna = filterGenes(x = cna, value = Args, attribute = names(Args))
     }
     
-    cna.orig[, scalop::hca_ord(x = cna, cor.method = cor.method, dist.method = dist.method, ...)]
+    cna.orig[, scalop::hca_reorder(x = cna, cor.method = cor.method, dist.method = dist.method, row = F, col = T, ...)]
 }
 
 .axisSpacer = function(breaks, labels, limits, levels = NULL) {
@@ -163,7 +163,7 @@ cnaPlot = function(cna,
                    x.hide = c('13', '18', '21', 'Y'),
                    orderCells = F,
                    order.with = NULL,
-                   euclid.dist = F,
+                   dist.method = 'euclidean',
                    angle = NULL,
                    x.angle = NULL,
                    y.angle = 0,
@@ -194,7 +194,7 @@ cnaPlot = function(cna,
     # order genes by genomic position
     cna = orderGenes(cna)
     # order cells?
-    if (orderCells) cna = .orderCells(cna, include = order.with, euclid.dist = euclid.dist) 
+    if (orderCells) cna = .orderCells(cna, include = order.with, dist.method = dist.method) 
     # prepare dataframe
     dat = reshape2::melt(as.matrix(cna))
     colnames(dat) = c('Gene', 'Cell', 'CNA')

@@ -13,7 +13,7 @@
     mat
 }
 
-.orderCells = function(cna, include = NULL, cor.method = 'pearson', dist.method = 'euclidean', ...) {
+.orderCells = function(cna, include = NULL, cor.method = 'pearson', dist.method = 'euclidean', max.dist= 1, cluster.method = 'average') {
 #     if (!is.null(groups)) {
 #         return(.orderCellsByGroup(cna, include = include, dist.method = dist.method, groups = groups, ...))
 #     }
@@ -26,7 +26,7 @@
         cna = filterGenes(x = cna, value = Args, attribute = names(Args))
     }
     
-    cna.orig[, scalop::hca_reorder(x = cna, cor.method = cor.method, dist.method = dist.method, row = F, col = T, ...)]
+    cna.orig[, scalop::hca_order(x = cna, cor.method = cor.method, dist.method = dist.method, cluster.method = cluster.method, max.dist = max.dist)]
 }
 
 .axisSpacer = function(breaks, labels, limits, levels = NULL) {

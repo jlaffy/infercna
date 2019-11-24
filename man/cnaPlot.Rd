@@ -15,7 +15,7 @@ cnaPlot(
   x.hide = c("13", "18", "21", "Y"),
   orderCells = F,
   order.with = NULL,
-  euclid.dist = F,
+  dist.method = "euclidean",
   angle = NULL,
   x.angle = NULL,
   y.angle = 0,

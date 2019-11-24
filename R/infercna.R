@@ -44,7 +44,7 @@ infercna = function(m,
     }
     if (isLog) {
         if (verbose) message('Converting <m> from log(2) space...')
-        m = TPM(m)
+        m = tpm(m)
     }
     if (!is.null(n)) {
         if (verbose) message('Filtering the expression matrix to include only top ', n, 'genes...')

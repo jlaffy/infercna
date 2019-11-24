@@ -54,7 +54,7 @@ infercna = function(m,
     if (verbose) message('Converting <m> to log(2) space...')
     m = logTPM(m)
     if (verbose) message('Performing mean-centering of the genes...')
-    m = rowCenter(m)
+    m = rowcenter(m, by = 'mean')
     if (verbose) message('Ordering the genes by their genomic position...')
     m = orderGenes(m)
     if (verbose) message('Restricting expression matrix values to between ', range[[1]], ' and ', range[[2]], '..')
@@ -72,7 +72,7 @@ infercna = function(m,
     if (verbose) message('Converting CNA values to log(2) space...')
     cna = logTPM(cna, dividebyten = T)
     if (verbose) message('Performing ', center.method, '-centering of the cells...')
-    cna = colCenter(cna, method = center.method) # note: using median centering here
+    cna = colcenter(cna, by = center.method) # note: using median centering here
 
     if (!is.null(refCells)) {
         if (verbose) message('Correcting CNA profiles using CNA values from <refCells>...')

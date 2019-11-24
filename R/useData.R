@@ -9,6 +9,6 @@ useData = function(x = NULL, rowcenter = F) {
     if (is.null(x)) x = cbind(as.matrix(bt771), as.matrix(mgh125))
     else x = as.matrix(x)
     x = x[, !duplicated(colnames(x))]
-    if (rowcenter) x = rowCenter(x)
+    if (rowcenter) x = rowcenter(x, by = 'mean')
     x
 }

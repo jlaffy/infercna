@@ -7,6 +7,14 @@ scalop::colcenter
 #' @export
 scalop::rowcenter
 
+#' @importFrom scalop logtpm
+#' @export
+scalop::logtpm
+
+#' @importFrom scalop tpm
+#' @export
+scalop::tpm
+
 #' @title Squish matrix values into range
 #' @description Squish matrix values into range
 #' @param m matrix to manipulate

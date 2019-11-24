@@ -52,7 +52,7 @@ infercna = function(m,
     }
 
     if (verbose) message('Converting <m> to log(2) space...')
-    m = logTPM(m)
+    m = logtpm(m, bulk = F)
     if (verbose) message('Performing mean-centering of the genes...')
     m = rowcenter(m, by = 'mean')
     if (verbose) message('Ordering the genes by their genomic position...')
@@ -61,7 +61,7 @@ infercna = function(m,
     m = clip(m, range = range)
 
     if (verbose) message('Converting <m> from log(2) space...')
-    m = TPM(m) 
+    m = tpm(m, bulk = F) 
     if (verbose) message('Preparing to calculate CNA values on each chromosome in turn...')
     ms = splitGenes(m, by = 'chr')
     if (verbose) message('Calculating rolling means with a window size of ', window, ' genes...')
@@ -70,7 +70,7 @@ infercna = function(m,
     cna = Reduce(rbind, cna)
 
     if (verbose) message('Converting CNA values to log(2) space...')
-    cna = logTPM(cna, dividebyten = T)
+    cna = logtpm(cna, bulk = F)
     if (verbose) message('Performing ', center.method, '-centering of the cells...')
     cna = colcenter(cna, by = center.method) # note: using median centering here
 

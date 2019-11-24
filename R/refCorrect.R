@@ -1,10 +1,10 @@
 
 .refrange = function(cna, isLog = FALSE, ...) {
     dots = list(...)
-    if (isLog) cna = TPM(cna)
+    if (isLog) cna = tpm(cna, bulk = F)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
     res = list(Min = do.call(pmin, v), Max = do.call(pmax, v))
-    sapply(res, logTPM, dividebyten = T, simplify = F)
+    sapply(res, logtpm, bulk = F, simplify = F)
 }
 
 .refcenter = function(v, Min, Max, noise = NULL) {

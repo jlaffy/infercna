@@ -4,8 +4,7 @@
 \alias{modality}
 \title{Test Distribution For Modality}
 \usage{
-modality(x, modes = 2:3, prob = 0.95, coverage = 0.8, size = 10,
-  ...)
+modality(x, modes = 2:3, prob = 0.95, coverage = 0.8, size = 10, ...)
 }
 \arguments{
 \item{x}{a named numeric vector of cells/observations or a matrix of genes X cells (variables X observations). If the latter, the column means are first computed.}

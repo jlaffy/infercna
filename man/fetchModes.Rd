@@ -4,8 +4,17 @@
 \alias{fetchModes}
 \title{FUNCTION_TITLE}
 \usage{
-fetchModes(m, prob = 0.95, coverage = 0.8, size = 10, by = "chr",
-  bySampling = FALSE, nsamp = 2000, minGenes = 50, ...)
+fetchModes(
+  m,
+  prob = 0.95,
+  coverage = 0.8,
+  size = 10,
+  by = "chr",
+  bySampling = FALSE,
+  nsamp = 2000,
+  minGenes = 50,
+  ...
+)
 }
 \arguments{
 \item{m}{PARAM_DESCRIPTION}

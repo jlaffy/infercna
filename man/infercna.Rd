@@ -4,9 +4,17 @@
 \alias{infercna}
 \title{Infer Copy-Number Alterations From Single-Cell RNA-Seq Data}
 \usage{
-infercna(m, refCells = NULL, window = 100, range = c(-3, 3),
-  n = NULL, noise = 0.1, center.method = "median", isLog = FALSE,
-  verbose = FALSE)
+infercna(
+  m,
+  refCells = NULL,
+  window = 100,
+  range = c(-3, 3),
+  n = NULL,
+  noise = 0.1,
+  center.method = "median",
+  isLog = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{m}{a matrix of genes X cells containing scRNA-seq expression data. The matrix should NOT be row-centered.}

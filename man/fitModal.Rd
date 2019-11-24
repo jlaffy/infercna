@@ -4,14 +4,26 @@
 \alias{fitModal}
 \title{Fit a Bimodal Gaussian Distribution}
 \usage{
-fitModal(x, m, prob = 0.95, coverage = 0.8, size = 10,
-  assign = FALSE, boolean = FALSE, verbose = TRUE, maxit = 5000,
-  maxrestarts = 100, bySampling = FALSE, nsamp = 200, ...)
+fitModal(
+  x,
+  m,
+  prob = 0.95,
+  coverage = 0.8,
+  size = 10,
+  assign = FALSE,
+  boolean = FALSE,
+  verbose = TRUE,
+  maxit = 5000,
+  maxrestarts = 100,
+  bySampling = FALSE,
+  nsamp = 200,
+  ...
+)
 }
 \arguments{
 \item{x}{a named numeric vector of cells/observations or a matrix of genes X cells (variables X observations). If the latter, the column means are first computed.}
 
-\item{m}{numeric value indicating the modality to test; 1 for unimodal; 2 for bimodal; etc.}
+\item{m}{number of components (modes). Default: 2}
 
 \item{prob}{a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.95}
 
@@ -28,8 +40,6 @@ fitModal(x, m, prob = 0.95, coverage = 0.8, size = 10,
 \item{maxit}{the maximum number of iterations. Default: 5000}
 
 \item{maxrestarts}{the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 100}
-
-\item{m}{number of components (modes). Default: 2}
 }
 \value{
 The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.

@@ -4,8 +4,7 @@
 \alias{runMean}
 \title{Rolling Means}
 \usage{
-runMean(m, k = 100, endrule = "mean", align = "center",
-  verbose = T)
+runMean(m, k = 100, endrule = "mean", align = "center", verbose = T)
 }
 \arguments{
 \item{m}{a numeric vector or matrix. If the latter, each column will be processed separately.}

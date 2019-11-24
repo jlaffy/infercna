@@ -35,13 +35,13 @@ findMalignant = function(cna,
     signals = cnaSignal(cna, threshold = signal.threshold)
     sigGroups = fitBimodal(signals, bySampling = signal.bySampling, nsamp = nsamples)
     
-    if (scrabble::jaccard(sigGroups$a, corGroups$b) > mode.overlap) return(FALSE)
-    if (scrabble::jaccard(sigGroups$b, corGroups$a) > mode.overlap) return(FALSE)
-    sect = scrabble::comply(corGroups, sigGroups, FUN = intersect)
+    if (scalop::jaccard(sigGroups$a, corGroups$b) > mode.overlap) return(FALSE)
+    if (scalop::jaccard(sigGroups$b, corGroups$a) > mode.overlap) return(FALSE)
+    sect = scalop::comply(corGroups, sigGroups, FUN = intersect)
     remove = union(unlist(sect[2,1]), unlist(sect[1,2]))
     message('removing ', length(remove), ' cells that were found in both modes')
     corGroups = sapply(corGroups, function(gr) gr[!gr %in% remove], simplify = F)
     sigGroups = sapply(sigGroups, function(gr) gr[!gr %in% remove], simplify = F)
-    sect = scrabble::comply(corGroups, sigGroups, FUN = intersect)
+    sect = scalop::comply(corGroups, sigGroups, FUN = intersect)
     list(a = unlist(sect[1,1], use.names = F), b = unlist(sect[2,2], use.names = F))
 }

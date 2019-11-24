@@ -4,19 +4,45 @@
 \alias{cnaPlot}
 \title{Plot a Heatmap of CNA Values}
 \usage{
-cnaPlot(cna, limits = c(-1, 1), ratio = 0.5, cols = heatCols,
-  x.name = "Chromosome", y.name = "Cell",
-  legend.title = "Inferred CNA\\n[log2 ratio]", x.hide = c("13", "18",
-  "21", "Y"), orderCells = F, order.with = NULL, euclid.dist = F,
-  angle = NULL, x.angle = NULL, y.angle = 0, axis.rel = 1,
-  base.size = 12, axis.title.size = 12, axis.text.size = 11,
-  base.col = "#073642", title = NULL, subtitle = NULL,
-  caption = NULL, text.size = 12, y.hide = NULL, tile.size = 0.1,
-  tile.col = NULL, legend.position = "right", legend.height = 2,
-  legend.width = 0.6, legend.rel = 0.9, legend.colour = "black",
-  legend.breaks = NULL, legend.labels = NULL,
-  legend.justification = "top", legend.title.position = "bottom",
-  legend.title.angle = NULL, legend.title.rel = 0.9)
+cnaPlot(
+  cna,
+  limits = c(-1, 1),
+  ratio = 0.5,
+  cols = heatCols,
+  x.name = "Chromosome",
+  y.name = "Cell",
+  legend.title = "Inferred CNA\\n[log2 ratio]",
+  x.hide = c("13", "18", "21", "Y"),
+  orderCells = F,
+  order.with = NULL,
+  euclid.dist = F,
+  angle = NULL,
+  x.angle = NULL,
+  y.angle = 0,
+  axis.rel = 1,
+  base.size = 12,
+  axis.title.size = 12,
+  axis.text.size = 11,
+  base.col = "#073642",
+  title = NULL,
+  subtitle = NULL,
+  caption = NULL,
+  text.size = 12,
+  y.hide = NULL,
+  tile.size = 0.1,
+  tile.col = NULL,
+  legend.position = "right",
+  legend.height = 2,
+  legend.width = 0.6,
+  legend.rel = 0.9,
+  legend.colour = "black",
+  legend.breaks = NULL,
+  legend.labels = NULL,
+  legend.justification = "top",
+  legend.title.position = "bottom",
+  legend.title.angle = NULL,
+  legend.title.rel = 0.9
+)
 }
 \arguments{
 \item{cna}{matrix of CNA values (genes by cells).}
@@ -96,7 +122,7 @@ a list containing $p, the ggplot plot, and $data, the data (in dataframe format)
 Plot a heatmap of CNA values.
 }
 \seealso{
-\code{\link[scrabble]{hca}}
+\code{\link[scalop]{hca}}
  \code{\link[reshape2]{melt}}
  \code{\link[ggpubr]{rotate_axis_text}}
 }

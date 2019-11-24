@@ -26,7 +26,7 @@
         cna = filterGenes(x = cna, value = Args, attribute = names(Args))
     }
     
-    cna.orig[, scrabble::hca(cr = cna, ord = T, compute.dist = euclid.dist, ...)]
+    cna.orig[, scalop::hca(cr = cna, ord = T, compute.dist = euclid.dist, ...)]
 }
 
 .axisSpacer = function(breaks, labels, limits, levels = NULL) {
@@ -145,12 +145,12 @@
 #' @param legend.title.rel relative size of legend title text. Default: 0.9
 #' @return a list containing $p, the ggplot plot, and $data, the data (in dataframe format).
 #' @seealso 
-#'  \code{\link[scrabble]{hca}}
+#'  \code{\link[scalop]{hca}}
 #'  \code{\link[reshape2]{melt}}
 #'  \code{\link[ggpubr]{rotate_axis_text}}
 #' @rdname cnaPlot
 #' @export 
-#' @importFrom scrabble hca
+#' @importFrom scalop hca
 #' @importFrom reshape2 melt
 #' @importFrom ggpubr rotate_x_text rotate_y_text
 cnaPlot = function(cna,

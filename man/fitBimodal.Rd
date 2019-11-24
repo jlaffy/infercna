@@ -4,10 +4,20 @@
 \alias{fitBimodal}
 \title{Fit a Bimodal Gaussian Distribution}
 \usage{
-fitBimodal(x, prob = 0.95, coverage = 0.8, size = 10,
-  assign = FALSE, boolean = FALSE, verbose = TRUE, maxit = 5000,
-  maxrestarts = 100, bySampling = FALSE, nsamp = 2000,
-  force.tries = FALSE)
+fitBimodal(
+  x,
+  prob = 0.95,
+  coverage = 0.8,
+  size = 10,
+  assign = FALSE,
+  boolean = FALSE,
+  verbose = TRUE,
+  maxit = 5000,
+  maxrestarts = 100,
+  bySampling = FALSE,
+  nsamp = 2000,
+  force.tries = FALSE
+)
 }
 \arguments{
 \item{x}{a named numeric vector of cells/observations or a matrix of genes X cells (variables X observations). If the latter, the column means are first computed.}

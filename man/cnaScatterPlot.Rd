@@ -15,7 +15,7 @@ cnaScatterPlot(cna, cor.method = "pearson", threshold = NULL,
 
 \item{cor.method}{character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'}
 
-\item{threshold}{PARAM_DESCRIPTION, Default: NULL}
+\item{threshold}{Default: NULL}
 
 \item{cor.threshold}{PARAM_DESCRIPTION, Default: threshold}
 
@@ -46,14 +46,4 @@ a base R plot
 }
 \description{
 Visualise Malignant and Non-Malignant Subsets of cells. This is achieved by plotting, for each cell, its CNA signal over its CNA correlation. Please see `infercna::cnaSignal` and `infercna::cnaCor` for details.
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
 }

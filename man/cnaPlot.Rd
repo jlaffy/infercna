@@ -96,7 +96,7 @@ a list containing $p, the ggplot plot, and $data, the data (in dataframe format)
 Plot a heatmap of CNA values.
 }
 \seealso{
-\code{\link[scrabble]{clusta}}
+\code{\link[scrabble]{hca}}
  \code{\link[reshape2]{melt}}
  \code{\link[ggpubr]{rotate_axis_text}}
 }

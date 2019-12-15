@@ -8,7 +8,7 @@ cnaCor(
   cna,
   cor.method = "pearson",
   threshold = NULL,
-  excludeFromAvg = NLL,
+  excludeFromAvg = NULL,
   samples = NULL,
   ...
 )

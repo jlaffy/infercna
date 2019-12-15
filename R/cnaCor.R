@@ -2,7 +2,6 @@
 .cnaCor = function(cna, cor.method = 'pearson', threshold = NULL, excludeFromAvg = NULL, na.replace = NULL) {
     cna = as.matrix(cna)
     if (!is.null(excludeFromAvg)) {
-        browser()
         genemeans = rowMeans(cna[, !colnames(cna) %in% unlist(excludeFromAvg), drop = F])
     } else {
         genemeans = rowMeans(cna)

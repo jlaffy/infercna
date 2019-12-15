@@ -15,10 +15,8 @@ cnaScatterPlot(
   cex = 0.5,
   hline = NULL,
   vline = NULL,
-  bySample = FALSE,
-  samples = NULL,
-  sep = "-|_",
   excludeFromAvg = NULL,
+  samples = NULL,
   ...
 )
 }
@@ -41,18 +39,14 @@ cnaScatterPlot(
 
 \item{vline}{PARAM_DESCRIPTION, Default: NULL}
 
-\item{bySample}{PARAM_DESCRIPTION, Default: FALSE}
+\item{excludeFromAvg}{a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL}
 
-\item{samples}{PARAM_DESCRIPTION, Default: NULL}
+\item{samples}{if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to group cells by, iii) TRUE to extract sample names from cell ids and subsequently group. Default: NULL}
 
-\item{sep}{if bySample is TRUE and samples are NULL, split cell IDs by <sep> and take the first substring to be the sample name. Default: '-|_'}
-
-\item{excludeFromAvg}{a character vector of cell IDs to exclude from the average tumour profile. Default: NULL}
-
-\item{...}{other arguments passed to base plot}
+\item{...}{other arguments passed to scalop::get_sample_names if samples = TRUE.}
 }
 \value{
-a base R plot
+a base R plot. If return value is saved to a variable, instead returns data points for cna correlations and cna signal in list form.
 }
 \description{
 Visualise Malignant and Non-Malignant Subsets of cells. This is achieved by plotting, for each cell, its CNA signal over its CNA correlation. Please see `infercna::cnaSignal` and `infercna::cnaCor` for details.

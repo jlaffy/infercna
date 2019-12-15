@@ -29,7 +29,7 @@ Imports:
     hrbrthemes,
     scales
 Remotes: jlaffy/scalop
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.1
 Suggests: 
     knitr,
     rmarkdown

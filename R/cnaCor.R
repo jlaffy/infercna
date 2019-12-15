@@ -15,6 +15,7 @@
 #' @param cna a matrix of gene rows by cell columns containing CNA values.
 #' @param cor.method character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'
 #' @param samples a character vector of sample names list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE
+#' @param max.nchar number of first characters to be subselected as sample name.
 #' @param sep if bySample is TRUE and samples are NULL, split cell IDs by <sep> and take the first substring to be the sample name. Default: '-|_'
 #' @return a numeric vector or list of numeric vectors
 #' @rdname cnaCor
@@ -24,24 +25,20 @@ cnaCor = function(cna,
                   threshold = NULL,
                   bySample = F,
                   samples = NULL,
+                  max.nchar = NULL,
                   sep = "-|_",
                   excludeFromAvg = NULL) {
 
-    if (!is.null(samples)) {
-        bySample = TRUE
-    }
+    if (!is.null(samples)) bySample = TRUE
 
-    if (!is.null(threshold)) {
-        cna = cna[cnaHotspotGenes(cna, threshold = threshold), ]
-    }
+    if (!is.null(threshold)) cna = cna[cnaHotspotGenes(cna, threshold = threshold), ]
 
-    if (!bySample) {
-        return(.cnaCor(cna, cor.method = cor.method))
-    }
+    if (!bySample) return(.cnaCor(cna, cor.method = cor.method))
 
     cnaBySample = splitCellsBySample(x = cna,
                                      sep = sep,
-                                     samples = samples)
+                                     samples = samples,
+                                     max.nchar = max.nchar)
 
     corBySample = sapply(cnaBySample,
                          .cnaCor,

@@ -10,6 +10,7 @@ cnaCor(
   threshold = NULL,
   bySample = F,
   samples = NULL,
+  max.nchar = NULL,
   sep = "-|_",
   excludeFromAvg = NULL
 )
@@ -20,6 +21,8 @@ cnaCor(
 \item{cor.method}{character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'}
 
 \item{samples}{a character vector of sample names list of character vectors (cell/column names). Can be provided if the cna matrix contains multiple samples of cells, i.e. multiple tumours, such that the cell-group correlations are calcualted for each group/tumour in turn. Default: FALSE}
+
+\item{max.nchar}{number of first characters to be subselected as sample name.}
 
 \item{sep}{if bySample is TRUE and samples are NULL, split cell IDs by <sep> and take the first substring to be the sample name. Default: '-|_'}
 }

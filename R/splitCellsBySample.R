@@ -1,35 +1,31 @@
 
-.splitCellsBySample = function(cells, samples = NULL, sep = "-|_", max.nchar = 6) {
+.splitCellsBySample = function(cells,
+                               samples = NULL,
+                               sep = "-|_",
+                               max.nchar = 6,
+                               pos = 1) {
 
     if (is.null(samples)) {
-        splut = stringr::str_split(cells, sep)
-        samples = sapply(splut, `[`, 1)
-        if (!is.null(max.nchar)) {
-            samples = sapply(samples, function(sample) {
-                                 if (nchar(sample) <= max.nchar) sample
-                                 else substr(sample, 1, max.nchar)})
-            samples = unique(samples)
-        }
+        samples = scalop::get_sample_names(cells, sep = sep, max.nchar = max.nchar, pos = pos)
+        return(split(cells, samples))
     }
 
-    if (length(unique(toupper(samples))) < length(samples)) samples = toupper(samples)
-
-    if (length(samples) < length(cells) & !any(duplicated(samples))) {
+    else if (length(samples) < length(cells) & !any(duplicated(samples))) {
         return(sapply(samples, function(Sample) cells[stringr::str_detect(cells, Sample)], simplify = F))
     }
 
-    split(cells, samples)
+    else stop('cells or samples not recognised or not compatible')
 }
+
 
 splitCellsBySample = function(x,
                               samples = NULL,
                               cellsBySample = NULL,
                               sep = "-|_",
-                              max.nchar = 6) {
+                              max.nchar = 6,
+                              sample.pos = 1) {
 
-    if (!is.null(dim(x))) {
-        cells = colnames(x)
-    }
+    if (!is.null(dim(x))) cells = colnames(x)
 
     else {
         if (is.null(names(x))) names(x) = x
@@ -37,7 +33,11 @@ splitCellsBySample = function(x,
     }
 
     if (is.null(cellsBySample)) {
-        cellsBySample = .splitCellsBySample(cells = cells, sep = sep, samples = samples, max.nchar = max.nchar)
+        cellsBySample = .splitCellsBySample(cells = cells,
+                                            sep = sep,
+                                            samples = samples,
+                                            max.nchar = max.nchar,
+                                            pos = sample.pos)
     }
 
     if (!is.null(dim(x))) {

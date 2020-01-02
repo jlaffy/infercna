@@ -4,7 +4,7 @@
     if (ngenes > nrow(m)) stop('<ngenes> cannot be larger than nrow(m).')
 
     if (ngenes >= 0 & ngenes <= 1) ngenes = ngenes * nrow(m)
-    else if (ngenes <= nrow(m)) ngenes = nrow(m)
+    else if (ngenes > nrow(m)) ngenes = nrow(m)
 
     rom = rowMeans(m)
     names(sort(rowMeans(m), decreasing = T)[1:ngenes])

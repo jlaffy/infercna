@@ -52,16 +52,18 @@ runMean <- function(m,
     }
 
     if (is.null(dim(m))) return(FALSE)
+    if (nrow(m) == 0) return(FALSE)
 
     if (nrow(m) < k) {
         k = nrow(m)
-        if (verbose) message('Setting <k> to nrow(m): ', k)
+        if (verbose) message('Adjusting window to the max. number of genes in chromome (', k, ')')
     }
 
     mout = caTools::runmean(m,
                             k = k,
                             endrule = endrule,
                             align = align)
+
     if (!is.null(dim(m))) {
         colnames(mout) = colnames(m)
         rownames(mout) = rownames(m)

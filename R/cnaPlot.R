@@ -6,18 +6,7 @@
     else stop('Value ', val, ' not found in genome attributes.')
 }
 
-.orderCellsByGroup = function(cna, include = NULL, dist.method = 'euclidean', groups = NULL, ...) {
-    cnas = sapply(groups, function(gr) cna[, gr], simplify = F)
-    dfmat = Reduce(do.call(cbind.data.frame, sapply(cnas, .orderCells, simplify = F)))
-    mat = as.matrix(dfmat)
-    mat
-}
-
-.orderCells = function(cna, include = NULL, cor.method = 'pearson', dist.method = 'euclidean', max.dist= 1, cluster.method = 'average') {
-#     if (!is.null(groups)) {
-#         return(.orderCellsByGroup(cna, include = include, dist.method = dist.method, groups = groups, ...))
-#     }
-# 
+.orderCells = function(cna, by_groups = NULL, include = NULL, euclid.dist = F, ...) {
     cna.orig = cna
 
     if (!is.null(include)) {
@@ -26,7 +15,13 @@
         cna = filterGenes(x = cna, value = Args, attribute = names(Args))
     }
     
-    cna.orig[, scalop::hca_order(x = cna, cor.method = cor.method, dist.method = dist.method, cluster.method = cluster.method, max.dist = max.dist)]
+    if (!is.null(by_groups)) {
+        ord = colnames(scalop::grouped_reorder(m = cna, groups = cell.groups, interorder = F))
+    } else {
+        ord = colnames(scalop::hca_order(x = rowcenter(cna)))
+    }
+
+    cna.orig[, ord]
 }
 
 .axisSpacer = function(breaks, labels, limits, levels = NULL) {
@@ -37,6 +32,22 @@
     if (is.null(breaks)) breaks = seq(limits[[1]], limits[[2]], limits[[2]])
     if (is.null(labels)) labels = breaks
     list(breaks = breaks, labels = labels)
+}
+
+.cellBreaks = function(groups, halfway = F, hide = NULL) {
+    n = length(unlist(groups))
+    chrsum = cumsum(lengths(groups))
+    Breaks = chrsum/max(chrsum) * n
+    # halfway useful for placing x axis chromosome text labels
+    # halfway = F for placing x axis chromosome lines
+    if (halfway) {
+        b = Breaks
+        Breaks = c(b[1]/2, b[2:length(b)] - diff(b)/2)
+    }
+    if (!is.null(hide)) {
+        names(Breaks)[which(names(Breaks) %in% hide)] = rep('', length(hide))
+    }
+    Breaks
 }
 
 .chromosomeBreaks = function(genes = NULL, halfway = F, hide = NULL) {
@@ -87,10 +98,11 @@
                                 axis_title_size = axis.title.size,
                                 axis_text_size = axis.text.size) +
         ggplot2::scale_x_continuous(expand = c(0, 0), breaks = xTextBreaks, labels = names(xTextBreaks)) +
-        ggplot2::scale_y_continuous(expand = c(0, 0)) +
+        ggplot2::scale_y_continuous(expand = c(0, 0), breaks = yTextBreaks, labels = names(yTextBreaks)) +
         y.angle +
         x.angle +
         ggplot2::geom_vline(xintercept = xLineBreaks, size = 0.08, linetype = 2) +
+        ggplot2::geom_hline(yintercept = yLineBreaks, size = 0.08, linetype = 1) +
         ggplot2::theme(aspect.ratio = ratio,
                        title = ggplot2::element_text(colour = base.col),
                        rect = ggplot2::element_rect(colour = base.col),
@@ -145,12 +157,10 @@
 #' @param legend.title.rel relative size of legend title text. Default: 0.9
 #' @return a list containing $p, the ggplot plot, and $data, the data (in dataframe format).
 #' @seealso 
-#'  \code{\link[scalop]{hca}}
 #'  \code{\link[reshape2]{melt}}
 #'  \code{\link[ggpubr]{rotate_axis_text}}
 #' @rdname cnaPlot
 #' @export 
-#' @importFrom scalop hca
 #' @importFrom reshape2 melt
 #' @importFrom ggpubr rotate_x_text rotate_y_text
 cnaPlot = function(cna,
@@ -162,8 +172,9 @@ cnaPlot = function(cna,
                    legend.title = 'Inferred CNA\n[log2 ratio]',
                    x.hide = c('13', '18', '21', 'Y'),
                    orderCells = F,
+                   cell.groups = scalop::split_by_sample_names(colnames(m)),
                    order.with = NULL,
-                   dist.method = 'euclidean',
+                   euclid.dist = F,
                    angle = NULL,
                    x.angle = NULL,
                    y.angle = 0,
@@ -194,14 +205,32 @@ cnaPlot = function(cna,
     # order genes by genomic position
     cna = orderGenes(cna)
     # order cells?
-    if (orderCells) cna = .orderCells(cna, include = order.with, dist.method = dist.method) 
+    if (orderCells) {
+        cna = .orderCells(cna,
+                          include = order.with,
+                          by_groups = cell.groups,
+                          euclid.dist = euclid.dist)
+    }
+
     # prepare dataframe
     dat = reshape2::melt(as.matrix(cna))
     colnames(dat) = c('Gene', 'Cell', 'CNA')
+    ylineBreaks = ggplot2::waiver()
+    yTextBreaks = ggplot2::waiver()
+
+    if (orderCells) {
+        cell.groups = split_by_sample_names(levels(dat$Cell))
+        # breaks for horizontal lines denoting cell groups
+        yLineBreaks = .cellBreaks(cell.groups)
+        # and breaks for their labels
+        yTextBreaks = .cellBreaks(cell.groups, halfway = TRUE, hide = x.hide)
+    }
+
     # breaks for vertical lines denoting chromosomes
     xLineBreaks = .chromosomeBreaks(levels(dat$Gene))
     # and breaks for their labels
     xTextBreaks = .chromosomeBreaks(levels(dat$Gene), halfway = TRUE, hide = x.hide)
+
     if (!is.null(angle)) {
         x.angle = angle
         y.angle = angle

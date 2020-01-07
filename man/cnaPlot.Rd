@@ -14,8 +14,9 @@ cnaPlot(
   legend.title = "Inferred CNA\\n[log2 ratio]",
   x.hide = c("13", "18", "21", "Y"),
   orderCells = F,
+  cell.groups = scalop::split_by_sample_names(colnames(m)),
   order.with = NULL,
-  dist.method = "euclidean",
+  euclid.dist = F,
   angle = NULL,
   x.angle = NULL,
   y.angle = 0,
@@ -122,7 +123,6 @@ a list containing $p, the ggplot plot, and $data, the data (in dataframe format)
 Plot a heatmap of CNA values.
 }
 \seealso{
-\code{\link[scalop]{hca}}
- \code{\link[reshape2]{melt}}
+\code{\link[reshape2]{melt}}
  \code{\link[ggpubr]{rotate_axis_text}}
 }

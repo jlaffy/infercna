@@ -16,7 +16,8 @@ fitBimodal(
   maxrestarts = 100,
   bySampling = FALSE,
   nsamp = 2000,
-  force.tries = FALSE
+  force.tries = FALSE,
+  ...
 )
 }
 \arguments{

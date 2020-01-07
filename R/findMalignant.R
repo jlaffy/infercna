@@ -22,8 +22,7 @@ findMalignant = function(cna,
                          excludeFromAvg = NULL,
                          cor.bySampling = TRUE,
                          signal.bySampling = TRUE,
-                         nsamples = 10000,
-                         ...) {
+                         nsamples = 10000) {
     cors = cnaCor(cna,
                   threshold = cor.threshold,
                   bySample = bySample,

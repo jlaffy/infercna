@@ -46,7 +46,7 @@ cnaCor = function(cna,
 
     stopifnot(is.character(samples))
 
-    cellsBySample = scalop::split_by_sample(colnames(cna), samples = samples)
+    cellsBySample = scalop::split_by_sample_names(colnames(cna), samples = samples)
 
     cnaBySample = sapply(cellsBySample, function(cells) cna[, cells], simplify = F)
 

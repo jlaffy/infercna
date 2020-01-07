@@ -38,7 +38,7 @@ fitBimodal = function(x,
                       maxrestarts = 100,
                       bySampling = FALSE,
                       nsamp = 2000,
-                      force.tries = FALSE) {
+                      force.tries = FALSE,...) {
 
     if (bySampling) {
         out = .fitBimodalBySampling(x = x,

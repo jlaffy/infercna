@@ -1,7 +1,7 @@
 
 .refrange = function(cna, isLog = FALSE, ...) {
     dots = list(...)
-    if (isLog) cna = tpm(cna, bulk = F)
+    if (isLog) cna = unlogtpm(cna, bulk = F)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
     res = list(Min = do.call(pmin, v), Max = do.call(pmax, v))
     sapply(res, logtpm, bulk = F, simplify = F)

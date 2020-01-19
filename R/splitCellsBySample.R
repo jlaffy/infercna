@@ -6,7 +6,7 @@
                                pos = 1) {
 
     if (is.null(samples)) {
-        samples = scalop::get_sample_names(cells, sep = sep, max.nchar = max.nchar, pos = pos)
+        samples = scalop::unique_sample_names(cells, sep = sep, max.nchar = max.nchar, pos = pos)
         return(split(cells, samples))
     }
 

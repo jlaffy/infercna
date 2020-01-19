@@ -11,9 +11,9 @@ scalop::rowcenter
 #' @export
 scalop::logtpm
 
-#' @importFrom scalop tpm
+#' @importFrom scalop unlogtpm
 #' @export
-scalop::tpm
+scalop::unlogtpm
 
 #' @title Squish matrix values into range
 #' @description Squish matrix values into range

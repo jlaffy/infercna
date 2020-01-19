@@ -11,9 +11,9 @@
 #' @param group.col PARAM_DESCRIPTION, Default: 'magenta'
 #' @param hline PARAM_DESCRIPTION, Default: NULL
 #' @param vline PARAM_DESCRIPTION, Default: NULL
-#' @param excludeFromAvg a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL
+#' @param refCells a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL
 #' @param samples if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to group cells by, iii) TRUE to extract sample names from cell ids and subsequently group. Default: NULL
-#' @param ... other arguments passed to scalop::get_sample_names if samples = TRUE.
+#' @param ... other arguments passed to scalop::unique_sample_names if samples = TRUE.
 #' @return a base R plot. If return value is saved to a variable, instead returns data points for cna correlations and cna signal in list form.
 #' @rdname cnaScatterPlot
 #' @export 
@@ -23,30 +23,49 @@ cnaScatterPlot = function(cna,
                           cor.threshold = threshold,
                           signal.threshold = threshold,
                           group = NULL,
-                          group.col = 'magenta',
-                          cex = 0.5,
+                          group.col = scalop::discrete_colours[1:length(group)],
+                          cex = 0.8,
+                          pch = 20,
                           hline = NULL,
                           vline = NULL,
-                          excludeFromAvg = NULL,
+                          refCells = NULL,
                           samples = NULL,
                           ...) {
 
+    group.cols = scales::alpha(group.cols, 0.3)
     cors = cnaCor(cna,
                   threshold = cor.threshold,
-                  excludeFromAvg = excludeFromAvg,
+                  refCells = refCells,
                   samples = samples,
                   ...)
 
     signals = cnaSignal(cna, threshold = signal.threshold)
 
-    invisible(list(cna.cor = cors, cna.signal = signals))
-
-    plot(cors, signals, xlab = 'CNA Correlation', ylab = 'CNA Signal', pch = 1, cex = cex, ...)
+    plot(cors,
+         signals,
+         xlab = 'CNA Correlation',
+         ylab = 'CNA Signal',
+         pch = 1,
+         cex = cex, ...)
 
     if (!is.null(group)) {
-        points(cors[group], signals[group], pch = 20, col = group.col, cex = cex)
+        if (!is.list(group)) group = list(group)
+        .Points = function(cors, signals, group, group.col) {
+            points(cors[group],
+                   signals[group],
+                   pch = pch,
+                   col = group.col,
+                   cex = cex)
+        }
+
+        Map(.Points,
+            group = group,
+            group.col = group.col,
+            MoreArgs = list(cors = cors, signals = signals))
     }
 
     if (!is.null(vline)) abline(v = vline, lty = 2)
     if (!is.null(hline)) abline(h = hline, lty = 2)
+
+    return(invisible(list(cna.cor = cors, cna.signal = signals)))
 }

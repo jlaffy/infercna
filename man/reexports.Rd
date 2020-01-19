@@ -6,7 +6,7 @@
 \alias{colcenter}
 \alias{rowcenter}
 \alias{logtpm}
-\alias{tpm}
+\alias{unlogtpm}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -14,6 +14,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{scalop}{\code{\link[scalop]{colcenter}}, \code{\link[scalop]{logtpm}}, \code{\link[scalop]{rowcenter}}, \code{\link[scalop]{tpm}}}
+  \item{scalop}{\code{\link[scalop]{colcenter}}, \code{\link[scalop]{logtpm}}, \code{\link[scalop]{rowcenter}}, \code{\link[scalop]{unlogtpm}}}
 }}
 

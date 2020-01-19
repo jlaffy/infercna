@@ -44,7 +44,7 @@ infercna = function(m,
     }
     if (isLog) {
         if (verbose) message('Converting <m> from log(2) space...')
-        m = tpm(m)
+        m = unlogtpm(m)
     }
     if (!is.null(n)) {
         if (verbose) message('Filtering the expression matrix to include only top ', n, 'genes...')
@@ -61,7 +61,7 @@ infercna = function(m,
     m = clip(m, range = range)
 
     if (verbose) message('Converting <m> from log(2) space...')
-    m = tpm(m, bulk = F) 
+    m = unlogtpm(m, bulk = F) 
     if (verbose) message('Preparing to calculate CNA values on each chromosome in turn...')
     ms = splitGenes(m, by = 'chr')
     if (verbose) message('Calculating rolling means with a window size of ', window, ' genes...')

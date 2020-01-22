@@ -8,7 +8,7 @@
 findMalignant = function(cna,
                          refCells = NULL,
                          samples = scalop::unique_sample_names(colnames(cna)),
-                         gene.quantile = 0.9
+                         gene.quantile = 0.9,
                          cor.threshold = threshold,
                          signal.threshold = threshold,
                          gauss.bootstraps = TRUE,

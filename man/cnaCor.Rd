@@ -8,7 +8,7 @@ cnaCor(
   cna,
   cor.method = "pearson",
   threshold = NULL,
-  excludeFromAvg = NULL,
+  refCells = NULL,
   samples = NULL,
   ...
 )
@@ -18,11 +18,11 @@ cnaCor(
 
 \item{cor.method}{character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'}
 
-\item{excludeFromAvg}{a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL}
+\item{refCells}{a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL}
 
 \item{samples}{if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to group cells by, iii) TRUE to extract sample names from cell ids and subsequently group. Default: NULL}
 
-\item{...}{other arguments passed to scalop::get_sample_names if samples = TRUE.}
+\item{...}{other arguments passed to scalop::unique_sample_names if samples = TRUE.}
 }
 \value{
 a numeric vector or list of numeric vectors

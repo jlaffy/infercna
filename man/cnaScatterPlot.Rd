@@ -11,11 +11,12 @@ cnaScatterPlot(
   cor.threshold = threshold,
   signal.threshold = threshold,
   group = NULL,
-  group.col = "magenta",
-  cex = 0.5,
+  group.col = scalop::discrete_colours[1:length(group)],
+  cex = 0.8,
+  pch = 20,
   hline = NULL,
   vline = NULL,
-  excludeFromAvg = NULL,
+  refCells = NULL,
   samples = NULL,
   ...
 )
@@ -39,11 +40,11 @@ cnaScatterPlot(
 
 \item{vline}{PARAM_DESCRIPTION, Default: NULL}
 
-\item{excludeFromAvg}{a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL}
+\item{refCells}{a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL}
 
 \item{samples}{if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to group cells by, iii) TRUE to extract sample names from cell ids and subsequently group. Default: NULL}
 
-\item{...}{other arguments passed to scalop::get_sample_names if samples = TRUE.}
+\item{...}{other arguments passed to scalop::unique_sample_names if samples = TRUE.}
 }
 \value{
 a base R plot. If return value is saved to a variable, instead returns data points for cna correlations and cna signal in list form.

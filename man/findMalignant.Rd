@@ -6,35 +6,29 @@
 \usage{
 findMalignant(
   cna,
-  threshold = NULL,
+  refCells = NULL,
+  samples = scalop::unique_sample_names(colnames(cna)),
+  gene.quantile = 0.9,
   cor.threshold = threshold,
   signal.threshold = threshold,
-  bySample = FALSE,
-  samples = NULL,
-  sep = "-|_",
-  mode.overlap = 0.05,
-  excludeFromAvg = NULL,
-  cor.bySampling = TRUE,
-  signal.bySampling = TRUE,
-  nsamples = 10000
+  gauss.bootstraps = TRUE,
+  n.bootstraps = 10000,
+  gauss.prob = 0.8,
+  prob.coverage = 0.8,
+  verbose = TRUE,
+  plot = TRUE,
+  ...
 )
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}
 }
 \value{
-if bimodality was not found, FALSE. Else return list(nonMalignant, malignant) of column IDs.
+if bimodality was not found, FALSE. Else return list(malignant, nonmalignant, unassigned) of column IDs.
 }
 \description{
 Find Malignant Subset of Cells according to their CNA parameters for correlation to Tumour of origin (using cnaCor()) and for the overall extent of CNA signal (the mean absolute CNA values; using cnaSignal()).
 }
 \details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+The function tries to fit cells to one of two Gaussian modes for each of two measures in turn: 1) CNA correlation, or individual cells' pearson correlations to the average CNA profile of their sample of origin; 2) CNA signal, defined as individual cells' mean squared CNA profiles. Cells assigned to the 2nd (higher) mode by both measures are classified as malignant, cells assigned to the 1st mode (lower) by both measures are classified as non-malignant and cells assigned to one of each remain 'unassigned'. Cells missing from the resulting list are those that could not be assigned to any mode by either measure.
 }

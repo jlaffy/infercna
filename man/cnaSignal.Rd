@@ -2,7 +2,7 @@
 % Please edit documentation in R/cnaSignal.R
 \name{cnaSignal}
 \alias{cnaSignal}
-\title{Calculate the Means of Absolute CNA Values}
+\title{Calculate the Means of Squared CNA Values}
 \usage{
 cnaSignal(cna, threshold = NULL)
 }
@@ -10,8 +10,8 @@ cnaSignal(cna, threshold = NULL)
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}
 }
 \value{
-a numeric vector of CNA signal values or the Mean of Absolute CNA values
+a numeric vector of CNA signal values or the Mean of Squared CNA values
 }
 \description{
-Calculate the Mean of Absolute CNA Values
+Calculate the Mean of Squared CNA Values
 }

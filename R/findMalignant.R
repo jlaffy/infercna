@@ -1,20 +1,35 @@
 #' @title Find Malignant Subset of Cells
-#' @description Find Malignant Subset of Cells according to their CNA parameters for correlation to Tumour of origin (using cnaCor()) and for the overall extent of CNA signal (the mean absolute CNA values; using cnaSignal()).
+#' @description Find the malignant and non-malignant subsets of cells from a gene-by-cell matrix of CNA values. 
 #' @param cna a matrix of gene rows by cell columns containing CNA values.
-#' @return if bimodality was not found, FALSE. Else return list(malignant, nonmalignant, unassigned) of column IDs.
-#' @details The function tries to fit cells to one of two Gaussian modes for each of two measures in turn: 1) CNA correlation, or individual cells' pearson correlations to the average CNA profile of their sample of origin; 2) CNA signal, defined as individual cells' mean squared CNA profiles. Cells assigned to the 2nd (higher) mode by both measures are classified as malignant, cells assigned to the 1st mode (lower) by both measures are classified as non-malignant and cells assigned to one of each remain 'unassigned'. Cells missing from the resulting list are those that could not be assigned to any mode by either measure.
+#' @param refCells a character vector or list of character vectors denoting the cell IDs of the known non-malignant 'Reference' cells (usually those that were used in the call to infercna::infercna to correct the CNA values). This is relevant only if these cells are in the CNA matrix. Default: NULL
+#' @param samples a character vector of unique sample names to group the cells by. This is relevant only if multiple tumours are represented in the cna matrix, as it allows tumour-specific average CNA profiles to be computed in the call to infercna::cnaCor. See Details section for more information. Default: scalop::unique_sample_names(colnames(cna))
+#' @param gene.quantile PARAM_DESCRIPTION, Default: 0.9
+#' @param cor.threshold PARAM_DESCRIPTION, Default: threshold
+#' @param signal.threshold PARAM_DESCRIPTION, Default: threshold
+#' @param use.bootstraps logical; if TRUE, the function uses a bootstrapping method to subsample values and identify the malignant and non-malignant groups iteratively. This method is more sensitive to differing group sizes, so will be useful if you believe one group to be much smaller than the other. Default: TRUE
+#' @param n.bootstraps number of bootstrap replicates. Relevant only if <use.bootstraps> is TRUE. Default: 10000
+#' @param gauss.assignment.prob a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.8
+#' @param gauss.assignment.coverage the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8
+#' @param verbose print progress messages. Default: TRUE
+#' @param plot logical; scatter plot of cells' CNA correlations against CNA signal. This uses infercna::cnaScatterPlot. In order for the infercna::findMalignant function to be meaningful, expect two distinct groups of cells in the plot. Default: TRUE
+#' @param ... other arguments passed to infercna::fitBimodal. 
+#' @return if bimodality was not found, returns FALSE. If bimodality was found, returns a list containing the malignant and non-malignant cell IDs.
+#' @details This function attempts to fit gaussian bimodal distributions to each of two parameters that describe the extent of CNAs per cell. The first of these is CNA correlation (infercna::cnaCor), which measures the pearson correlations between individual cells' CNA profiles and the average profile of their tumours of origin. The second measure is CNA signal (infercna::cnaSignal), which computes the cell averages of squared CNA values. The function then assigns cells residing in the 2nd (higher-value) mode by both measures as malignant, cells residing in the 1st (low-value) mode by both measures as non-malignant, and any remaining cells with conflicting assignments to modes as unassigned.
+#' @seealso 
+#'  \code{\link[scalop]{unique_sample_names}},\code{\link[scalop]{hms_span}},\code{\link[scalop]{comply}}
 #' @rdname findMalignant
 #' @export 
+#' @importFrom scalop unique_sample_names hms_span comply
 findMalignant = function(cna,
                          refCells = NULL,
                          samples = scalop::unique_sample_names(colnames(cna)),
                          gene.quantile = 0.9,
                          cor.threshold = threshold,
                          signal.threshold = threshold,
-                         gauss.bootstraps = TRUE,
+                         use.bootstraps = TRUE,
                          n.bootstraps = 10000,
-                         gauss.prob = 0.8,
-                         prob.coverage = 0.8,
+                         gauss.assignment.prob = 0.8,
+                         gauss.assignment.coverage = 0.8,
                          verbose = TRUE,
                          plot = TRUE,
                          ...) {
@@ -34,9 +49,10 @@ findMalignant = function(cna,
     }
     old <- Sys.time()
     invisible(capture.output(corGroups <- suppressMessages(fitBimodal(cors,
-                                                                      bySampling = gauss.bootstraps,
+                                                                      bySampling = use.bootstraps,
                                                                       nsamp = n.bootstraps,
-                                                                      prob = gauss.prob,
+                                                                      prob = gauss.assignment.prob,
+                                                                      coverage = gauss.assignment.coverage,
                                                                       ...))))
     new <- Sys.time()
     if (isFALSE(corGroups)) return(FALSE)
@@ -52,10 +68,11 @@ findMalignant = function(cna,
 
     old <- Sys.time()
     invisible(capture.output(sigGroups <- suppressMessages(fitBimodal(signals,
-                                                           bySampling = gauss.bootstraps,
-                                                           nsamp = n.bootstraps,
-                                                           prob = gauss.prob,
-                                                           ...))))
+                                                                      bySampling = use.bootstraps,
+                                                                      nsamp = n.bootstraps,
+                                                                      prob = gauss.assignment.prob,
+                                                                      coverage = gauss.assignment.coverage,
+                                                                      ...))))
     new <- Sys.time()
     if (isFALSE(sigGroups)) return(FALSE)
 

@@ -1,7 +1,7 @@
-#' @title Calculate the Means of Absolute CNA Values
-#' @description Calculate the Mean of Absolute CNA Values
+#' @title Calculate the Means of Squared CNA Values
+#' @description Calculate the Mean of Squared CNA Values
 #' @param cna a matrix of gene rows by cell columns containing CNA values.
-#' @return a numeric vector of CNA signal values or the Mean of Absolute CNA values
+#' @return a numeric vector of CNA signal values or the Mean of Squared CNA values
 #' @rdname cnaSignal
 #' @export 
 cnaSignal = function(cna, threshold = NULL) {

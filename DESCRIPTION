@@ -11,6 +11,7 @@ Description: When gene expression levels are averaged over large enough chromoso
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+biocViews:
 Imports: 
     stats,
     dplyr,

@@ -16,7 +16,6 @@ fitBimodal(
   maxrestarts = 100,
   bySampling = FALSE,
   nsamp = 2000,
-  force.tries = FALSE,
   ...
 )
 }
@@ -38,6 +37,10 @@ fitBimodal(
 \item{maxit}{the maximum number of iterations. Default: 5000}
 
 \item{maxrestarts}{the maximum number of restarts allowed. See \code{\link[mixtools]{normalmixEM}} for details. Default: 100}
+
+\item{bySampling}{logical; if TRUE, the function uses a bootstrapping method to subsample values and identify the two modes iteratively. This method is more sensitive to differing mode sizes, so will be useful if you believe one group to be much smaller than the other. Default: TRUE}
+
+\item{nsamp}{the number of bootstrap replicates.}
 }
 \value{
 The posterior probabilities of each observation to one of two modes. If boolean = TRUE, return a boolean value indicating whether bimodality was found. If assign = TRUE, return a list of length two with the observations (IDs) in each mode.

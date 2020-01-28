@@ -9,11 +9,11 @@ findMalignant(
   refCells = NULL,
   samples = scalop::unique_sample_names(colnames(cna)),
   gene.quantile = 0.9,
-  cor.threshold = threshold,
-  signal.threshold = threshold,
+  gene.quantile.for.corr = 0.5,
+  gene.quantile.for.signal = gene.quantile,
   use.bootstraps = TRUE,
   n.bootstraps = 10000,
-  gauss.assignment.prob = 0.8,
+  gauss.assignment.prob = 0.95,
   gauss.assignment.coverage = 0.8,
   verbose = TRUE,
   plot = TRUE,
@@ -27,19 +27,19 @@ findMalignant(
 
 \item{samples}{a character vector of unique sample names to group the cells by. This is relevant only if multiple tumours are represented in the cna matrix, as it allows tumour-specific average CNA profiles to be computed in the call to infercna::cnaCor. See Details section for more information. Default: scalop::unique_sample_names(colnames(cna))}
 
-\item{gene.quantile}{PARAM_DESCRIPTION, Default: 0.9}
+\item{gene.quantile}{calculate CNA measures including only top / "hotspot" genes according to their squared CNA values across all cells. Value between 0 and 1 denoting the quantile of genes to include. Default: 0.9}
 
-\item{cor.threshold}{PARAM_DESCRIPTION, Default: threshold}
+\item{gene.quantile.for.corr}{as above but for CNA correlations specifically. Default: gene.quantile}
 
-\item{signal.threshold}{PARAM_DESCRIPTION, Default: threshold}
+\item{gene.quantile.for.signal}{as above but for CNA signal specifically. Default: gene.quantile}
 
 \item{use.bootstraps}{logical; if TRUE, the function uses a bootstrapping method to subsample values and identify the malignant and non-malignant groups iteratively. This method is more sensitive to differing group sizes, so will be useful if you believe one group to be much smaller than the other. Default: TRUE}
 
 \item{n.bootstraps}{number of bootstrap replicates. Relevant only if <use.bootstraps> is TRUE. Default: 10000}
 
-\item{gauss.assignment.prob}{a numeric value >= 0 and <= 1; the minimum posterior probability required for an observation to be assigned to a mode. Default: 0.8}
+\item{gauss.assignment.prob}{a numeric value >= 0 and <= 1; the minimum posterior probability required for an cell to be assigned to a mode. Default: 0.8}
 
-\item{gauss.assignment.coverage}{the fraction of observations that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8}
+\item{gauss.assignment.coverage}{the fraction of cells that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8}
 
 \item{verbose}{print progress messages. Default: TRUE}
 

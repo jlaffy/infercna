@@ -8,6 +8,8 @@ cnaSignal(cna, threshold = NULL)
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}
+
+\item{threshold}{calculate CNA measures including only top / "hotspot" genes according to their squared CNA values across all cells. Value between 0 and 1 denoting the quantile of genes to include. Default: NULL}
 }
 \value{
 a numeric vector of CNA signal values or the Mean of Squared CNA values

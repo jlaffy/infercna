@@ -7,7 +7,7 @@
 findMalignant(
   cna,
   refCells = NULL,
-  samples = scalop::unique_sample_names(colnames(cna)),
+  samples = scalop::unique_sample_names(colnames(cna), max.nchar = 6),
   gene.quantile = 0.9,
   gene.quantile.for.corr = 0.5,
   gene.quantile.for.signal = gene.quantile,

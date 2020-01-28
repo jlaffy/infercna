@@ -22,7 +22,7 @@
 #' @importFrom scalop unique_sample_names hms_span comply
 findMalignant = function(cna,
                          refCells = NULL,
-                         samples = scalop::unique_sample_names(colnames(cna)),
+                         samples = scalop::unique_sample_names(colnames(cna), max.nchar = 6),
                          gene.quantile = 0.9,
                          gene.quantile.for.corr = 0.5,
                          gene.quantile.for.signal = gene.quantile,
@@ -38,8 +38,7 @@ findMalignant = function(cna,
     cors = cnaCor(cna,
                   threshold = gene.quantile.for.corr,
                   samples = samples,
-                  refCells = refCells,
-                  sep = samples.sep)
+                  refCells = refCells)
 
     if (verbose) message("Calculating cells' CNA signal...")
     signals = cnaSignal(cna, threshold = gene.quantile.for.signal)
@@ -47,12 +46,14 @@ findMalignant = function(cna,
     if (verbose) {
         message('Fitting CNA correlations to one of two (CNA-low vs. CNA-high) modes...')
     }
+
     old <- Sys.time()
     invisible(capture.output(corGroups <- suppressMessages(fitBimodal(cors,
                                                                       bySampling = use.bootstraps,
                                                                       nsamp = n.bootstraps,
                                                                       prob = gauss.assignment.prob,
                                                                       coverage = gauss.assignment.coverage,
+                                                                      assign = TRUE,
                                                                       ...))))
     new <- Sys.time()
     if (isFALSE(corGroups)) return(FALSE)
@@ -72,6 +73,7 @@ findMalignant = function(cna,
                                                                       nsamp = n.bootstraps,
                                                                       prob = gauss.assignment.prob,
                                                                       coverage = gauss.assignment.coverage,
+                                                                      assign = TRUE,
                                                                       ...))))
     new <- Sys.time()
     if (isFALSE(sigGroups)) return(FALSE)
@@ -105,12 +107,12 @@ findMalignant = function(cna,
 
     if (plot) {
         cnaScatterPlot(cna,
-                       threshold = threshold,
+                       gene.quantile = gene.quantile,
                        gene.quantile.for.signal,
                        gene.quantile.for.corr = gene.quantile.for.corr,
                        samples = samples,
                        refCells = refCells,
-                       group = result)
+                       groups = result)
     }
 
     result

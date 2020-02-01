@@ -3,6 +3,10 @@
     cna = as.matrix(cna)
     if (!is.null(refCells)) {
         genemeans = rowMeans(cna[, !colnames(cna) %in% unlist(refCells), drop = F])
+        if (length(genemeans) == 0) {
+            message('No cells left after filtering out refCells')
+            return(FALSE)
+        }
     } else {
         genemeans = rowMeans(cna)
     }

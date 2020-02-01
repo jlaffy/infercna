@@ -59,7 +59,7 @@ fitBimodal = function(x,
         stop('Number of observations is too small for 2 modes >= ' , size)
     }
 
-    obj = nor1mix::norMixEM(x, m = 2, maxit = maxit)
+    obj = suppressWarnings(nor1mix::norMixEM(x, m = 2, maxit = maxit))
 
     if (isFALSE(attr(obj, 'converged'))) {
         if (verbose) message('No bimodal distribution found.')

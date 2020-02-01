@@ -8,8 +8,8 @@
 #' @param gene.quantile.for.signal as above but for CNA signal specifically. Default: gene.quantile
 #' @param use.bootstraps logical; if TRUE, the function uses a bootstrapping method to subsample values and identify the malignant and non-malignant groups iteratively. This method is more sensitive to differing group sizes, so will be useful if you believe one group to be much smaller than the other. Default: TRUE
 #' @param n.bootstraps number of bootstrap replicates. Relevant only if <use.bootstraps> is TRUE. Default: 10000
-#' @param gauss.assignment.prob a numeric value >= 0 and <= 1; the minimum posterior probability required for an cell to be assigned to a mode. Default: 0.8
-#' @param gauss.assignment.coverage the fraction of cells that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8
+#' @param prob a numeric value >= 0 and <= 1; the minimum posterior probability required for an cell to be assigned to a mode. Default: 0.8
+#' @param coverage the fraction of cells that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8
 #' @param verbose print progress messages. Default: TRUE
 #' @param plot logical; scatter plot of cells' CNA correlations against CNA signal. This uses infercna::cnaScatterPlot. In order for the infercna::findMalignant function to be meaningful, expect two distinct groups of cells in the plot. Default: TRUE
 #' @param ... other arguments passed to infercna::fitBimodal. 
@@ -28,8 +28,8 @@ findMalignant = function(cna,
                          gene.quantile.for.signal = gene.quantile,
                          use.bootstraps = TRUE,
                          n.bootstraps = 10000,
-                         gauss.assignment.prob = 0.95,
-                         gauss.assignment.coverage = 0.8,
+                         prob = 0.95,
+                         coverage = 0.8,
                          verbose = TRUE,
                          plot = TRUE,
                          ...) {
@@ -51,8 +51,8 @@ findMalignant = function(cna,
     invisible(capture.output(corGroups <- suppressMessages(fitBimodal(cors,
                                                                       bySampling = use.bootstraps,
                                                                       nsamp = n.bootstraps,
-                                                                      prob = gauss.assignment.prob,
-                                                                      coverage = gauss.assignment.coverage,
+                                                                      prob = prob,
+                                                                      coverage = coverage,
                                                                       assign = TRUE,
                                                                       ...))))
     new <- Sys.time()
@@ -71,8 +71,8 @@ findMalignant = function(cna,
     invisible(capture.output(sigGroups <- suppressMessages(fitBimodal(signals,
                                                                       bySampling = use.bootstraps,
                                                                       nsamp = n.bootstraps,
-                                                                      prob = gauss.assignment.prob,
-                                                                      coverage = gauss.assignment.coverage,
+                                                                      prob = prob,
+                                                                      coverage = coverage,
                                                                       assign = TRUE,
                                                                       ...))))
     new <- Sys.time()
@@ -99,13 +99,16 @@ findMalignant = function(cna,
                   unassigned = unassigned)
 
     if (length(unassigned) >= 1) {
-        warning(round(100 * len.unassig/ncol(cna),2),
+        message(round(100 * len.unassig/ncol(cna),2),
                 ' % of cells were assigned to opposing modes,',
                 '\ni.e.to high CNA-signal and low CNA-correlation or vice versa.',
                 '\nThese cells will remain unasssigned.')
     }
 
     if (plot) {
+        if (verbose) {
+            message('Plotting CNA correlation against CNA signal...')
+        }
         cnaScatterPlot(cna,
                        gene.quantile = gene.quantile,
                        gene.quantile.for.signal,

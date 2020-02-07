@@ -6,24 +6,6 @@
     else stop('Value ', val, ' not found in genome attributes.')
 }
 
-.orderCells = function(cna, by_groups = NULL, include = NULL, euclid.dist = F, ...) {
-    cna.orig = cna
-
-    if (!is.null(include)) {
-        atts = sapply(include, .getAttributeName)
-        Args = split(include, atts)
-        cna = filterGenes(x = cna, value = Args, attribute = names(Args))
-    }
-    
-    if (!is.null(by_groups)) {
-        ord = colnames(scalop::grouped_reorder(m = cna, groups = cell.groups, interorder = F))
-    } else {
-        ord = colnames(scalop::hca_order(x = rowcenter(cna)))
-    }
-
-    cna.orig[, ord]
-}
-
 .axisSpacer = function(breaks, labels, limits, levels = NULL) {
     if (!is.null(labels) & !is.null(levels)) {
         breaks = levels %in% labels
@@ -118,13 +100,38 @@
 }
 
 
+
+.orderCells = function(cna, order.cells = NULL, subset.genes = NULL, euclid.dist = F, ...) {
+    cna.orig = cna
+
+    if (!is.null(subset.genes)) {
+        subset.genes = subset.genes[subset.genes %in% rownames(cna)]
+        cna = cna[subset.genes, ]
+        cat('Using', nrow(cna), 'genes for ordering...')
+    }
+    # if (!is.null(subset.genes)) {
+    #     atts = sapply(subset.genes, .getAttributeName)
+    #     Args = split(subset.genes, atts)
+    #     cna = filterGenes(x = cna, value = Args, attribute = names(Args))
+    # }
+    
+    if (!is.null(order.cells)) {
+        ord = colnames(scalop::grouped_reorder(m = cna, groups = order.cells, interorder = F))
+    } else {
+        ord = colnames(scalop::hca_order(x = rowcenter(cna)))
+    }
+
+    cat('done')
+    cna.orig[, ord]
+}
+
 #' @title Plot a Heatmap of CNA Values
 #' @description Plot a heatmap of CNA values.
 #' @param cna matrix of CNA values (genes by cells).
 #' @param limits colour range. Cells >= upper limit will be the same colour, and likewise for cells <= lower limit. Default: c(-1, 1)
-#' @param ratio aspect ratio of the panel. Default: 0.7
+#' @param ratio aspect ratio of the panel. Default: NULL
 #' @param cols character vector of colours to use. Default: heatCols
-#' @param orderCells boolean value indicating whether cells should be ordered by hierarchical clustering. Default: F
+#' @param order.cells a boolean or a list of groups if ordering should be performed within each only; this is useful if plotting multiple samples in the same panel. Cells are ordered by hierarchical clusrering. Default: F
 #' @param x.name x axis label. Default: 'Chromosome'
 #' @param y.name y axis label. Default: 'Cell'
 #' @param angle angle of axes tick labels. x.angle and y.angle inherit from angle. Default: NULL
@@ -148,7 +155,7 @@
 #' @param legend.width legend width. Default: 0.6
 #' @param legend.rel relative size of legend text. Default: 0.9
 #' @param legend.colour legend text colour. Default: 'black'
-#' @param legend.breaks breaks to include on colour key. Default: NULL
+#' @param legend.breaks breaks to subset.genes on colour key. Default: NULL
 #' @param legend.labels specify labels on colour key. Default: NULL
 #' @param legend.title title of legend. Default: 'Inferred CNA `[log2 ratio`]'
 #' @param legend.justification legend justification on plot. Default: 'top'
@@ -171,9 +178,8 @@ cnaPlot = function(cna,
                    y.name = 'Cell',
                    legend.title = 'Inferred CNA\n[log2 ratio]',
                    x.hide = c('13', '18', '21', 'Y'),
-                   orderCells = F,
-                   cell.groups = scalop::split_by_sample_names(colnames(m)),
-                   order.with = NULL,
+                   order.cells = F,
+                   subset.genes = NULL,
                    euclid.dist = F,
                    angle = NULL,
                    x.angle = NULL,
@@ -205,25 +211,34 @@ cnaPlot = function(cna,
     # order genes by genomic position
     cna = orderGenes(cna)
     # order cells?
-    if (orderCells) {
+    group.ord = !is.logical(order.cells) && !is.null(order.cells)
+    uni.ord = is.logical(order.cells) && isTRUE(order.cells)
+
+    if (group.ord) {
         cna = .orderCells(cna,
-                          include = order.with,
-                          by_groups = cell.groups,
+                          subset.genes = subset.genes,
+                          order.cells = order.cells,
+                          euclid.dist = euclid.dist)
+    }
+
+    else if (uni.ord) {
+        cna = .orderCells(cna,
+                          subset.genes = subset.genes,
+                          order.cells = NULL,
                           euclid.dist = euclid.dist)
     }
 
     # prepare dataframe
     dat = reshape2::melt(as.matrix(cna))
     colnames(dat) = c('Gene', 'Cell', 'CNA')
-    ylineBreaks = ggplot2::waiver()
+    yLineBreaks = ggplot2::waiver()
     yTextBreaks = ggplot2::waiver()
 
-    if (orderCells) {
-        cell.groups = split_by_sample_names(levels(dat$Cell))
-        # breaks for horizontal lines denoting cell groups
-        yLineBreaks = .cellBreaks(cell.groups)
+    if (group.ord) {
+        # breaks for horizontal lines denoting order.cells
+        yLineBreaks = .cellBreaks(order.cells)
         # and breaks for their labels
-        yTextBreaks = .cellBreaks(cell.groups, halfway = TRUE, hide = x.hide)
+        yTextBreaks = .cellBreaks(order.cells, halfway = TRUE, hide = x.hide)
     }
 
     # breaks for vertical lines denoting chromosomes
@@ -243,7 +258,7 @@ cnaPlot = function(cna,
     legend.breaks = legend$breaks
     legend.labels = legend$labels
     # arguments to be passed to .cnaPlot()
-    Args = mget(ls()[-1 * which(ls() %in% c('cna', 'x.hide', 'orderCells'))])
+    Args = mget(ls()[-1 * which(ls() %in% c('cna', 'x.hide', 'order.cells'))])
     # make ggplot object
     G = do.call(.cnaPlot, Args)
     list(p = G, data = tibble::as_tibble(dat))

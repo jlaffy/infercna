@@ -56,7 +56,7 @@ runMean <- function(m,
 
     if (nrow(m) < k) {
         k = nrow(m)
-        if (verbose) message('Adjusting window to the max. number of genes in chromome (', k, ')')
+        if (verbose) message('Adjusting window to the max. number of genes in chromosome (', k, ')')
     }
 
     mout = caTools::runmean(m,

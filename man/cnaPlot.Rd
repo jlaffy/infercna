@@ -13,9 +13,8 @@ cnaPlot(
   y.name = "Cell",
   legend.title = "Inferred CNA\\n[log2 ratio]",
   x.hide = c("13", "18", "21", "Y"),
-  orderCells = F,
-  cell.groups = scalop::split_by_sample_names(colnames(m)),
-  order.with = NULL,
+  order.cells = F,
+  subset.genes = NULL,
   euclid.dist = F,
   angle = NULL,
   x.angle = NULL,
@@ -50,7 +49,7 @@ cnaPlot(
 
 \item{limits}{colour range. Cells >= upper limit will be the same colour, and likewise for cells <= lower limit. Default: c(-1, 1)}
 
-\item{ratio}{aspect ratio of the panel. Default: 0.7}
+\item{ratio}{aspect ratio of the panel. Default: NULL}
 
 \item{cols}{character vector of colours to use. Default: heatCols}
 
@@ -62,7 +61,7 @@ cnaPlot(
 
 \item{x.hide}{x axis labels to hide from plot. Default: c("13", "18", "21", "Y")}
 
-\item{orderCells}{boolean value indicating whether cells should be ordered by hierarchical clustering. Default: F}
+\item{order.cells}{a boolean or a list of groups if ordering should be performed within each only; this is useful if plotting multiple samples in the same panel. Cells are ordered by hierarchical clusrering. Default: F}
 
 \item{angle}{angle of axes tick labels. x.angle and y.angle inherit from angle. Default: NULL}
 
@@ -104,7 +103,7 @@ cnaPlot(
 
 \item{legend.colour}{legend text colour. Default: 'black'}
 
-\item{legend.breaks}{breaks to include on colour key. Default: NULL}
+\item{legend.breaks}{breaks to subset.genes on colour key. Default: NULL}
 
 \item{legend.labels}{specify labels on colour key. Default: NULL}
 

@@ -7,7 +7,7 @@
 cnaCor(
   cna,
   cor.method = "pearson",
-  threshold = NULL,
+  gene.quantile = NULL,
   refCells = NULL,
   samples = NULL,
   ...
@@ -18,7 +18,7 @@ cnaCor(
 
 \item{cor.method}{character string indicating the method to use for the pairwise correlations. E.g. 'pearson', 'spearman'. Default: 'pearson'}
 
-\item{threshold}{calculate CNA measures including only top / "hotspot" genes according to their squared CNA values across all cells. Value between 0 and 1 denoting the quantile of genes to include. Default: NULL}
+\item{gene.quantile}{calculate CNA measures including only top / "hotspot" genes according to their squared CNA values across all cells. Value between 0 and 1 denoting the quantile of genes to include. Default: NULL}
 
 \item{refCells}{a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL}
 

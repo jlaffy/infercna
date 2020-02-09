@@ -36,12 +36,12 @@ findMalignant = function(cna,
 
     if (verbose) message("Calculating cells' CNA correlations...")
     cors = cnaCor(cna,
-                  threshold = gene.quantile.for.corr,
+                  gene.quantile = gene.quantile.for.corr,
                   samples = samples,
                   refCells = refCells)
 
     if (verbose) message("Calculating cells' CNA signal...")
-    signals = cnaSignal(cna, threshold = gene.quantile.for.signal)
+    signals = cnaSignal(cna, gene.quantile = gene.quantile.for.signal)
 
     if (verbose) {
         message('Fitting CNA correlations to one of two (CNA-low vs. CNA-high) modes...')

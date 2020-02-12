@@ -43,7 +43,7 @@ cnaM = cna[, !colnames(cna) %in% unlist(refCells)]
 ``` {r}
 args(cnaPlot)
 obj = cnaPlot(cna = cnaM,
-              orderCells = TRUE,
+              order.cells = TRUE,
               subtitle = 'Copy-Number Aberrations in a patient with Glioblastoma')
 names(obj)
 

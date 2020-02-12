@@ -34,12 +34,12 @@ cnaScatterPlot = function(cna,
 
     groups.col = scales::alpha(groups.col, 0.3)
     cors = cnaCor(cna,
-                  threshold = gene.quantile.for.corr,
+                  gene.quantile = gene.quantile.for.corr,
                   refCells = refCells,
                   samples = samples,
                   ...)
 
-    signals = cnaSignal(cna, threshold = gene.quantile.for.signal)
+    signals = cnaSignal(cna, gene.quantile = gene.quantile.for.signal)
 
     plot(cors,
          signals,

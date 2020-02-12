@@ -13,8 +13,8 @@ findMalignant(
   gene.quantile.for.signal = gene.quantile,
   use.bootstraps = TRUE,
   n.bootstraps = 10000,
-  gauss.assignment.prob = 0.95,
-  gauss.assignment.coverage = 0.8,
+  prob = 0.95,
+  coverage = 0.8,
   verbose = TRUE,
   plot = TRUE,
   ...
@@ -37,9 +37,9 @@ findMalignant(
 
 \item{n.bootstraps}{number of bootstrap replicates. Relevant only if <use.bootstraps> is TRUE. Default: 10000}
 
-\item{gauss.assignment.prob}{a numeric value >= 0 and <= 1; the minimum posterior probability required for an cell to be assigned to a mode. Default: 0.8}
+\item{prob}{a numeric value >= 0 and <= 1; the minimum posterior probability required for an cell to be assigned to a mode. Default: 0.8}
 
-\item{gauss.assignment.coverage}{the fraction of cells that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8}
+\item{coverage}{the fraction of cells that must have a posterior probability higher than <prob> to one of two modes in order for the distribution to qualify as bimodal. Default: 0.8}
 
 \item{verbose}{print progress messages. Default: TRUE}
 

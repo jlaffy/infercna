@@ -17,6 +17,21 @@
     b.flat = 0
     i = 0
 
+    if (sample.size >= length(x)) {
+        message('Sample size is larger than the number of observations in x. Skipping bootstrap replicates.')
+        res = fitBimodal(x,
+                         assign = T,
+                         boolean = F,
+                         bySampling = F,
+                         coverage = coverage,
+                         prob = prob,
+                         size = size,
+                         verbose = verbose,
+                         maxit = maxit,
+                         maxrestarts = maxrestarts)
+        return(res)
+    }
+
     if (!is.null(dim(x))) x = colMeans(x)
 
     while (i < tries) {

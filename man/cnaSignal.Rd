@@ -4,12 +4,12 @@
 \alias{cnaSignal}
 \title{Calculate the Means of Squared CNA Values}
 \usage{
-cnaSignal(cna, threshold = NULL)
+cnaSignal(cna, gene.quantile = NULL)
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}
 
-\item{threshold}{calculate CNA measures including only top / "hotspot" genes according to their squared CNA values across all cells. Value between 0 and 1 denoting the quantile of genes to include. Default: NULL}
+\item{gene.quantile}{calculate CNA measures including only top / "hotspot" genes according to their squared CNA values across all cells. Value between 0 and 1 denoting the quantile of genes to include. Default: NULL}
 }
 \value{
 a numeric vector of CNA signal values or the Mean of Squared CNA values

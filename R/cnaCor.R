@@ -34,14 +34,15 @@ cnaCor = function(cna,
                   samples = NULL,
                   ...) {
 
-    if (!is.null(gene.quantile)) cna = cna[cnaHotspotGenes(cna, gene.quantile = gene.quantile), ]
+    if (is.null(refCells)) tmp = cna
+    else tmp = cna[, !colnames(cna) %in% unlist(refCells)]
 
     if (is.null(samples)) {
-        cors = .cnaCor(cna,
-                       cor.method = cor.method,
-                       refCells = refCells,
-                       na.replace = 0)
-        return(cors)
+        if (!is.null(gene.quantile)) {
+            cna = cna[cnaHotspotGenes(tmp, gene.quantile = gene.quantile), ]
+        }
+
+        return(.cnaCor(cna, cor.method = cor.method, na.replace = 0, refCells = refCells))
     }
 
     if (isTRUE(samples)) {
@@ -49,25 +50,40 @@ cnaCor = function(cna,
         message('Samples identified:\n', paste0(samples, collapse = '\n'))
     }
 
-    stopifnot(is.character(samples))
+    if (is.character(samples)) {
+        samples = scalop::split_by_sample_names(colnames(cna), samples = samples)
+        samples = samples[lengths(samples) != 0]
+    }
 
-    cellsBySample = scalop::split_by_sample_names(colnames(cna), samples = samples)
+    stopifnot(is.list(samples))
 
-    cnaBySample = sapply(cellsBySample, function(cells) cna[, cells, drop = FALSE], simplify = F)
+    if (!is.null(gene.quantile)) {
+        tmplist = sapply(samples, function(cells) tmp[, tmp %in% cells, drop = FALSE], simplify = F)
+        genelist = sapply(tmplist, cnaHotspotGenes, gene.quantile = gene.quantile)
+        rm(tmplist)
+    } else {
+        genelist = replicate(length(samples), rownames(cna), simplify = F)
+    }
 
-    corBySample = sapply(cnaBySample,
-                         .cnaCor,
-                         cor.method = cor.method,
-                         na.replace = 0,
-                         refCells = refCells,
-                         simplify = F)
+    cnalist = Map(function(m, x, y) m[x, y],
+                  x = genelist,
+                  y = samples,
+                  MoreArgs = list(m = m))
+    
 
-    corNames = unlist(sapply(corBySample, names, simplify = F))
-    cors = stats::setNames(unlist(corBySample), corNames)
+    cors = sapply(cnalist,
+                  .cnaCor,
+                  cor.method = cor.method,
+                  refCells = refCells,
+                  na.replace = 0,
+                  simplify = F)
+
+    cors = scalop::Unlist(cors)
     maincors = cors
 
     if (length(cors) < ncol(cna)) {
         maincors = .cnaCor(cna, cor.method = cor.method, na.replace = 0)
+    # not sure what exception this is supposed to catch...
         maincors[names(cors)] = cors
     }
 

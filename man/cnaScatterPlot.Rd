@@ -12,6 +12,7 @@ cnaScatterPlot(
   gene.quantile.for.signal = gene.quantile,
   groups = NULL,
   groups.col = scalop::discrete_colours[1:length(groups)],
+  alpha = 0.3,
   cex = 0.8,
   pch = 20,
   hline = NULL,
@@ -36,13 +37,15 @@ cnaScatterPlot(
 
 \item{groups.col}{colour to colour groups by. Default: 'magenta'}
 
+\item{alpha}{colour transparency. Default: 0.3}
+
 \item{hline}{y-intercept line. Default: NULL}
 
 \item{vline}{x-intercept line. Default: NULL}
 
 \item{refCells}{a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL}
 
-\item{samples}{if CNA correlations should be calculated within cell subgroupss, provide i) a list of cell id groupss, ii) a character vector of sample names to groups cells by, iii) TRUE to extract sample names from cell ids and subsequently groups. Default: NULL}
+\item{samples}{if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to groups cells by, iii) TRUE to extract sample names from cell ids and subsequently groups. Default: NULL}
 
 \item{...}{other arguments passed to scalop::unique_sample_names if samples = TRUE.}
 }

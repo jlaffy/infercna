@@ -9,10 +9,11 @@
 #' @param gene.quantile.for.signal as above but for CNA signal specifically. Default: gene.quantile
 #' @param groups character vector of cell IDs to colour. Default: NULL
 #' @param groups.col colour to colour groups by. Default: 'magenta'
+#' @param alpha colour transparency. Default: 0.3
 #' @param hline y-intercept line. Default: NULL
 #' @param vline x-intercept line. Default: NULL
 #' @param refCells a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL
-#' @param samples if CNA correlations should be calculated within cell subgroupss, provide i) a list of cell id groupss, ii) a character vector of sample names to groups cells by, iii) TRUE to extract sample names from cell ids and subsequently groups. Default: NULL
+#' @param samples if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to groups cells by, iii) TRUE to extract sample names from cell ids and subsequently groups. Default: NULL
 #' @param ... other arguments passed to scalop::unique_sample_names if samples = TRUE.
 #' @return a base R plot. If return value is saved to a variable, instead returns data points for cna correlations and cna signal in list form.
 #' @rdname cnaScatterPlot
@@ -24,6 +25,7 @@ cnaScatterPlot = function(cna,
                           gene.quantile.for.signal = gene.quantile,
                           groups = NULL,
                           groups.col = scalop::discrete_colours[1:length(groups)],
+                          alpha = 0.3,
                           cex = 0.8,
                           pch = 20,
                           hline = NULL,
@@ -32,14 +34,16 @@ cnaScatterPlot = function(cna,
                           samples = NULL,
                           ...) {
 
-    groups.col = scales::alpha(groups.col, 0.3)
+    groups.col = scales::alpha(groups.col, alpha)
     cors = cnaCor(cna,
                   gene.quantile = gene.quantile.for.corr,
                   refCells = refCells,
                   samples = samples,
                   ...)
 
-    signals = cnaSignal(cna, gene.quantile = gene.quantile.for.signal)
+    signals = cnaSignal(cna,
+                        gene.quantile = gene.quantile.for.signal,
+                        refCells = refCells)
 
     plot(cors,
          signals,

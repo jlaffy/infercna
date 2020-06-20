@@ -12,6 +12,7 @@ cnaScatterPlot(
   gene.quantile.for.signal = gene.quantile,
   groups = NULL,
   groups.col = scalop::discrete_colours[1:length(groups)],
+  border.col = "black",
   alpha = 0.3,
   cex = 0.8,
   pch = 20,
@@ -36,6 +37,8 @@ cnaScatterPlot(
 \item{groups}{character vector of cell IDs to colour. Default: NULL}
 
 \item{groups.col}{colour to colour groups by. Default: 'magenta'}
+
+\item{border.col}{colour for point border. Default: 'black'}
 
 \item{alpha}{colour transparency. Default: 0.3}
 

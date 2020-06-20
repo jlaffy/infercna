@@ -9,6 +9,7 @@
 #' @param gene.quantile.for.signal as above but for CNA signal specifically. Default: gene.quantile
 #' @param groups character vector of cell IDs to colour. Default: NULL
 #' @param groups.col colour to colour groups by. Default: 'magenta'
+#' @param border.col colour for point border. Default: 'black'
 #' @param alpha colour transparency. Default: 0.3
 #' @param hline y-intercept line. Default: NULL
 #' @param vline x-intercept line. Default: NULL
@@ -25,6 +26,7 @@ cnaScatterPlot = function(cna,
                           gene.quantile.for.signal = gene.quantile,
                           groups = NULL,
                           groups.col = scalop::discrete_colours[1:length(groups)],
+                          border.col = 'black', 
                           alpha = 0.3,
                           cex = 0.8,
                           pch = 20,
@@ -43,14 +45,18 @@ cnaScatterPlot = function(cna,
 
     signals = cnaSignal(cna,
                         gene.quantile = gene.quantile.for.signal,
-                        refCells = refCells)
+                        refCells = refCells,
+                        samples = samples,
+                        ...)
 
     plot(cors,
          signals,
          xlab = 'CNA Correlation',
          ylab = 'CNA Signal',
          pch = 1,
-         cex = cex, ...)
+         col = border.col,
+         cex = cex,
+         ...)
 
     if (!is.null(groups)) {
         if (!is.list(groups)) groups = list(groups)

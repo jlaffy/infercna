@@ -50,7 +50,7 @@ cnaScatterPlot(
 
 \item{samples}{if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to groups cells by, iii) TRUE to extract sample names from cell ids and subsequently groups. Default: NULL}
 
-\item{...}{other arguments passed to scalop::unique_sample_names if samples = TRUE.}
+\item{...}{other arguments passed to base plot}
 }
 \value{
 a base R plot. If return value is saved to a variable, instead returns data points for cna correlations and cna signal in list form.

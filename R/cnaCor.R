@@ -68,7 +68,7 @@ cnaCor = function(cna,
     cnalist = Map(function(m, x, y) m[x, y],
                   x = genelist,
                   y = samples,
-                  MoreArgs = list(m = m))
+                  MoreArgs = list(m = cna))
     
 
     cors = sapply(cnalist,

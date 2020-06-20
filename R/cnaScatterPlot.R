@@ -15,7 +15,7 @@
 #' @param vline x-intercept line. Default: NULL
 #' @param refCells a character vector of cell ids to exclude from average CNA profile that each cell is correlated to. You can pass reference normal cell ids to this argument if these are known. Default: NULL
 #' @param samples if CNA correlations should be calculated within cell subgroups, provide i) a list of cell id groups, ii) a character vector of sample names to groups cells by, iii) TRUE to extract sample names from cell ids and subsequently groups. Default: NULL
-#' @param ... other arguments passed to scalop::unique_sample_names if samples = TRUE.
+#' @param ... other arguments passed to base plot 
 #' @return a base R plot. If return value is saved to a variable, instead returns data points for cna correlations and cna signal in list form.
 #' @rdname cnaScatterPlot
 #' @export 
@@ -36,18 +36,17 @@ cnaScatterPlot = function(cna,
                           samples = NULL,
                           ...) {
 
+    groups = sapply(groups, function(x) x[x %in% colnames(cna)], simplify = F)
     groups.col = scales::alpha(groups.col, alpha)
     cors = cnaCor(cna,
                   gene.quantile = gene.quantile.for.corr,
                   refCells = refCells,
-                  samples = samples,
-                  ...)
+                  samples = samples)
 
     signals = cnaSignal(cna,
                         gene.quantile = gene.quantile.for.signal,
                         refCells = refCells,
-                        samples = samples,
-                        ...)
+                        samples = samples)
 
     plot(cors,
          signals,

@@ -6,8 +6,13 @@
 #' @return gene names in the top nth quantile, where n is specified via <gene.quantile>
 #' @rdname cnaHotspotGenes
 #' @export 
-cnaHotspotGenes = function(cna, gene.quantile) {
+cnaHotspotGenes = function(cna, gene.quantile, cell.quantile = NULL) {
+    cna = as.matrix(cna)
     stopifnot(is.numeric(gene.quantile))
+    if (!is.null(cell.quantile)) {
+        stopifnot(is.numeric(cell.quantile))
+        cna = cna[, cnaHotspotCells(cna, cell.quantile = cell.quantile)]
+    }
     msq = rowMeans(cna^2)
     names(msq)[msq >= quantile(msq, gene.quantile)]
 }

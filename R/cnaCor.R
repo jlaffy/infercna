@@ -1,16 +1,32 @@
 
-.cnaCor = function(cna, cor.method = 'pearson', gene.quantile = NULL, refCells = NULL, na.replace = NULL) {
+.cnaCor = function(cna, cor.method = 'pearson', cell.quantile = NULL, gene.quantile.for.cells = NULL, refCells = NULL, na.replace = NULL) {
     cna = as.matrix(cna)
+    tcna = cna
+
+    # filter cells that should be excluded from average tumour profile
+    # (reference) normal cells (used for correcting CNA values)
     if (!is.null(refCells)) {
-        genemeans = rowMeans(cna[, !colnames(cna) %in% unlist(refCells), drop = F])
-        if (length(genemeans) == 0) {
+        tcna = tcna[, !colnames(tcna) %in% unlist(refCells), drop = F]
+
+        if (ncol(tcna) == 0) {
             message('No cells left after filtering out refCells')
             return(FALSE)
         }
-    } else {
-        genemeans = rowMeans(cna)
     }
-    cellcors = suppressWarnings(stats::cor(genemeans, cna, method = cor.method))
+
+    # cells whose CNA signal values are low
+    if (!is.null(cell.quantile)) {
+        tcna = tcna[, cnaHotspotCells(tcna, cell.quantile = cell.quantile, gene.quantile = gene.quantile.for.cells), drop = F]
+
+        if (ncol(tcna) == 0) {
+            message('No cells left after filtering out low CNA signal cells')
+            return(FALSE)
+        }
+    }
+
+    tcna = rowMeans(tcna)
+    
+    cellcors = suppressWarnings(stats::cor(tcna, cna, method = cor.method))
     cellcors = unlist(as.data.frame(cellcors))
     if (!is.null(na.replace)) cellcors[is.na(cellcors)] <- na.replace
     cellcors
@@ -29,7 +45,10 @@
 #' @export 
 cnaCor = function(cna,
                   cor.method = 'pearson',
+                  cell.quantile = NULL,
+                  gene.quantile.for.cells = NULL,
                   gene.quantile = NULL,
+                  cell.quantile.for.genes = NULL,
                   refCells = NULL,
                   samples = NULL,
                   ...) {
@@ -39,10 +58,10 @@ cnaCor = function(cna,
 
     if (is.null(samples)) {
         if (!is.null(gene.quantile)) {
-            cna = cna[cnaHotspotGenes(tmp, gene.quantile = gene.quantile), ]
+            cna = cna[cnaHotspotGenes(tmp, gene.quantile = gene.quantile, cell.quantile = cell.quantile.for.genes), ]
         }
 
-        return(.cnaCor(cna, cor.method = cor.method, na.replace = 0, refCells = refCells))
+        return(.cnaCor(cna, cor.method = cor.method, na.replace = 0, refCells = refCells, cell.quantile = cell.quantile, gene.quantile.for.cells = gene.quantile.for.cells))
     }
 
     if (isTRUE(samples)) {
@@ -59,7 +78,7 @@ cnaCor = function(cna,
 
     if (!is.null(gene.quantile)) {
         tmplist = sapply(samples, function(cells) tmp[, tmp %in% cells, drop = FALSE], simplify = F)
-        genelist = sapply(tmplist, cnaHotspotGenes, gene.quantile = gene.quantile)
+        genelist = sapply(tmplist, cnaHotspotGenes, gene.quantile = gene.quantile, cell.quantile = cell.quantile.for.genes)
         rm(tmplist)
     } else {
         genelist = replicate(length(samples), rownames(cna), simplify = F)
@@ -76,6 +95,8 @@ cnaCor = function(cna,
                   cor.method = cor.method,
                   refCells = refCells,
                   na.replace = 0,
+                  cell.quantile = cell.quantile,
+                  gene.quantile.for.cells = gene.quantile.for.cells,
                   simplify = F)
 
     cors = scalop::Unlist(cors)

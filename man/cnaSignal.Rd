@@ -4,7 +4,13 @@
 \alias{cnaSignal}
 \title{Calculate the Means of Squared CNA Values}
 \usage{
-cnaSignal(cna, gene.quantile = NULL, refCells = NULL, samples = NULL)
+cnaSignal(
+  cna,
+  gene.quantile = NULL,
+  cell.quantile.for.genes = NULL,
+  refCells = NULL,
+  samples = NULL
+)
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values.}

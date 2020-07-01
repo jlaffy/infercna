@@ -7,7 +7,10 @@
 cnaCor(
   cna,
   cor.method = "pearson",
+  cell.quantile = NULL,
+  gene.quantile.for.cells = NULL,
   gene.quantile = NULL,
+  cell.quantile.for.genes = NULL,
   refCells = NULL,
   samples = NULL,
   ...

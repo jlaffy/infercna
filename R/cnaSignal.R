@@ -8,7 +8,7 @@
 #' @return a numeric vector of CNA signal values or the Mean of Squared CNA values
 #' @rdname cnaSignal
 #' @export 
-cnaSignal = function(cna, gene.quantile = NULL, refCells = NULL, samples = NULL) {
+cnaSignal = function(cna, gene.quantile = NULL, cell.quantile.for.genes = NULL, refCells = NULL, samples = NULL) {
     cna = as.matrix(cna)
 
     .cnaSignal = function(cna) {
@@ -24,7 +24,7 @@ cnaSignal = function(cna, gene.quantile = NULL, refCells = NULL, samples = NULL)
     else tmp = cna[, !colnames(cna) %in% unlist(refCells)]
 
     if (is.null(samples)) {
-        genes = cnaHotspotGenes(tmp, gene.quantile = gene.quantile)
+        genes = cnaHotspotGenes(tmp, gene.quantile = gene.quantile, cell.quantile = cell.quantile.for.genes)
         return(.cnaSignal(cna[genes, ]))
     }
 
@@ -42,7 +42,7 @@ cnaSignal = function(cna, gene.quantile = NULL, refCells = NULL, samples = NULL)
 
     if (!is.null(gene.quantile)) {
         tmplist = sapply(samples, function(cells) tmp[, tmp %in% cells, drop = FALSE], simplify = F)
-        genelist = sapply(tmplist, cnaHotspotGenes, gene.quantile = gene.quantile)
+        genelist = sapply(tmplist, cnaHotspotGenes, gene.quantile = gene.quantile, cell.quantile = cell.quantile.for.genes)
         rm(tmplist)
     } else {
         genelist = replicate(length(samples), rownames(cna), simplify = F)

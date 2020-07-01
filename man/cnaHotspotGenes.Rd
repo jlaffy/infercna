@@ -4,7 +4,7 @@
 \alias{cnaHotspotGenes}
 \title{Find the Genes with the highest CNA signal}
 \usage{
-cnaHotspotGenes(cna, gene.quantile)
+cnaHotspotGenes(cna, gene.quantile, cell.quantile = NULL)
 }
 \arguments{
 \item{cna}{a matrix of gene rows by cell columns containing CNA values}

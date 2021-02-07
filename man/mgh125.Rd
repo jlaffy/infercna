@@ -4,7 +4,9 @@
 \name{mgh125}
 \alias{mgh125}
 \title{scRNA-seq data from a patient with Glioblastoma}
-\format{A matrix with 8556 genes (rows) and 1266 cells (columns):}
+\format{
+A matrix with 8556 genes (rows) and 1266 cells (columns):
+}
 \source{
 \url{https://portals.broadinstitute.org/single_cell/study/SCP393/single-cell-rna-seq-of-adult-and-pediatric-glioblastoma}
 }

@@ -12,8 +12,10 @@ infercna(
   n = NULL,
   noise = 0.1,
   center.method = "median",
+  window.break = c("chr", "arm"),
   isLog = FALSE,
-  verbose = FALSE
+  verbose = FALSE,
+  genome = c("hg19", "hg38")
 )
 }
 \arguments{

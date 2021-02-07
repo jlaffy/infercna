@@ -2,17 +2,23 @@
 .refrange = function(cna, ...) {
     dots = list(...)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
-    res = list(Min = do.call(pmin, v), Max = do.call(pmax, v))
-    sapply(res, logtpm, bulk = F, simplify = F)
+    #res = list(Min = do.call(pmin, v), Max = do.call(pmax, v))
+    #sapply(res, logtpm, bulk = F, simplify = F)
+    list(Min = do.call(pmin, v), Max = do.call(pmax, v))
 }
 
 .refcenter = function(v, Min, Max, noise = NULL) {
-    if (!is.null(noise)) {
-        Min = Min - noise
-        Max = Max + noise
+#    if (!is.null(noise)) {
+#        Min = Min - noise
+#        Max = Max + noise
+#    }
+    
+    if (is.null(noise)) {
+	    noise = 0
     }
-    above = v > Max
-    below = v < Min
+
+    above = v > (Max + noise)
+    below = v < (Min - noise)
     normal = !above & !below
     v[above] <- v[above] - Max
     v[below] <- v[below] - Min

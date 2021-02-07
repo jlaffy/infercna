@@ -36,8 +36,9 @@ infercna = function(m,
                     noise = 0.1,
                     center.method = 'median',
 		    window.break = c('chr', 'arm'),
-                    isLog = FALSE,
-                    verbose = FALSE,
+		    exclude.chr = NULL, #c('Y','X')
+                    isLog = TRUE,
+                    verbose = TRUE,
 		    genome = c('hg19', 'hg38')) {
 
 
@@ -49,27 +50,39 @@ infercna = function(m,
         stop('Matrix is row-centered. Please provide non-centered data.')
     }
 
-    if (isLog) {
-        if (verbose) {
-		message('Converting <m> from log(2) space...')
-	}
-        
-    	m = unlogtpm(m)
-    }
 
     if (!is.null(n)) {
+
+    	if (isLog) {
+    	    if (verbose) {
+    	    	message('Converting <m> from log(2) space...')
+    	    }
+    	    m = unlogtpm(m)
+	}
+
         if (verbose) {
 		message('Filtering the expression matrix to include only top ', n, 'genes...')
 	}
     	
     	m = m[.mostExpressedGenes(m, ngenes = n), ]
+
+    	if (isLog) {
+    	    if (verbose) {
+    	    	message('Converting <m> to log(2) space...')
+    	    }
+
+    	    m = logtpm(m, bulk = T)
+	}
     }
 
-    if (verbose) {
-	    message('Converting <m> to log(2) space...')
+    if (!isLog) {
+        if (verbose) {
+		message('Converting <m> to log(2) space...')
+	}
+	    
+	m = logtpm(m)
     }
-    
-    m = logtpm(m, bulk = F)
+
 
     if (verbose) {
 	    message('Performing mean-centering of the genes...') 
@@ -84,13 +97,13 @@ infercna = function(m,
     m = orderGenes(m)
     
     if (verbose) {
-	    message('Restricting expression matrix values to between ', range[[1]], ' and ', range[[2]], '..')
+	    message('Restricting relative expression values to between ', range[[1]], ' and ', range[[2]], '..')
     }
     
     m = clip(m, range = range)
 
     if (verbose) {
-	    message('Converting <m> from log(2) space...')
+            message('Converting <m> from log(2) space...')
     }
     
     m = unlogtpm(m, bulk = F) 
@@ -100,6 +113,7 @@ infercna = function(m,
     }
     
     ms = splitGenes(m, by = match.arg(window.break))
+    ms = ms[!names(ms) %in% exclude.chr]
     
     if (verbose) {
 	    message('Calculating rolling means with a window size of ', window, ' genes...')
@@ -110,10 +124,10 @@ infercna = function(m,
     cna = Reduce(rbind, cna)
 
     if (verbose) {
-	    message('Converting CNA values to log(2) space...')
+            message('Converting CNA values to log(2) space...')
     }
     
-    cna = logtpm(cna, bulk = F)
+    cna = logtpm(as.matrix(cna), bulk = T)
     
     if (verbose) {
 	    message('Performing ', center.method, '-centering of the cells...')

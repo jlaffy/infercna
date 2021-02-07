@@ -13,8 +13,9 @@ infercna(
   noise = 0.1,
   center.method = "median",
   window.break = c("chr", "arm"),
-  isLog = FALSE,
-  verbose = FALSE,
+  exclude.chr = NULL,
+  isLog = TRUE,
+  verbose = TRUE,
   genome = c("hg19", "hg38")
 )
 }

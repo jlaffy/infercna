@@ -27,10 +27,10 @@
 #' @param ... normal cell column IDs. Expects at least two character vectors. 
 #' @rdname refCorrect
 #' @export 
-refCorrect = function(cna, noise = NULL, isLog = FALSE, ...) {
+refCorrect = function(cna, noise = NULL, ...) {
     dots = list(...)
     genes = rownames(cna)
-    Args = c(list(cna = cna, isLog = isLog), dots)
+    Args = c(list(cna = cna), dots)
     rg = do.call(.refrange, Args)
     n = nrow(cna)
     cna = t(sapply(1:n, function(i) {

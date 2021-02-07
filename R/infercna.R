@@ -35,50 +35,104 @@ infercna = function(m,
                     n = NULL,
                     noise = 0.1,
                     center.method = 'median',
+		    window.break = c('chr', 'arm'),
                     isLog = FALSE,
-                    verbose = FALSE) {
+                    verbose = FALSE,
+		    genome = c('hg19', 'hg38')) {
+
+
+ 
+    useGenome(match.arg(genome))
 
     # note: m should NOT be row(gene)-centered
     if (all(round(range(rowMeans(m)), 3) == 0)) {
         stop('Matrix is row-centered. Please provide non-centered data.')
     }
+
     if (isLog) {
-        if (verbose) message('Converting <m> from log(2) space...')
-        m = unlogtpm(m)
-    }
-    if (!is.null(n)) {
-        if (verbose) message('Filtering the expression matrix to include only top ', n, 'genes...')
-        m = m[.mostExpressedGenes(m, ngenes = n), ]
+        if (verbose) {
+		message('Converting <m> from log(2) space...')
+	}
+        
+    	m = unlogtpm(m)
     }
 
-    if (verbose) message('Converting <m> to log(2) space...')
+    if (!is.null(n)) {
+        if (verbose) {
+		message('Filtering the expression matrix to include only top ', n, 'genes...')
+	}
+    	
+    	m = m[.mostExpressedGenes(m, ngenes = n), ]
+    }
+
+    if (verbose) {
+	    message('Converting <m> to log(2) space...')
+    }
+    
     m = logtpm(m, bulk = F)
-    if (verbose) message('Performing mean-centering of the genes...')
+
+    if (verbose) {
+	    message('Performing mean-centering of the genes...') 
+    }
+    
     m = rowcenter(m, by = 'mean')
-    if (verbose) message('Ordering the genes by their genomic position...')
+
+    if (verbose) {
+	    message('Ordering the genes by their genomic position...')
+    }
+    
     m = orderGenes(m)
-    if (verbose) message('Restricting expression matrix values to between ', range[[1]], ' and ', range[[2]], '..')
+    
+    if (verbose) {
+	    message('Restricting expression matrix values to between ', range[[1]], ' and ', range[[2]], '..')
+    }
+    
     m = clip(m, range = range)
 
-    if (verbose) message('Converting <m> from log(2) space...')
+    if (verbose) {
+	    message('Converting <m> from log(2) space...')
+    }
+    
     m = unlogtpm(m, bulk = F) 
-    if (verbose) message('Preparing to calculate CNA values on each chromosome in turn...')
-    ms = splitGenes(m, by = 'chr')
-    if (verbose) message('Calculating rolling means with a window size of ', window, ' genes...')
+    
+    if (verbose) {
+	    message('Preparing to calculate CNA values on each chromosome in turn...')
+    }
+    
+    ms = splitGenes(m, by = match.arg(window.break))
+    
+    if (verbose) {
+	    message('Calculating rolling means with a window size of ', window, ' genes...')
+    }
+    
     cna = sapply(ms, function(m) try(runMean(m, k = window, verbose = verbose)), simplify = F)
     cna = cna[sapply(cna, class) != 'try-error' | !sapply(class, isFALSE)]
     cna = Reduce(rbind, cna)
 
-    if (verbose) message('Converting CNA values to log(2) space...')
+    if (verbose) {
+	    message('Converting CNA values to log(2) space...')
+    }
+    
     cna = logtpm(cna, bulk = F)
-    if (verbose) message('Performing ', center.method, '-centering of the cells...')
+    
+    if (verbose) {
+	    message('Performing ', center.method, '-centering of the cells...')
+    }
+    
     cna = colcenter(cna, by = center.method) # note: using median centering here
 
     if (!is.null(refCells)) {
-        if (verbose) message('Correcting CNA profiles using CNA values from <refCells>...')
-        Args = c(list(cna = cna, noise = noise, isLog = TRUE), refCells)
-        cna = do.call(refCorrect, Args)}
-    if (verbose) message('Done!')
+        if (verbose) {
+		message('Correcting CNA profiles using CNA values from <refCells>...')
+	}
+        
+    	Args = c(list(cna = cna, noise = noise), refCells)
+        cna = do.call(refCorrect, Args)
+    }
+
+    if (verbose) {
+	    message('Done!')
+    }
+
     cna
 }
-

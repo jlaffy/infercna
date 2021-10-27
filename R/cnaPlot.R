@@ -76,9 +76,9 @@
                       title = title,
                       subtitle = subtitle,
                       caption = caption) +
-        hrbrthemes::theme_ipsum(base_size = base.size,
-                                axis_title_size = axis.title.size,
-                                axis_text_size = axis.text.size) +
+#        hrbrthemes::theme_ipsum(base_size = base.size,
+#                                axis_title_size = axis.title.size,
+#                                axis_text_size = axis.text.size) +
         ggplot2::scale_x_continuous(expand = c(0, 0), breaks = xTextBreaks, labels = names(xTextBreaks)) +
         ggplot2::scale_y_continuous(expand = c(0, 0), breaks = yTextBreaks, labels = names(yTextBreaks)) +
         y.angle +

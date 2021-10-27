@@ -1,10 +1,12 @@
 
-.refrange = function(cna, isLog = FALSE, ...) {
+#.refrange = function(cna, isLog = FALSE, ...) {
+.refrange = function(cna, ...) {
     dots = list(...)
-    if (isLog) cna = unlogtpm(cna, bulk = F)
+#    if (isLog) cna = unlogtpm(cna, bulk = F)
     v = sapply(dots, function(ref) rowMeans(cna[, ref, drop = F]), simplify = F)
     res = list(Min = do.call(pmin, v), Max = do.call(pmax, v))
-    sapply(res, logtpm, bulk = F, simplify = F)
+#    sapply(res, logtpm, bulk = F, simplify = F)
+    res
 }
 
 .refcenter = function(v, Min, Max, noise = NULL) {

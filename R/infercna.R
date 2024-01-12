@@ -24,7 +24,7 @@
 #' @return a matrix of genes X cells of inferred CNA values. Note that n = (window - 1)/2 genes will be lost from either extremity of the genome (ie. n genes lost at the start of chromosome 1 and at the end of chromosome Y, if the genome in question is H.sapiens.)
 #' @details Correction with reference cells' <refCells> CNAs: the boundaries of reference CNA values are the boundaries for what should be considered a CNA of 0. Thus, if the boundary is -0.1 and 0.1, then a cell with CNA = -0.5 will be corrected to -0.4, a cell with CNA value of 1 will be corrected to 0.9 and a cell with CNA value of 0.05 will be corrected to 0.
 #' @examples 
-#'  m = infercna::useData()
+#'  m = infercna::mgh125
 #'  cna = infercna::infercna(m = m, refCells = infercna::refCells)
 #' @rdname infercna
 #' @export 
